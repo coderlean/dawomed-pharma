@@ -1,0 +1,52 @@
+@import "../../../../styles/_colors.scss";
+
+.dropdown {
+    width: 100%;
+    position: relative;
+    
+    .selectedBox {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        border-style: none;
+        border-style: solid;
+        border-width: 1px;
+        border-color: $inputGrey;
+        cursor: pointer;
+
+        p {
+            margin: 0px;
+            font-size: 14px;
+        }
+    }
+
+    .selectBox {
+        max-height: 150px;
+        background-color: white;
+        z-index: 5;
+
+        overflow-y: scroll;
+        position: absolute;
+        width: 100%;
+        top: 100%;
+        left: 0px;
+
+        p {
+            margin: 0px;
+            padding-top: 7px;
+            padding-bottom: 7px;
+            padding-left: 10px;
+            padding-right: 10px;
+            color: $labelGrey;
+            font-size: 14px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $primary;
+                color: white;
+            }
+        }
+        
+    }
+}

@@ -1,0 +1,15 @@
+.labeledTextInput label {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #444444;
+}
+
+.labeledTextInput .separator {
+  height: 7px;
+}
+
+.labeledTextInput:focus-within > label {
+  color: #1D1272;
+  font-weight: 500;
+}
+/*# sourceMappingURL=styles.module.css.map */

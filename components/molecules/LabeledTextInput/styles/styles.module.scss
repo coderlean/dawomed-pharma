@@ -1,0 +1,20 @@
+@import "../../../../styles/_colors.scss";
+
+.labeledTextInput {
+
+    label {
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: $labelGrey;
+    }
+
+    .separator {
+        height: 7px;
+    }
+
+}
+
+.labeledTextInput:focus-within > label {
+    color: $primary;
+    font-weight: 500;
+}

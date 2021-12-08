@@ -1,0 +1,17 @@
+.checkbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.checkbox svg {
+  margin-right: 10px;
+}
+
+.checkbox label {
+  font-size: 14px;
+}
+/*# sourceMappingURL=styles.module.css.map */

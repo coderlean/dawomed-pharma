@@ -1,0 +1,31 @@
+@import "../../../../styles/_colors.scss";
+
+.outline {
+  width: 100%;
+  padding: 18px;
+  border: 2px solid $primary;
+  color: $primary;
+  font-size: 14px;
+  background-color: transparent;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: $primary;
+    color: white;
+  }
+}
+
+.solid {
+  width: 100%;
+  padding: 18px;
+  background-color: $primary;
+  color: white;
+  border-style: none;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $primaryDark;
+    color: white;
+  }
+}
