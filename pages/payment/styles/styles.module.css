@@ -1,0 +1,917 @@
+.orders {
+  background-color: #fafafa;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  min-height: 100vh;
+}
+
+.orders .status {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-right: auto;
+  display: inline-block;
+  border-radius: 10px;
+  border-style: none;
+  font-size: 13px;
+}
+
+.orders .completed {
+  color: #11763d;
+  background-color: rgba(17, 118, 61, 0.2);
+}
+
+.orders .pending {
+  color: #664b16;
+  background-color: #ffefcf;
+}
+
+.orders .returned {
+  color: #9c0f2e;
+  background-color: rgba(156, 15, 46, 0.2);
+}
+
+.orders .declined {
+  color: white;
+  background-color: #720000;
+}
+
+.orders .processing {
+  color: #032950;
+  background-color: rgba(75, 166, 255, 0.2);
+}
+
+.orders .readyForPickup {
+  color: #0070f3;
+  background-color: rgba(0, 112, 243, 0.2);
+}
+
+.orders .readyForDelivery {
+  color: #a4c639;
+  background-color: rgba(164, 198, 57, 0.2);
+}
+
+.orders .pickedUp {
+  color: #29bc9b;
+  background-color: rgba(41, 188, 155, 0.2);
+}
+
+.orders .sidebarTitle {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.orders .sidebarIcons {
+  border-style: solid;
+  border-color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-width: 1px;
+  border-radius: 5px;
+}
+
+.orders .sidebarIcons svg {
+  display: block;
+  cursor: pointer;
+}
+
+.orders .sidebarFooter {
+  margin: 24px;
+}
+
+.orders .sidebarFooter button {
+  margin-left: 10px;
+}
+
+.orders .sidebarContent {
+  background-color: white;
+  width: 100%;
+}
+
+.orders .sidebarContent table {
+  width: 100%;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 8px;
+}
+
+.orders .sidebarContent hr {
+  border-style: none;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #eeeeee;
+  margin: 0px;
+}
+
+.orders .sidebarContent td {
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.orders .sidebarContent .leftCell {
+  color: #333333;
+  font-weight: 600;
+}
+
+.orders .sidebarContent .rightCell {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+  color: #666666;
+  font-weight: 400;
+}
+
+.orders .sidebarContent .total {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+  color: #111111;
+  font-weight: 700;
+}
+
+.orders header {
+  border-style: none;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #EAEAEA;
+  background-color: white;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.orders header .headerOptions {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.orders header .headerOptions div {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-style: none;
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-right-color: #EAEAEA;
+  cursor: pointer;
+}
+
+.orders header .headerOptions div svg {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.orders header .headerOptions div p {
+  margin: 0px;
+  font-weight: 600;
+  color: #444444;
+}
+
+.orders header .headerTabs {
+  margin-left: 20px;
+}
+
+.orders header .headerTabs p {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0px;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.orders header .headerTabs p:hover {
+  background-color: #F9F9FE;
+  border-style: none;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: #1D1272;
+  color: #1D1272;
+  font-weight: 700;
+}
+
+.orders header .headerTabs .inactive {
+  font-weight: 400;
+  color: #757575;
+}
+
+.orders header .headerTabs .active {
+  background-color: #F9F9FE;
+  border-style: none;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: #1D1272;
+  color: #1D1272;
+  font-weight: 700;
+}
+
+.orders .createProductModal {
+  width: 60vw;
+  height: 80vh;
+  background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.orders .createProductModal + div {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.orders .createProductModal footer {
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+}
+
+.orders .createProductModal footer button {
+  margin-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+}
+
+.orders .createProductModal header {
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+  position: unset;
+}
+
+.orders .createProductModal header p {
+  color: #1D1272;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0px;
+  margin-right: 20px;
+}
+
+.orders .createProductModal header .activeTab {
+  color: #1D1272;
+  font-weight: bold;
+  border-style: none;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: #1D1272;
+}
+
+.orders .createProductModal header .inactiveTab {
+  color: #757575;
+}
+
+.orders .createProductModal .pageContent {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  overflow-y: scroll;
+}
+
+.orders .createProductModal .pageContent .productName {
+  font-size: 18px;
+  font-weight: 600;
+  color: #444444;
+}
+
+.orders .createProductModal .pageContent h2 {
+  color: #1D1272;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.orders .createProductModal .pageContent .infoText {
+  font-size: 12px;
+  color: #999999;
+  margin-top: 10px;
+  font-weight: 400;
+}
+
+.orders .createProductModal .pageContent .imageSelector {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-style: none;
+  border-style: dashed;
+  border-width: 1px;
+  border-color: #9E9E9E;
+  padding: 20px;
+}
+
+.orders .createProductModal .pageContent .imageSelector button {
+  padding: 10px;
+  font-size: 13px;
+}
+
+.orders .createProductModal .pageContent .imageSelector p {
+  font-size: 12px;
+}
+
+.orders .createProductModal .pageContent .imageSelector input {
+  display: none;
+}
+
+.orders .createProductModal .pageContent .discount {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-style: none;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #888888;
+}
+
+.orders .createProductModal .pageContent .discount input {
+  border-style: none;
+  padding-left: 10px;
+}
+
+.orders .createProductModal .pageContent .discount div {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: end;
+  background-color: #EAEAEA;
+  height: 100%;
+  padding-right: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-style: none;
+  border-left-style: solid;
+  border-left-color: #888888;
+  border-left-width: 1px;
+  color: #9e9e9e;
+}
+
+.orders .createProductModal hr {
+  margin: 0px;
+  border-style: none;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #e0e0e0;
+}
+
+.orders .searchDiv {
+  border-style: none;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #EAEAEA;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.orders .searchDiv p {
+  margin: 0px;
+}
+
+.orders .searchDiv .search {
+  padding: 10px;
+  background-color: white;
+}
+
+.orders .searchDiv .search input {
+  border-style: none;
+}
+
+.orders .searchDiv .sort {
+  background-color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 14px;
+  color: #666666;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.orders .searchDiv .sort svg {
+  margin-left: 15px;
+}
+
+.orders .searchDiv .filter {
+  background-color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 14px;
+  color: #666666;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.orders .searchDiv .filter svg {
+  margin-left: 15px;
+}
+
+.orders .searchDiv button {
+  padding: 10px;
+  font-size: 13px;
+  margin-left: 20px;
+}
+
+.orders .searchDiv button svg {
+  margin: 0px;
+  margin-right: 5px;
+  display: block;
+}
+
+.orders .productsTable {
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.orders .productsTable table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.orders .productsTable table .tableHeader td {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333333;
+}
+
+.orders .productsTable table td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.orders .productsTable table .orderTableItem {
+  background-color: white;
+  margin-bottom: 20px;
+  border-spacing: 20px;
+}
+
+.orders .productsTable table .orderTableItem label {
+  font-size: 14px;
+}
+
+.orders .productsTable table .orderTableItem td p {
+  font-size: 14px;
+  color: #444444;
+}
+
+.orders .productsTable table .orderTableItem .image {
+  padding-left: 20px;
+}
+
+.orders .productsTable table .orderTableItem button {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-style: none;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #1D1272;
+  color: #1D1272;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.orders .productsTable table .orderTableItem button:hover {
+  background-color: #1D1272;
+  color: white;
+}
+
+.scanSideBar {
+  background-color: white;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  overflow-y: scroll;
+}
+
+.scanSideBar hr {
+  border-style: none;
+  border-top-style: solid;
+  border-width: 1px;
+  border-color: #e4e4e4;
+}
+
+.scanSideBar .buttonOverlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.scanSideBar .sidebarContainer {
+  padding: 24px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.scanSideBar .scanButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.scanSideBar .scanButton .rescanButton:hover button svg path {
+  fill: #fff !important;
+}
+
+.scanSideBar .scanButton button {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.scanSideBar .scanButton button svg {
+  margin: 0px;
+  margin-right: 5px;
+  display: block;
+}
+
+.accountStatement header {
+  background-color: rgba(255, 255, 255, 0);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0px;
+  margin-bottom: 15px;
+  border-style: none;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  margin: 0px;
+  position: relative;
+}
+
+.accountStatement hr {
+  border-style: none;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #000;
+  border-color: #dadada;
+  margin: 0px;
+}
+
+.accountStatement .searchBox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: flex;
+  align-items: center;
+  border-style: none;
+  border-style: solid;
+  border-width: 1px;
+  padding: 10px;
+  border-radius: 5px;
+  border-color: #dadada;
+  background-color: white;
+}
+
+.accountStatement .searchBox input {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  border-style: none;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.accountStatement .dateBox {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-style: none;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #dadada;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: white;
+  padding: 10px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.accountStatement .dateBox select {
+  border-style: none;
+  cursor: pointer;
+}
+
+.accountStatement .printBox {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-style: none;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #dadada;
+  padding: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.accountStatement .printBox p {
+  margin: 0px;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.accountStatement .downloadBox {
+  height: 100%;
+}
+
+.accountStatement .downloadBox button {
+  padding: 10px;
+  height: 100%;
+  padding-right: 25px;
+}
+
+.accountStatement main {
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-top: 1.5rem;
+}
+
+.accountStatement main .dashboardBoxContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.accountStatement main .dashboardBoxContainer .dashboardItem {
+  height: 200px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-style: none;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #dadada;
+  padding: 20px;
+}
+
+.accountStatement main .dashboardBoxContainer .availableBalance {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#97be0b), color-stop(#7e9e08), to(#5f7708));
+  background-image: linear-gradient(#97be0b, #7e9e08, #5f7708);
+  color: white;
+}
+
+.accountStatement main .dashboardBoxContainer .availableBalance h3 {
+  margin: 0px;
+  font-size: 24px;
+  margin-bottom: 50px;
+}
+
+.accountStatement main .dashboardBoxContainer .availableBalance p {
+  margin: 0px;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.accountStatement main .dashboardBoxContainer .availableBalance p span {
+  font-size: 16px;
+}
+
+.accountStatement main .dashboardBoxContainer .availableBalance button {
+  padding: 5px;
+  font-size: 13px;
+}
+
+.accountStatement main .dashboardBoxContainer .storePerformance {
+  background-image: -webkit-gradient(linear, left top, right top, from(#38278a), to(#a483f4));
+  background-image: linear-gradient(to right, #38278a, #a483f4);
+  color: white;
+}
+
+.accountStatement main .dashboardBoxContainer .storePerformance h3 {
+  margin: 0px;
+  font-size: 24px;
+  margin-bottom: 50px;
+}
+
+.accountStatement main .dashboardBoxContainer .storePerformance button {
+  padding: 5px;
+  margin-top: 20px;
+  color: white;
+  border-color: white;
+}
+
+.accountStatement main .dashboardBoxContainer .dueBox {
+  background-color: white;
+}
+
+.accountStatement main .dashboardBoxContainer .dueBox h3 {
+  margin: 0px;
+  font-size: 24px;
+  margin-bottom: 50px;
+}
+
+.accountStatement main .dashboardBoxContainer .dueBox label {
+  font-size: 12px;
+  color: grey;
+}
+
+.accountStatement main .dashboardBoxContainer .dueBox p {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.accountStatement main .dashboardBoxContainer .dueBox span {
+  font-size: 18px;
+  font-weight: 400;
+  color: #777777;
+}
+
+.accountStatement main .summaryBox {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-style: none;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #dadada;
+  background-color: white;
+}
+
+.accountStatement main .tabButton {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-style: none;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #dadada;
+  font-size: 10px;
+  padding-left: 10px;
+  padding-right: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-right: 20px;
+  line-height: 10px;
+  cursor: pointer;
+}
+
+.accountStatement main .tabButtonActive {
+  background-color: #1D1272;
+  color: white;
+  border-style: none;
+}
+
+.accountStatement main table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.accountStatement main table thead {
+  border-style: none;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #000;
+}
+
+.accountStatement main table thead tr td {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-style: none;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #EAEAEA;
+  font-weight: 600;
+}
+
+.accountStatement main table tbody td {
+  font-size: 14px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.accountStatement main table tbody p {
+  margin: 0px;
+}
+
+.accountStatement main table tbody label {
+  padding-top: 10px;
+  font-weight: 600;
+}
+
+.accountStatement main .statement thead {
+  border-style: none;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #000;
+}
+
+.accountStatement main .statement thead tr td {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-style: none;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #EAEAEA;
+  font-weight: 600;
+  vertical-align: text-top;
+}
+
+.accountStatement main .statement thead tr td p {
+  font-weight: 400;
+  color: grey;
+  margin: 0px;
+}
+
+.accountStatement main .statement tbody .greyCell {
+  background-color: #eaeaea;
+}
+
+.accountStatement main .statement tbody tr td {
+  vertical-align: top;
+}
+
+.accountStatement main .statement tbody tr td div {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+/*# sourceMappingURL=styles.module.css.map */

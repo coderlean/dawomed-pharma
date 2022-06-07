@@ -1,0 +1,21 @@
+@import "../../../../styles/_colors.scss";
+
+.accordion {
+    padding: 15px;
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+
+        h3 {
+            color: #3F3D4D;
+        }
+
+        p {
+            margin: 0px;
+            font-size: 18px;
+        }
+    }
+}

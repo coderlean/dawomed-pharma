@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "AAEA,AAAA,MAAM,CAAC;EACH,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,GAAG;EACnB,QAAQ,EAAE,KAAK;EACf,IAAI,EAAE,GAAG;EACT,GAAG,EAAE,GAAG;EACR,IAAI,EAAE,GAAG;EACT,KAAK,EAAE,GAAG;EACV,OAAO,EAAE,IAAI;EACb,KAAK,EAAE,KAAK;EACZ,WAAW,EAAE,MAAM;EACnB,OAAO,EAAE,IAAI;CAUhB;;AArBD,AAaI,MAbE,CAaF,GAAG,CAAC;EACA,YAAY,EAAE,IAAI;CACrB;;AAfL,AAiBI,MAjBE,CAiBF,CAAC,CAAC;EACE,MAAM,EAAE,GAAG;EACX,SAAS,EAAE,IAAI;CAClB",
+    "sources": [
+        "styles.module.scss",
+        "../../../../styles/_colors.scss"
+    ],
+    "names": [],
+    "file": "styles.module.css"
+}

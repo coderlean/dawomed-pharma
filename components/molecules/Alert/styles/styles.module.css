@@ -1,0 +1,30 @@
+.alert {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  position: fixed;
+  left: 0px;
+  top: 5px;
+  left: 20%;
+  right: 20%;
+  padding: 10px;
+  color: white;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 5000;
+}
+
+.alert svg {
+  margin-right: 15px;
+}
+
+.alert p {
+  margin: 0px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=styles.module.css.map */

@@ -1,11 +1,10 @@
 .labeledTextInput label {
-  margin-bottom: 10px;
   font-size: 14px;
   color: #444444;
 }
 
 .labeledTextInput .separator {
-  height: 7px;
+  height: 2px;
 }
 
 .labeledTextInput:focus-within > label {

@@ -1,0 +1,594 @@
+@import "../colors";
+
+//defaults
+a {
+    color: $primary;
+}
+
+//margins
+.m0 {
+    margin: 0px;
+}
+
+.m10 {
+    margin: 10px;
+}
+
+.m20 {
+    margin: 20px;
+}
+
+.m30 {
+    margin: 30px;
+}
+
+.m40 {
+    margin: 40px;
+}
+
+.m50 {
+    margin: 50px;
+}
+
+.m100 {
+    margin: 100px;
+}
+
+.mb0 {
+    margin-bottom: 0px;
+}
+
+.mb5 {
+    margin-bottom: 5px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.mb20 {
+    margin-bottom: 20px;
+}
+
+.mb30 {
+    margin-bottom: 30px;
+}
+
+.mb40 {
+    margin-bottom: 40px;
+}
+
+.mb50 {
+    margin-bottom: 50px;
+}
+
+.mb100 {
+    margin-bottom: 100px;
+}
+
+.ml0 {
+    margin-left: 0px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.ml20 {
+    margin-left: 20px;
+}
+
+.ml30 {
+    margin-left: 30px;
+}
+
+.ml40 {
+    margin-left: 40px;
+}
+
+.ml50 {
+    margin-left: 50px;
+}
+
+.ml100 {
+    margin-left: 100px;
+}
+
+.mr0 {
+    margin-right: 0px;
+}
+
+.mr10 {
+    margin-right: 10px;
+}
+
+.mr20 {
+    margin-right: 20px;
+}
+
+.mr30 {
+    margin-right: 30px;
+}
+
+.mr40 {
+    margin-right: 40px;
+}
+
+.mr50 {
+    margin-right: 50px;
+}
+
+.mr100 {
+    margin-right: 100px;
+}
+
+.mt0 {
+    margin-top: 0px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+.mt30 {
+    margin-top: 30px;
+}
+
+.mt40 {
+    margin-top: 40px;
+}
+
+.mt50 {
+    margin-top: 50px;
+}
+
+.mt100 {
+    margin-top: 100px;
+}
+
+//paddings
+
+.p0 {
+    padding: 0px;
+}
+
+.p10 {
+    padding: 10px;
+}
+
+.p20 {
+    padding: 20px;
+}
+
+.p30 {
+    padding: 30px;
+}
+
+.p40 {
+    padding: 40px;
+}
+
+.p50 {
+    padding: 50px;
+}
+
+.p100 {
+    padding: 100px;
+}
+
+.pb0 {
+    padding-bottom: 0px;
+}
+
+.pb10 {
+    padding-bottom: 10px;
+}
+
+.pb20 {
+    padding-bottom: 20px;
+}
+
+.pb30 {
+    padding-bottom: 30px;
+}
+
+.pb40 {
+    padding-bottom: 40px;
+}
+
+.pb50 {
+    padding-bottom: 50px;
+}
+
+.pb100 {
+    padding-bottom: 100px;
+}
+
+.pl0 {
+    padding-left: 0px;
+}
+
+.pl10 {
+    padding-left: 10px;
+}
+
+.pl20 {
+    padding-left: 20px;
+}
+
+.pl30 {
+    padding-left: 30px;
+}
+
+.pl40 {
+    padding-left: 40px;
+}
+
+.pl50 {
+    padding-left: 50px;
+}
+
+.pl100 {
+    padding-left: 100px;
+}
+
+.pr0 {
+    padding-right: 0px;
+}
+
+.pr10 {
+    padding-right: 10px;
+}
+
+.pr20 {
+    padding-right: 20px;
+}
+
+.pr30 {
+    padding-right: 30px;
+}
+
+.pr40 {
+    padding-right: 40px;
+}
+
+.pr50 {
+    padding-right: 50px;
+}
+
+.pr100 {
+    padding-right: 100px;
+}
+
+.pt0 {
+    padding-top: 0px;
+}
+
+.pt10 {
+    padding-top: 10px;
+}
+
+.pt20 {
+    padding-top: 20px;
+}
+
+.pt30 {
+    padding-top: 30px;
+}
+
+.pt40 {
+    padding-top: 40px;
+}
+
+.pt50 {
+    padding-top: 50px;
+}
+
+.pt100 {
+    padding-top: 100px;
+}
+
+//positions 
+.posAbsolute {
+    position: absolute;
+}
+
+.posFixed {
+    position: fixed;
+}
+
+.posRelative {
+    position: relative;
+}
+
+.posStatic {
+    position: static;
+}
+
+.posSticky {
+    position: sticky;
+}
+
+//justify content
+.jcStart {
+    justify-content: flex-start;
+}
+
+.jcEnd {
+    justify-content: flex-end;
+}
+
+.jcCenter {
+    justify-content: center;
+}
+
+.jcSpaceBetween {
+    justify-content: space-between;
+}
+
+.jcSpaceAround {
+    justify-content: space-around;
+}
+
+//Align items
+.alignStart {
+    align-items: flex-start;
+}
+
+.alignEnd {
+    align-items: flex-end;
+}
+
+.alignCenter {
+    align-items: center;
+}
+
+
+//Display
+.displayBlock {
+    display: block;
+}
+
+.displayInline {
+    display: inline;
+}
+
+.displayInlineBlock {
+    display: inline-block;
+}
+
+.displayFlex {
+    display: flex;
+}
+
+//widths
+.width0 {
+    width: 0px;
+}
+
+.width10 {
+    width: 10px;
+}
+
+.width20 {
+    width: 20px;
+}
+
+.width50 {
+    width: 50px;
+}
+
+.width100 {
+    width: 100px;
+}
+
+.width200 {
+    width: 200px;
+}
+
+.widthHalf {
+    width: 50%;
+}
+
+.widthFull {
+    width: 100%;
+}
+
+.widthScreen {
+    width: 100vw;
+}
+
+//Heights
+.height0 {
+    height: 0px;
+}
+
+.height10 {
+    height: 10px;
+}
+
+.height50 {
+    height: 50px;
+}
+
+.height100 {
+    height: 100px;
+}
+
+.height200 {
+    height: 200px;
+}
+
+.heightHalf {
+    height: 50%;
+}
+
+.heightFull {
+    height: 100%;
+}
+
+.heightScreen {
+    height: 100vh;
+}
+
+//Center item
+.centerSelfHorizontal {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.centerSelfVertical {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.centerSelf {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+//center flex child 
+.centerRowHorizontal {
+    justify-content: center;
+}
+
+.centerRowVertical {
+    align-items: center;
+}
+
+.centerColumnHorizontal {
+    align-items: center;
+}
+
+.centerColumnVertical {
+    justify-content: center;
+}
+
+.centerInParent {
+    justify-content: center;
+    align-items: center;
+}
+
+//flex direction
+.flexRow {
+    flex-direction: row;
+}
+
+.flexColumn {
+    flex-direction: column;
+}
+
+
+//separators
+.separator10 {
+    height: 10px;
+}
+
+.separator20 {
+    height: 20px;
+}
+
+//cursors
+.cursorPointer {
+    cursor: pointer;
+}
+
+//horizontals
+.horizontalHalf {
+    >div {
+        width: 48%;
+    }
+}
+
+.horizontalThird {
+    >div {
+        width: 32%;
+    }
+}
+
+//fonts
+
+.fontBold {
+    font-weight: bold;
+}
+
+.fw200 {
+    font-weight: 200;
+}
+
+.fw400 {
+    font-weight: 400;
+}
+
+.fw500 {
+    font-weight: 500;
+}
+
+.fw600 {
+    font-weight: 600;
+}
+
+.fw700 {
+    font-weight: 700;
+}
+
+.fw800 {
+    font-weight: 800;
+}
+
+.font8 {
+    font-size: 8px;
+}
+
+.font10 {
+    font-size: 10px;
+}
+
+.font12 {
+    font-size: 12px;
+}
+
+.font14 {
+    font-size: 14px;
+}
+
+.font16 {
+    font-size: 16px;
+}
+
+.font18 {
+    font-size: 18px;
+}
+
+.font20 {
+    font-size: 20px;
+}
+
+.font22 {
+    font-size: 22px;
+}
+
+.font24 {
+    font-size: 24px;
+}
+
+.font30 {
+    font-size: 30px;
+}
+
+//text colors
+.greyLabelText {
+    color: $inputGrey
+}
+
+//flex grow
+.flexGrowFull {
+    flex-grow: 1;
+}

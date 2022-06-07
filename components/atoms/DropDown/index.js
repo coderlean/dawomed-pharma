@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useRef } from 'react/cjs/react.development';
 import dropDownStyle from "./styles/styles.module.css"
 
-const DropDown = ({placeholder, defaultValue, options}) => {
+const DropDown = ({placeholder, defaultValue, options, name}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState("")
+
+    const dropdownRef = useRef(null)
 
     const handleClick = () => {
         if (isOpen){
@@ -23,11 +26,9 @@ const DropDown = ({placeholder, defaultValue, options}) => {
         }
     }, [])
 
-    
-
     return (
         <div className={dropDownStyle.dropdown} onClick={() => handleClick()}>
-            <div className={dropDownStyle.selectedBox}>
+            {/* <div className={dropDownStyle.selectedBox}>
                 <p>{selectedOption !== "" ? selectedOption : placeholder}</p>
                 {
                     isOpen ? <svg width="12" height="12" viewBox="0 0 33 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,24 +40,24 @@ const DropDown = ({placeholder, defaultValue, options}) => {
                     <rect x="16.5355" y="19.799" width="5" height="23" rx="2.5" transform="rotate(-135 16.5355 19.799)" fill="#444444"/>
                     </svg>
                 }
-            </div>
+            </div> */}
 
-            <select value={selectedOption} style={{display: "none"}}>
+            <select name={name} className={dropDownStyle.select} value={defaultValue ? defaultValue  : ""}>
                 {
-                    options.map((item, index) => <option>{item}</option>)
+                    options.map((item, index) => <option key={index}>{item}</option>)
                 }
             </select>
 
-            {
+            {/* {
                 isOpen &&
                 <div className={dropDownStyle.selectBox}>
                 {
-                    options.map((item, index) => <p onClick={() => {
+                    options.map((item, index) => <p key={index} onClick={() => {
                         handleSelected(item)
                     }}>{item}</p>)
                 }
             </div>
-            }
+            } */}
         </div>
     )
 }

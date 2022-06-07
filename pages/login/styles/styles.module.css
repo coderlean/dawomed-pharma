@@ -1,0 +1,49 @@
+.login {
+  padding: 30px;
+}
+
+.login nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  width: 100%;
+}
+
+.login main {
+  width: 30%;
+}
+
+.login main button {
+  width: 100%;
+}
+
+.login main h1 {
+  margin: 0px;
+  margin-top: 24px;
+  color: #1D1272;
+  font-size: 31px;
+  font-weight: 600;
+}
+
+.login main p {
+  margin-top: 0px;
+  color: #444444;
+}
+
+.login main button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.login main a {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.login main form {
+  width: 100%;
+}
+/*# sourceMappingURL=styles.module.css.map */

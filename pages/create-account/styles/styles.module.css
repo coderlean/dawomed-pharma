@@ -1,0 +1,193 @@
+.createAccount .body {
+  padding: 30px;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.createAccount .body main {
+  width: 40%;
+}
+
+.createAccount .body main button {
+  width: 100%;
+}
+
+.createAccount .body main span {
+  font-size: 12px;
+}
+
+.createAccount .body main h2 {
+  font-size: 31px;
+  color: #1D1272;
+}
+
+.createAccount .body main .textInputContainer {
+  margin-bottom: 20px;
+}
+
+.pharmacyInformation main {
+  width: 80%;
+}
+
+.pharmacyInformation main table {
+  width: 100%;
+}
+
+.pharmacyInformation main table tr td {
+  width: 50%;
+  height: 100%;
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+.pharmacyInformation main .brokenDivider {
+  padding-top: 20px;
+}
+
+.pharmacyInformation main button {
+  width: 100%;
+  padding: 18px;
+  border-style: none;
+  border-style: solid;
+  border-color: #1D1272;
+  border-width: 2px;
+}
+
+.pharmacyInformation main h2 {
+  color: #1D1272;
+}
+
+.documentation main {
+  width: 80%;
+}
+
+.documentation main table tr td {
+  width: 50%;
+  height: 100%;
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+.documentation main .brokenDivider {
+  padding-top: 20px;
+}
+
+.documentation main .styles_fileSelector__QM7r7 {
+  padding: 6px;
+}
+
+.documentation main footer {
+  width: 100%;
+}
+
+.documentation main footer table {
+  width: 100%;
+}
+
+.documentation main footer table button {
+  width: 100%;
+  padding: 18px;
+  border-style: none;
+  border-style: solid;
+  border-color: #1D1272;
+  border-width: 2px;
+}
+
+.documentation main h2 {
+  color: #1D1272;
+}
+
+.bankDetails main {
+  width: 80%;
+}
+
+.bankDetails main table {
+  width: 100%;
+}
+
+.bankDetails main table tr td {
+  width: 50%;
+  height: 100%;
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+.bankDetails main .brokenDivider {
+  padding-top: 20px;
+}
+
+.bankDetails main button {
+  width: 100%;
+  padding: 18px;
+  border-style: none;
+  border-style: solid;
+  border-color: #1D1272;
+  border-width: 2px;
+}
+
+.bankDetails main h2 {
+  color: #1D1272;
+}
+
+.summary main {
+  width: 60%;
+}
+
+.summary main hr {
+  width: 100%;
+  color: #1D127226;
+}
+
+.summary main table {
+  width: 100%;
+}
+
+.summary main table tr td {
+  width: 50%;
+  height: 100%;
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+.summary main .brokenDivider {
+  padding-top: 20px;
+}
+
+.summary main button {
+  width: 100%;
+  padding: 18px;
+  border-style: none;
+  border-style: solid;
+  border-color: #1D1272;
+  border-width: 2px;
+}
+
+.summary main h2 {
+  color: #1D1272;
+}
+
+.errorMessage {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background-color: #811717;
+  color: white;
+  font-size: 14px;
+}
+
+.errorMessage p {
+  margin: 0px;
+}
+
+.errorMessage div {
+  cursor: pointer;
+}
+
+.caPagesContainer .body {
+  width: 100%;
+  padding: 30px;
+  height: 100%;
+  overflow-y: scroll;
+}
+/*# sourceMappingURL=styles.module.css.map */

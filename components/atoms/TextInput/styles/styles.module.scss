@@ -1,14 +1,27 @@
 @import "../../../../styles/_colors.scss";
 
-.textInput {
-    width: 100%;
-    padding: 16px;
+.textInputContainer {
     border-style: none;
     border-style: solid;
     border-width: 1px;
     font-size: 14px;
     background-color: rgba(0, 0, 0, 0,);
     border-color: rgba(136, 136, 136, 1);
+
+    &:focus-within {
+        border-color: $primaryBorder;
+        border-width: 2px;
+        outline: none;
+        background-color: white !important;
+    }
+}
+
+.textInput {
+    width: 100%;
+    padding: 16px;
+    border-style: none;
+    background-color: rgba(0, 0, 0, 0,);
+
 }
 
 .textInput::placeholder {
@@ -16,8 +29,5 @@
 }
 
 .textInput:focus {
-    border-color: $primaryBorder;
-    border-width: 2px;
     outline: none;
-    background-color: white;
 }

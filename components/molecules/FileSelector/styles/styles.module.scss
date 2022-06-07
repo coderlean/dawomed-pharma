@@ -1,0 +1,39 @@
+@import "../../../../styles/_colors.scss";
+
+.fileSelector {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-style: none;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $inputGrey;
+
+    input {
+        display: none;
+    }
+
+    button {
+        background-color: $buttonGrey;
+        border-style: none;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 14px;
+        color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: pointer;
+        font-size: 12px;
+
+        &:hover {
+            background-color: $primary;
+        }
+    }
+
+    
+}

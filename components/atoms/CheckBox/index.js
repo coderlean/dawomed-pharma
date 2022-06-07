@@ -43,7 +43,7 @@ const CheckBox = ({ children }) => {
             height="18"
             rx="4"
             stroke="#1D1272"
-            stroke-width="2"
+            strokeWidth="2"
           />
         </svg>
       )}

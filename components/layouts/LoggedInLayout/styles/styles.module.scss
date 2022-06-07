@@ -1,0 +1,229 @@
+@import "../../../../styles/_colors.scss";
+
+.LoggedInLayout {
+    width: 100%;
+    nav {
+        
+    }
+}
+
+.topNav {
+    width: 100%;
+    background-color: $primary ;
+    color: white;
+    font-weight: 200;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    .notificationIcon {
+        cursor: pointer;
+    }
+
+    .userMenu {
+        position: absolute;
+        right: 30px;
+        top: 120%;
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0px 1px 5px 0px rgba(191,191,191,0.67);
+-webkit-box-shadow: 0px 1px 5px 0px rgba(191,191,191,0.67);
+-moz-box-shadow: 0px 1px 5px 0px rgba(191,191,191,0.67);
+
+        h6 {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            margin: 0px;
+            margin-bottom: 15px;
+        }
+
+        hr {
+
+            width: 100%;
+            border-style: none;
+            border-top-style: solid;
+            border-top-width: 1px;
+            border-top-color: rgb(226, 226, 226);
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #666666;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        p {
+            color: #666666;
+            font-weight: 400;
+            cursor: pointer;
+        }
+    }
+
+    .inactiveNavItem {
+        color: rgba(255,255,255,0.6);
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 50px;
+        cursor: pointer;
+
+        &:hover {
+            color: white;
+        }
+    }
+
+    .activeNavItem {
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 50px;
+        cursor: pointer;
+
+        &:hover {
+            color: white;
+        }
+    }
+
+
+
+
+    .logoDiv {
+        display: flex;
+        align-items: center;
+
+        .logo {
+            border-right-style: none;
+            border-right-style: solid;
+            border-right-width: 1px;
+            border-right-color: rgba(255,255,255,0.6);
+            padding-right: 30px;
+        }
+
+        svg {
+            margin-right: 10px;
+        }
+    
+        h4 {
+            margin: 0px;
+        }
+
+        p {
+            margin: 5px;
+            margin-left: 0px;
+            font-size: 10px;
+        }
+    }
+
+    .searchDiv {
+        background-color: rgba(255,255,255,0.2);
+        padding: 8px;
+        border-radius: 15px;
+        margin-right: 20px;
+
+        input {
+            background-color: rgba(255,255,255,0);
+            border-style: none;
+        }
+    }
+
+
+}
+
+.notificationsSideBar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 50000;
+    background-color: rgba(29, 18, 114, 0.4);
+    display: flex;
+    justify-content: flex-end;
+
+    .notificationBarItem {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(243, 243, 243, 0.6);
+        }
+
+        .icon {
+            padding: 10px;
+            margin-right: 20px;
+            background-color: #FAFAFA;
+            margin-top: auto;
+            margin-bottom: auto;
+            border-style: none;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #EAEAEA;
+        }
+
+        label {
+            margin-left: auto;
+            font-size: 14px;
+            color: rgba(29, 18, 114, 1);
+            cursor: pointer;
+             &:hover {
+                 text-decoration: underline;
+             }
+        }
+
+        h4 {
+            margin: 0px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 14px;
+            color: rgba(153, 153, 153, 1);
+            margin-top: 5px;
+            font-weight: 400;
+            margin-bottom: 0px;
+        }
+    }
+
+    header {
+        background-color: $primary;
+        color: white;
+
+        h3 {
+            margin: 0px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        label {
+            margin-left: 10px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: rgba(152, 191, 11, 1);
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    }
+
+    >svg {
+        margin-top: 10px;
+        margin-right: 20px;
+        cursor: pointer;
+    }
+
+    >div {
+        width: 40%;
+        height: 100%;
+        background-color: white;
+        box-shadow: 0px 1px 5px 0px rgba(191,191,191,0.67);
+    }
+
+
+}

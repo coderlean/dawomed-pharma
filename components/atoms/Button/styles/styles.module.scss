@@ -1,8 +1,18 @@
 @import "../../../../styles/_colors.scss";
 
+@mixin button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    margin-right: 20px;
+    margin-left: 20px
+  }
+}
+
 .outline {
-  width: 100%;
-  padding: 18px;
+  @include button;
+  padding: 10px;
   border: 2px solid $primary;
   color: $primary;
   font-size: 14px;
@@ -12,11 +22,15 @@
   &:hover {
     background-color: $primary;
     color: white;
+
+    rect {
+      fill: white;
+    }
   }
 }
 
 .solid {
-  width: 100%;
+  @include button;
   padding: 18px;
   background-color: $primary;
   color: white;
@@ -27,5 +41,9 @@
   &:hover {
     background-color: $primaryDark;
     color: white;
+  }
+
+  rect {
+    fill: white;
   }
 }

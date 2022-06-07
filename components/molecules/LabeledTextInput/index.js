@@ -2,10 +2,10 @@ import React from 'react';
 import TextInput from '../../atoms/textInput';
 import LTIStyle from "./styles/styles.module.css"
 
-const LabeledTextInput = ({children}) => {
+const LabeledTextInput = ({children, label}) => {
     return (
         <div className={LTIStyle.labeledTextInput}>
-            <label for="textInput">Label</label>
+            <label for="textInput">{label}</label>
             <div className={LTIStyle.separator}></div>
             {children}
         </div>
