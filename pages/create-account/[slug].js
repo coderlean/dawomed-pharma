@@ -6,8 +6,9 @@ import BankDetails from '../../components/create-account-components/components/b
 import Documentation from '../../components/create-account-components/components/documentation';
 import PharmacyInformation from '../../components/create-account-components/components/pharmacy-information';
 import PostSignUp from '../../components/create-account-components/components/post-sign-up';
+import CreateAccountSideBar from '../../components/create-account-components/components/sidebar';
 import Summary from '../../components/create-account-components/components/summary';
-import CreateAccountSideBar from './components/sidebar';
+
 import caStyles from "./styles/styles.module.css";
 
 const CreateAccount = (props) => {

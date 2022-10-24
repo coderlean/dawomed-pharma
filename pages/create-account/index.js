@@ -7,9 +7,10 @@ import CheckBox from '../../components/atoms/CheckBox';
 import PasswordInput from '../../components/atoms/PasswordInput';
 import TextInput from '../../components/atoms/TextInput';
 import LabeledTextInput from '../../components/molecules/LabeledTextInput';
-import CreateAccountSideBar from './components/sidebar';
+
 import caStyles from "./styles/styles.module.css";
 import { useRouter } from 'next/router';
+import CreateAccountSideBar from '../../components/create-account-components/components/sidebar';
 
 const CreateAccount = () => {
     const [errorMessage, setErrorMessage] = useState("")
