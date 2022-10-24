@@ -46,7 +46,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
     }
 
     const validateData = () => {
-        if (!currentDrug.name){
+        if (!currentDrug?.name){
             setErrorMessage("A product name is required")
         } else if (!currentDrug.reg_no){
             setErrorMessage("The registration number for this product is required")
@@ -71,7 +71,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
     const generateProductData = () => {
         const productFormData = new FormData()
             
-            productFormData.append("name", currentDrug.name)
+            productFormData.append("name", currentDrug?.name)
             productFormData.append("classification", currentDrug.classification)
             productFormData.append("presentation", "")
             productFormData.append("manufacturer", "")
@@ -377,7 +377,7 @@ const ProductInfo = ({currentDrug, mode, setCurrentDrug, updateCurrentDrug}) => 
 
             <form className={styles.drugsSearchDiv} onFocus={() => setSelecting(true)} onSubmit={event => findDrugs(event)} onChange={(event) => findDrugs(event.target.value)} >
                 <LabeledTextInput label={"Product Name*"}>
-                    <TextInput value={currentDrug.name} placeholder={"MELOFAN PLUS"} />
+                    <TextInput value={currentDrug?.name} placeholder={"MELOFAN PLUS"} />
                 </LabeledTextInput>
 
                 {
@@ -387,7 +387,7 @@ const ProductInfo = ({currentDrug, mode, setCurrentDrug, updateCurrentDrug}) => 
                             <p onClick={() => {
                                 setCurrentDrug(item)
                                 setSelecting(false)
-                            }}>{item.name}</p>
+                            }}>{item?.name}</p>
                         </div>)
                     }
                 </div>
@@ -434,7 +434,7 @@ const ProductInfo = ({currentDrug, mode, setCurrentDrug, updateCurrentDrug}) => 
 
 const MoreProductDetails = ({updateCurrentDrug, currentDrug, mode}) => {
     const updateDrugDetails = updateDrugEvent => {
-        const field = updateDrugEvent.target.name
+        const field = updateDrugEvent.target?.name
         const value = updateDrugEvent.target.value
 
         updateCurrentDrug(field, value)
@@ -483,12 +483,12 @@ const ProductPricing = ({updateCurrentDrug, currentDrug, activeCoupons, mode}) =
 
     useEffect(() => {
         const temp = {... activeCouponNames}
-        temp = activeCoupons.map(item => `${item.name} (${item.percentage}% off)`)
+        temp = activeCoupons.map(item => `${item?.name} (${item.percentage}% off)`)
         setActiveCouponNames(temp)
     }, [])
 
     const updateDrugDetails = updateDrugEvent => {
-        const field = updateDrugEvent.target.name
+        const field = updateDrugEvent.target?.name
         let value = updateDrugEvent.target.value 
 
         console.log(activeCouponNames.indexOf(value));
@@ -558,7 +558,7 @@ const ProductPricing = ({updateCurrentDrug, currentDrug, activeCoupons, mode}) =
 
 const Images = ({currentDrug, updateCurrentDrug, mode}) => {
     const updateDrugDetails = (updateDrugEvent) => {
-        const field = updateDrugEvent.target.name
+        const field = updateDrugEvent.target?.name
         const value = updateDrugEvent.target.files[0]
         updateCurrentDrug(field, value)
     }

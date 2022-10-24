@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import React from 'react';
-import { useState } from 'react/cjs/react.development';
+import React, { useState } from 'react';
+
 import { useRouter } from 'next/dist/client/router';
 import Button from '../../../components/atoms/Button';
 import Accordion from '../../../components/molecules/Accordion';

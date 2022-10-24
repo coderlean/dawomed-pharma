@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import React from 'react';
-import { useState, useEffect } from 'react/cjs/react.development';
+import React, { useState } from 'react';
+
 import { useRouter } from 'next/dist/client/router';
 import { iconsSVGs } from '../../../assets/images/icons';
 import Button from '../../../components/atoms/Button';

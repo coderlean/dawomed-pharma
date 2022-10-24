@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { useEffect } from 'react/cjs/react.development';
+import React, { useEffect, useRef, useState } from 'react';
+
 import fileSelectorStyle from "./styles/styles.module.css"
 
 const FileSelector = ({name, defaultFileName}) => {

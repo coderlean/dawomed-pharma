@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import { useState } from 'react/cjs/react.development';
+import React, { useEffect, useState } from 'react';
+
 import Button from '../../components/atoms/Button';
 import BankDetails from './components/bank-details';
 import Documentation from './components/documentation';

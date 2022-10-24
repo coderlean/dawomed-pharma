@@ -1,5 +1,6 @@
 
-import { useState } from "react/cjs/react.development"
+
+import { useState } from "react"
 import { iconsSVGs } from "../../../assets/images/icons"
 import Button from "../../../components/atoms/Button"
 import DropDown from "../../../components/atoms/DropDown"

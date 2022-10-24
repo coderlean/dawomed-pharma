@@ -1,7 +1,6 @@
 import Head from 'next/head';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
-import { useState } from 'react/cjs/react.development';
 import Button from '../../../components/atoms/Button';
 import DropDown from '../../../components/atoms/DropDown';
 import TextInput from '../../../components/atoms/TextInput';

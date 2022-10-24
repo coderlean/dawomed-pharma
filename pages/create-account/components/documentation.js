@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
-import { useState } from 'react/cjs/react.development';
+
 import Button from '../../../components/atoms/Button';
 import DatePicker from '../../../components/molecules/DatePicker';
 import FileSelector from '../../../components/molecules/FileSelector';

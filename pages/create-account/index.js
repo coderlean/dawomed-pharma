@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import React from 'react';
-import { useState } from 'react/cjs/react.development';
+import React, { useState } from 'react';
 import { iconsSVGs } from '../../assets/images/icons';
 import Button from '../../components/atoms/Button';
 import CheckBox from '../../components/atoms/CheckBox';

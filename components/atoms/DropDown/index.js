@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useRef } from 'react/cjs/react.development';
+import React, { useEffect, useRef, useState } from 'react';
+
 import dropDownStyle from "./styles/styles.module.css"
 
 const DropDown = ({placeholder, defaultValue, options, name}) => {
