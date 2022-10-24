@@ -21,7 +21,7 @@ const Summary = ({currentPharmacyDetails}) => {
         pharmacyData.append("email", currentPharmacyDetails.email)
         pharmacyData.append("password", currentPharmacyDetails.password)
         pharmacyData.append("pharmacyName", currentPharmacyDetails?.pharmacyName)
-        pharmacyData.append("contact_number", currentPharmacyDetails.contact_number)
+        pharmacyData.append("contact_number", currentPharmacyDetails?.contact_number)
         pharmacyData.append("regPharmacistName", currentPharmacyDetails?.regPharmacistName)
         pharmacyData.append("documentation", JSON.stringify({
             pharmacist_license_expiry_date: currentPharmacyDetails?.documentation?.pharmacist_license_expiry_date,
@@ -80,7 +80,7 @@ const Summary = ({currentPharmacyDetails}) => {
 
                 <div className="displayFlex jcSpaceBetween">
                     <p>Contact Number</p>
-                    <p>{currentPharmacyDetails.contact_number}</p>
+                    <p>{currentPharmacyDetails?.contact_number}</p>
                 </div>
 
                 <div className="displayFlex jcSpaceBetween">

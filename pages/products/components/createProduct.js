@@ -50,7 +50,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
             setErrorMessage("A product name is required")
         } else if (!currentDrug.reg_no){
             setErrorMessage("The registration number for this product is required")
-        } else if (!currentDrug.country_of_manufacture){
+        } else if (!currentDrug?.country_of_manufacture){
             setErrorMessage("The country of manufacture for this product is required")
         } else if (!currentDrug.description){
             setErrorMessage("A product description is required")
@@ -78,7 +78,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
             productFormData.append("reg_no", currentDrug.reg_no)
             productFormData.append("active_ingredients", currentDrug.active_ingredients)
             productFormData.append("applicantName", "")
-            productFormData.append("country_of_manufacture", currentDrug.country_of_manufacture)
+            productFormData.append("country_of_manufacture", currentDrug?.country_of_manufacture)
             productFormData.append("quantity", currentDrug.quantity ? currentDrug.quantity : 0)
             productFormData.append("highlights", currentDrug.highlights ? currentDrug.highlights : "")
             productFormData.append("price", currentDrug.price ? currentDrug.price : 0)
@@ -410,7 +410,7 @@ const ProductInfo = ({currentDrug, mode, setCurrentDrug, updateCurrentDrug}) => 
                 </LabeledTextInput>
 
                 <LabeledTextInput label={"Country"}>
-                    <TextInput disabled={true} value={currentDrug.country_of_manufacture} placeholder={"Country"} />
+                    <TextInput disabled={true} value={currentDrug?.country_of_manufacture} placeholder={"Country"} />
                 </LabeledTextInput>
             </div>
 

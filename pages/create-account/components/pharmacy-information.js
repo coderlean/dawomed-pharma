@@ -146,7 +146,7 @@ const PharmacyInformation = ({currentPharmacyDetails, updatePharmacyDetails}) =>
                             </td>
                             <td>
                                 <LabeledTextInput label={"LGA"}>
-                                    <DropDown defaultValue={currentPharmacyDetails?.pharmacyInformation?.lga} name={"lga"} options={stateLGAs[String(currentPharmacyDetails?.pharmacyInformation?.state).toLowerCase().split(" ").join("")].lgas} placeholder={"Ikeja"} />
+                                    <DropDown defaultValue={currentPharmacyDetails?.pharmacyInformation?.lga} name={"lga"} options={stateLGAs[String(currentPharmacyDetails?.pharmacyInformation?.state).toLowerCase().split(" ").join("")]?.lgas} placeholder={"Ikeja"} />
                                 </LabeledTextInput>
                             </td>
                         </tr>
