@@ -21,11 +21,11 @@ const PharmacyInformation = ({currentPharmacyDetails, updatePharmacyDetails}) =>
 
         console.log("Validating");
 
-        if (!currentPharmacyDetails.pharmacyInformation.registration_number || currentPharmacyDetails.pharmacyInformation.registration_number === "") {
+        if (!currentPharmacyDetails?.pharmacyInformation?.registration_number || currentPharmacyDetails?.pharmacyInformation?.registration_number === "") {
             setErrorMessage("Please enter a pharmacy registration number.")
-        } else if (!currentPharmacyDetails.pharmacyInformation.first_address || currentPharmacyDetails.pharmacyInformation.first_address === "") {
+        } else if (!currentPharmacyDetails?.pharmacyInformation?.first_address || currentPharmacyDetails?.pharmacyInformation?.first_address === "") {
             setErrorMessage("Please enter your pharmacy's primary address.")
-        } else if(!currentPharmacyDetails.pharmacyInformation.coordinates) {
+        } else if(!currentPharmacyDetails?.pharmacyInformation?.coordinates) {
             setErrorMessage("Please set your pharmacy's location.")
         } else {
             goToDocumentation()
@@ -78,7 +78,7 @@ const PharmacyInformation = ({currentPharmacyDetails, updatePharmacyDetails}) =>
     }
 
     return (
-        <div className={caStyles.pharmacyInformation}>
+        <div className={caStyles?.pharmacyInformation}>
             <Head>
                 <title>Pharmacy Information</title>
             </Head>
@@ -146,7 +146,7 @@ const PharmacyInformation = ({currentPharmacyDetails, updatePharmacyDetails}) =>
                             </td>
                             <td>
                                 <LabeledTextInput label={"LGA"}>
-                                    <DropDown defaultValue={currentPharmacyDetails?.pharmacyInformation?.lga} name={"lga"} options={stateLGAs[String(currentPharmacyDetails.pharmacyInformation.state).toLowerCase().split(" ").join("")].lgas} placeholder={"Ikeja"} />
+                                    <DropDown defaultValue={currentPharmacyDetails?.pharmacyInformation?.lga} name={"lga"} options={stateLGAs[String(currentPharmacyDetails?.pharmacyInformation?.state).toLowerCase().split(" ").join("")].lgas} placeholder={"Ikeja"} />
                                 </LabeledTextInput>
                             </td>
                         </tr>

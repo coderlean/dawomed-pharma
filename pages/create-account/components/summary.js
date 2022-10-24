@@ -22,7 +22,7 @@ const Summary = ({currentPharmacyDetails}) => {
         pharmacyData.append("password", currentPharmacyDetails.password)
         pharmacyData.append("pharmacyName", currentPharmacyDetails?.pharmacyName)
         pharmacyData.append("contact_number", currentPharmacyDetails.contact_number)
-        pharmacyData.append("regPharmacistName", currentPharmacyDetails.regPharmacistName)
+        pharmacyData.append("regPharmacistName", currentPharmacyDetails?.regPharmacistName)
         pharmacyData.append("documentation", JSON.stringify({
             pharmacist_license_expiry_date: currentPharmacyDetails?.documentation?.pharmacist_license_expiry_date,
             premise_license_expiry_date: currentPharmacyDetails?.documentation?.premise_license_expiry_date
@@ -75,7 +75,7 @@ const Summary = ({currentPharmacyDetails}) => {
 
                 <div className="displayFlex jcSpaceBetween">
                     <p>Registered Pharmacist Name</p>
-                    <p>{`${currentPharmacyDetails.regPharmacistName}`}</p>
+                    <p>{`${currentPharmacyDetails?.regPharmacistName}`}</p>
                 </div>
 
                 <div className="displayFlex jcSpaceBetween">

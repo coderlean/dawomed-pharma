@@ -86,7 +86,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
             productFormData.append("sale_end_date", currentDrug.sale_end_date ? currentDrug.sale_end_date : "")
             productFormData.append("discount_percentage", currentDrug.discount_percentage ? currentDrug.discount_percentage : 0)
             productFormData.append("coupon", currentDrug.coupon ? JSON.stringify(currentDrug.coupon) : "")
-            productFormData.append("brand", currentDrug.brand ? currentDrug.brand : "")
+            productFormData.append("brand", currentDrug?.brand ? currentDrug?.brand : "")
             productFormData.append("description", currentDrug.description ? currentDrug.description : "")
             productFormData.append("in_the_box", currentDrug.in_the_box ? currentDrug.in_the_box : "")
             productFormData.append("approved_date", currentDrug.approved_date ? currentDrug.approved_date : "NOT AVAILABLE")
@@ -400,7 +400,7 @@ const ProductInfo = ({currentDrug, mode, setCurrentDrug, updateCurrentDrug}) => 
                 </LabeledTextInput>
 
                 <LabeledTextInput label={"Brand"}>
-                    <TextInput disabled={true} value={currentDrug.brand} placeholder={"Brand"} />
+                    <TextInput disabled={true} value={currentDrug?.brand} placeholder={"Brand"} />
                 </LabeledTextInput>
             </div>
 
