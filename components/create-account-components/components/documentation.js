@@ -6,7 +6,7 @@ import Button from '../../../components/atoms/Button';
 import DatePicker from '../../../components/molecules/DatePicker';
 import FileSelector from '../../../components/molecules/FileSelector';
 import LabeledTextInput from '../../../components/molecules/LabeledTextInput';
-import caStyles from "../styles/styles.module.css"
+import caStyles from "./styles/styles.module.css"
 import { iconsSVGs } from '../../../assets/images/icons';
 
 const Documentation = ({currentPharmacyDetails, updatePharmacyDetails}) => {

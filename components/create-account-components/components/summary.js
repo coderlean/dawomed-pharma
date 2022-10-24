@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import Button from '../../../components/atoms/Button';
 import Accordion from '../../../components/molecules/Accordion';
-import caStyles from "../styles/styles.module.css"
+import caStyles from "./styles/styles.module.css"
 import { iconsSVGs } from '../../../assets/images/icons';
 
 const Summary = ({currentPharmacyDetails}) => {

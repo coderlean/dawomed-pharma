@@ -8,7 +8,7 @@ import Button from '../../../components/atoms/Button';
 import DropDown from '../../../components/atoms/DropDown';
 import TextInput from '../../../components/atoms/TextInput';
 import LabeledTextInput from '../../../components/molecules/LabeledTextInput';
-import caStyles from "../styles/styles.module.css"
+import caStyles from "./styles/styles.module.css"
 
 const BankDetails = ({currentPharmacyDetails, updatePharmacyDetails}) => {
     const router = useRouter()
