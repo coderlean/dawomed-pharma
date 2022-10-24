@@ -1,14 +1,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-
 import Button from '../../components/atoms/Button';
-import BankDetails from './components/bank-details';
-import Documentation from './components/documentation';
-import PharmacyInformation from './components/pharmacy-information';
-import PostSignUp from './components/post-sign-up';
+import BankDetails from '../../components/create-account-components/components/bank-details';
+import Documentation from '../../components/create-account-components/components/documentation';
+import PharmacyInformation from '../../components/create-account-components/components/pharmacy-information';
+import PostSignUp from '../../components/create-account-components/components/post-sign-up';
+import Summary from '../../components/create-account-components/components/summary';
 import CreateAccountSideBar from './components/sidebar';
-import Summary from './components/summary';
 import caStyles from "./styles/styles.module.css";
 
 const CreateAccount = (props) => {
