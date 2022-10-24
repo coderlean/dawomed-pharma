@@ -6,13 +6,14 @@ import styles from "./styles/styles.module.css";
 import drugImage from "../../public/drug.png";
 import Image from 'next/image';
 import Modal from '../../components/layouts/Modal';
-import CreateProduct from './components/createProduct';
+
 import Button from '../../components/atoms/Button';
 import Loader from '../../components/atoms/Loader';
 import LabeledTextInput from '../../components/molecules/LabeledTextInput';
 import TextInput from '../../components/atoms/TextInput';
 import DatePicker from '../../components/molecules/DatePicker';
 import ErrorBox from '../../components/atoms/ErrorBox';
+import CreateProduct from '../../components/create-product-components/components/createProduct';
 
 const getCapitalizedString  = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);

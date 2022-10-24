@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { iconsSVGs } from '../../../assets/images/icons';
-import Button from '../../../components/atoms/Button';
-import DropDown from '../../../components/atoms/DropDown';
-import TextInput from '../../../components/atoms/TextInput';
-import DatePicker from '../../../components/molecules/DatePicker';
-import LabeledTextInput from '../../../components/molecules/LabeledTextInput';
-import styles from "./../styles/styles.module.css";
+import Button from '../../atoms/Button';
+import DropDown from '../../atoms/DropDown';
+import TextInput from '../../atoms/TextInput';
+import DatePicker from '../../molecules/DatePicker';
+import LabeledTextInput from '../../molecules/LabeledTextInput';
+import styles from "../../../pages/products/styles/styles.module.css"
 import imagePlaceholder from "../../../assets/images/imagePlaceholder.png"
 import Image from 'next/image';
-import Loader from '../../../components/atoms/Loader';
-import ErrorBox from '../../../components/atoms/ErrorBox';
-import SuccessBox from '../../../components/atoms/SuccessBox';
+import Loader from '../../atoms/Loader';
+import ErrorBox from '../../atoms/ErrorBox';
+import SuccessBox from '../../atoms/SuccessBox';
 
 const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, mode, fetchProducts, setCurrentDrugDetails, setMode, deleteDraft}) => {
     const [currentTab, setCurrentTab] = useState(0)
