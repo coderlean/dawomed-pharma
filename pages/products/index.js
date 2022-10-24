@@ -10,7 +10,7 @@ import CreateProduct from './components/createProduct';
 import Button from '../../components/atoms/Button';
 import Loader from '../../components/atoms/Loader';
 import LabeledTextInput from '../../components/molecules/LabeledTextInput';
-import TextInput from '../../components/atoms/textInput';
+import TextInput from '../../components/atoms/TextInput';
 import DatePicker from '../../components/molecules/DatePicker';
 import ErrorBox from '../../components/atoms/ErrorBox';
 
