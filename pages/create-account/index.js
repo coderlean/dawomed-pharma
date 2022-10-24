@@ -68,7 +68,7 @@ const CreateAccount = () => {
 
             <div className={caStyles.body}>
                 <nav className="displayFlex jcEnd widthFull">
-                    <Button label="LOG IN" theme="outline" />
+                    <Button onButtonClick={() => router.push("/login")} label="LOG IN" theme="outline" />
                 </nav>
 
                 <main className="centerSelfHorizontal">

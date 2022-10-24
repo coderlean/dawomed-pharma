@@ -110,7 +110,7 @@ const Documentation = ({currentPharmacyDetails, updatePharmacyDetails}) => {
                         <tbody>
                             <tr>
                                 <td>
-                                    <Button type="button" onClick={() => router.push("/create-account/pharmacy-information")} label={"Previous"} buttonIntent={"previous"} theme={"outline"} />
+                                    <Button type="button" onButtonClick={() => router.push("/create-account/pharmacy-information")} label={"Previous"} buttonIntent={"previous"} theme={"outline"} />
                                 </td>
 
                                 <td>

@@ -202,7 +202,7 @@ const BankDetails = ({currentPharmacyDetails, updatePharmacyDetails}) => {
                 <tbody>
                     <tr>
                         <td>
-                            <Button onClick={() => router.push("/create-account/documentation")} type="button" label={"PREVIOUS"} buttonIntent={"previous"} theme={"outline"} />
+                            <Button onButtonClick={() => router.push("/create-account/documentation")} type="button" label={"PREVIOUS"} buttonIntent={"previous"} theme={"outline"} />
                         </td>
 
                         <td>

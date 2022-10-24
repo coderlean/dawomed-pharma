@@ -6,6 +6,7 @@ import styles from "./styles/styles.module.css";
 import SideBar from '../../components/layouts/SideBar';
 import DropDown from '../../components/atoms/DropDown';
 import Button from '../../components/atoms/Button';
+import { getProtected } from '../../requests/getProtected';
 
 const getStatusStyle = (status) => {
     switch (status){
@@ -37,12 +38,23 @@ const Products = () => {
     useEffect(() => {
         setOrders(sampleOrders)
         setAllOrders(sampleOrders)
+        fetchOrders()
     }, [])
 
     const setCurrentTab = (currentTab) => {
         var tempOrders = allOrders
         tempOrders = tempOrders.filter(order => order.status.toLowerCase() === currentTab)
         setOrders(tempOrders)
+    }
+
+    const fetchOrders = async () => {
+        const pharmacy = JSON.parse(localStorage.getItem("user"))
+        console.log({pharmacy});
+        try {
+            const ordersList = await getProtected(`orders/pharmacy/all/${pharmacy._id}`)
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const setTab = (activeTab) => {
@@ -94,9 +106,9 @@ const Products = () => {
 
                 <div className={styles.sidebarIcons}>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 5.99992V1.33325H12V5.99992" stroke="white" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M3.99967 12H2.66634C2.31272 12 1.97358 11.8595 1.72353 11.6095C1.47348 11.3594 1.33301 11.0203 1.33301 10.6667V7.33333C1.33301 6.97971 1.47348 6.64057 1.72353 6.39052C1.97358 6.14048 2.31272 6 2.66634 6H13.333C13.6866 6 14.0258 6.14048 14.2758 6.39052C14.5259 6.64057 14.6663 6.97971 14.6663 7.33333V10.6667C14.6663 11.0203 14.5259 11.3594 14.2758 11.6095C14.0258 11.8595 13.6866 12 13.333 12H11.9997" stroke="white" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12 9.33325H4V14.6666H12V9.33325Z" stroke="white" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4 5.99992V1.33325H12V5.99992" stroke="white" strokeOpacity="0.9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M3.99967 12H2.66634C2.31272 12 1.97358 11.8595 1.72353 11.6095C1.47348 11.3594 1.33301 11.0203 1.33301 10.6667V7.33333C1.33301 6.97971 1.47348 6.64057 1.72353 6.39052C1.97358 6.14048 2.31272 6 2.66634 6H13.333C13.6866 6 14.0258 6.14048 14.2758 6.39052C14.5259 6.64057 14.6663 6.97971 14.6663 7.33333V10.6667C14.6663 11.0203 14.5259 11.3594 14.2758 11.6095C14.0258 11.8595 13.6866 12 13.333 12H11.9997" stroke="white" strokeOpacity="0.9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M12 9.33325H4V14.6666H12V9.33325Z" stroke="white" strokeOpacity="0.9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                 </div>
 

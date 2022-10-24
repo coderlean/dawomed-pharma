@@ -2,8 +2,10 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { useState } from "react/cjs/react.development";
 import Button from "../../components/atoms/Button";
 import CheckBox from "../../components/atoms/CheckBox";
+import ErrorBox from "../../components/atoms/ErrorBox";
 import PasswordInput from "../../components/atoms/PasswordInput";
 import TextInput from "../../components/atoms/textInput";
 import LabeledTextInput from "../../components/molecules/LabeledTextInput";
@@ -11,14 +13,78 @@ import loginStyles from "./styles/styles.module.css";
 
 const Login = () => {
   const router = useRouter()
+  const [loginDetails, setLoginDetails] = useState({})
+  const [errorMessage, setErrorMessage] = useState("")
+
+  const updateLoginDetails = (updateLoginDetailsEvent) => {
+    const field = updateLoginDetailsEvent.target.name
+    const value = updateLoginDetailsEvent.target.value
+
+    const tempLoginDetails = {...loginDetails}
+    tempLoginDetails[field] = value
+    setLoginDetails(tempLoginDetails)
+  }
+
+  const validateDetails = (loginEvent) => {
+    loginEvent.preventDefault()
+    
+    if (!loginDetails.email){
+      setErrorMessage("Enter your email address")
+    } else if (!loginDetails.password){
+      setErrorMessage("Enter your password")
+    } else {
+      logUserIn()
+    }
+  }
+
+  const logUserIn = async () => {
+    setErrorMessage("")
+    try {
+      const logInRequest = await fetch("http://localhost:5000/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(loginDetails)
+      })
+
+      const loginResponse = await logInRequest.json()
+
+      if (loginResponse.success && loginResponse.success === true) {
+        const {token, user} = loginResponse
+        saveUserCredentials(token, user)
+      } else {
+        setErrorMessage(loginResponse.error)
+      }
+
+      
+
+    } catch (error) {
+      console.log({error});
+    }
+  }
+
+  const saveUserCredentials = (token, user) => {
+    localStorage.setItem("userToken", token)
+    localStorage.setItem("user", JSON.stringify(user))
+
+    goToHome()
+  }
+
+  const goToHome = () => {
+    router.push("/")
+  }
+
+  
+
   return (
     <div className={[loginStyles.login, "page"].join(" ")}>
       <Head>
         <title>Login</title>
       </Head>
       <nav>
-        <Link href={"/create-account"}>
-        <Button label="CREATE AN ACCOUNT" theme="outline" onClick={() => router.push("/create-account")} />
+        <Link href={"/create-account"} passHref>
+          <Button label="CREATE AN ACCOUNT" theme="outline" onButtonClick={() => router.push("/create-account")} />
         </Link>
       </nav>
 
@@ -66,15 +132,19 @@ const Login = () => {
         <h1>Log In To Dawomed</h1>
         <p>Pharmacy Center</p>
 
-        <form>
+        {
+          errorMessage && <ErrorBox errorMessage={errorMessage} closeErrorBox={() => setErrorMessage("")} />
+        }
+
+        <form onChange={event => updateLoginDetails(event)} onSubmit={event => validateDetails(event)} >
             <LabeledTextInput label="Email">
-                <TextInput placeholder="care@dawomed.com" onChange type="email" />
+                <TextInput name="email" placeholder="care@dawomed.com" type="email" />
             </LabeledTextInput>
 
             <div className="mt20"></div>
 
             <LabeledTextInput label="Password">
-                <PasswordInput placeholder="********" />
+                <PasswordInput name="password" placeholder="********" />
             </LabeledTextInput>
 
             <div className="mt20"></div>
@@ -86,7 +156,7 @@ const Login = () => {
             <Button theme="solid" label="CONTINUE" />
 
             <div className="displayFlex centerRowHorizontal">
-            <Link href="/forgot-password">CAN'T REMEMBER YOUR PASSWORD?</Link>
+            <Link href="/forgot-password">CANNOT REMEMBER YOUR PASSWORD?</Link>
             </div>
         </form>
       </main>

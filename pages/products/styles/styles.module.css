@@ -288,6 +288,13 @@
   border-style: none;
 }
 
+.products .searchDiv button {
+  padding: unset;
+  height: 100%;
+  margin-left: 10px;
+  padding: 10px;
+}
+
 .products .searchDiv .sort {
   background-color: white;
   padding-top: 10px;
@@ -342,6 +349,47 @@
   padding-bottom: 10px;
 }
 
+.products .productsTable table .menuCell > span {
+  position: relative;
+}
+
+.products .productsTable table .menuCell > span > div {
+  position: absolute;
+  right: 0;
+  top: 140%;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  background-color: white;
+  border-style: none;
+  border-radius: 10px;
+  box-shadow: 0px 2px 14px 0px rgba(176, 176, 176, 0.75);
+  -webkit-box-shadow: 0px 2px 14px 0px rgba(176, 176, 176, 0.75);
+  -moz-box-shadow: 0px 2px 14px 0px rgba(176, 176, 176, 0.75);
+  z-index: 20;
+}
+
+.products .productsTable table .menuCell > span > div div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  color: #404040;
+}
+
+.products .productsTable table .menuCell > span > div div:hover {
+  background-color: #f5f5f5;
+}
+
+.products .productsTable table .menuCell > span > div div span {
+  font-size: 13px;
+  margin-left: 10px;
+}
+
 .products .productsTable table .productTableItem {
   background-color: white;
   margin-bottom: 20px;
@@ -378,5 +426,387 @@
 .products .productsTable table .productTableItem button:hover {
   background-color: #1D1272;
   color: white;
+}
+
+.drugsSearchDiv {
+  position: relative;
+}
+
+.drugsSearchDiv .drugsResultsDropDown {
+  position: absolute;
+  left: 0;
+  bottom: -10;
+  width: 100%;
+  max-height: 150px;
+  background-color: white;
+  z-index: 20;
+  overflow-y: scroll;
+  padding: 10px;
+  box-shadow: 1px 4px 11px 0px rgba(125, 125, 125, 0.6);
+  -webkit-box-shadow: 1px 4px 11px 0px rgba(125, 125, 125, 0.6);
+  -moz-box-shadow: 1px 4px 11px 0px rgba(125, 125, 125, 0.6);
+  border-radius: 10px;
+}
+
+.drugsSearchDiv .drugsResultsDropDown p {
+  font-size: 14px;
+  border-style: none;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #dedede;
+  padding-top: 14px;
+  padding-bottom: 11px;
+  margin: 0px;
+  color: #3c3c3c;
+  cursor: pointer;
+}
+
+.drugsSearchDiv .drugsResultsDropDown p:hover {
+  background-color: #e9e9e9;
+}
+
+.creatingProduct {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100%;
+}
+
+.creatingProduct .createdProductTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #1e1e1e;
+}
+
+.creatingProduct .successBox p {
+  margin: 0px;
+  padding: 0px;
+  padding-top: 0px;
+  margin-bottom: 20px;
+  color: #3c3c3c;
+}
+
+.creatingProduct button {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.uploadProductNavItem {
+  position: relative;
+}
+
+.uploadProductNavItem .uploadProductMenu {
+  position: absolute;
+  left: 0;
+  top: 120%;
+  background-color: white;
+  z-index: 20;
+  border-style: none !important;
+  border-radius: 10px;
+  box-shadow: 0px 0px 19px 1px rgba(186, 186, 186, 0.7);
+  -webkit-box-shadow: 0px 0px 19px 1px rgba(186, 186, 186, 0.7);
+  -moz-box-shadow: 0px 0px 19px 1px rgba(186, 186, 186, 0.7);
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.uploadProductNavItem .uploadProductMenu div {
+  border-style: none !important;
+  padding-bottom: 10px !important;
+  padding-top: 10px !important;
+  cursor: pointer;
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+.uploadProductNavItem .uploadProductMenu div svg {
+  margin: 0px !important;
+}
+
+.uploadProductNavItem .uploadProductMenu div p {
+  margin-left: 10px !important;
+  font-size: 14px;
+  color: #3c3c3c;
+}
+
+.uploadProductNavItem .uploadProductMenu div:hover {
+  background-color: #f1f1f1;
+}
+
+.noProductsDiv {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.noProductsDiv h4 {
+  margin: 0px;
+  font-size: 24px;
+  color: #4a4a4a;
+}
+
+.noProductsDiv p {
+  margin-top: 5px;
+  font-size: 14px;
+  color: gray;
+}
+
+.addProductsButtonsContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.addProductsButtonsContainer button {
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 10px;
+}
+
+.deleteProductContainer {
+  background-color: white;
+  z-index: 20;
+  padding: 20px;
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.deleteProductContainer h3 {
+  margin-bottom: 10px;
+}
+
+.deleteProductContainer span {
+  width: 60%;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.deleteProductContainer svg {
+  margin: 20px;
+}
+
+.deleteProductContainer p {
+  font-size: 13px;
+  color: gray;
+  cursor: pointer;
+}
+
+.createCouponContainer {
+  background-color: white;
+  width: 40%;
+}
+
+.createCouponContainer .errorContainer {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.createCouponContainer .errorContainer div {
+  margin-top: 10px;
+}
+
+.createCouponContainer h3 {
+  margin: 0px;
+  padding: 20px;
+}
+
+.createCouponContainer hr {
+  margin: 0px;
+  border-style: none;
+  border-top-style: solid;
+  border-top-color: #e9e9e9;
+  border-top-width: 1px;
+}
+
+.createCouponContainer .couponCreateFormContainer {
+  padding: 20px;
+}
+
+.createCouponContainer table {
+  width: 100%;
+  border-spacing: 10px;
+}
+
+.createCouponContainer .couponActionButtons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding: 20px;
+}
+
+.createCouponContainer .couponActionButtons button {
+  margin-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  border-style: none;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #1D1272;
+}
+
+.couponCreated > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.couponCreated > div p {
+  margin: 0px;
+  margin-top: 20px;
+}
+
+.couponCreated > div p:nth-child(1) {
+  color: #3c3c3c;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.couponCreated > div svg {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.couponCreated > div p:nth-child(3) {
+  color: #0E0A4F;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 2;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.couponCreated > div button {
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 20px;
+}
+
+.couponItem {
+  color: #444444;
+  font-size: 14px;
+}
+
+.couponItem button {
+  margin-right: 10px;
+  padding: 7px;
+  border-radius: 5px;
+  border-width: 1px;
+  font-size: 13px;
+}
+
+.couponItem .couponCode {
+  padding: 5px;
+  background-color: #f5f5f5;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
+  border-style: none;
+  border-style: dashed;
+  border-color: #3c3c3c;
+  border-width: 1px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.couponItem .couponCode p {
+  margin: 0px;
+  margin-right: 10px;
+  font-size: 13px;
+}
+
+.couponItem .status {
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-style: none;
+  border-radius: 10px;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  font-size: 13px;
+}
+
+.active {
+  background-color: #e8f6ee;
+  color: #398e5e;
+}
+
+.draft {
+  background-color: #e7efff;
+  color: #4166b1;
+}
+
+.used {
+  background-color: #fce8ec;
+  color: #b4455e;
 }
 /*# sourceMappingURL=styles.module.css.map */

@@ -96,7 +96,7 @@ const NotificationsSideBar = ({toggleShowNotifications}) => {
 
                 <div className='pb20'>
                     {
-                        sampleData.map((item, index) => <NotificationItem data={getNotificationData(item)} />)
+                        sampleData.map((item, index) => <NotificationItem key={index} data={getNotificationData(item)} />)
                     }
                 </div>
 

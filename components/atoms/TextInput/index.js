@@ -1,6 +1,6 @@
 import textInputStyles from "./styles/styles.module.css"
 
-const TextInput = ({placeholder, disabled, value, onChange, type, maxLength, max, name}) => {
+const TextInput = ({placeholder, disabled, value, onChange, type, maxLength, max, name, pattern}) => {
 
     const handleChange = (event) => {
         if (onChange) {

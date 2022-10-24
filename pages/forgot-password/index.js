@@ -1,16 +1,58 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import Button from "../../components/atoms/Button";
 import CheckBox from "../../components/atoms/CheckBox";
+import ErrorBox from "../../components/atoms/ErrorBox";
 import PasswordInput from "../../components/atoms/PasswordInput";
+import SuccessBox from "../../components/atoms/SuccessBox";
 import TextInput from "../../components/atoms/textInput";
 import LabeledTextInput from "../../components/molecules/LabeledTextInput";
 import loginStyles from "./styles/styles.module.css";
 
 const ForgotPassword = () => {
   const router = useRouter()
+  const [errorMessage, setErrorMessage] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")
+
+  const validateEmail = submitEmailEvent => {
+    submitEmailEvent.preventDefault()
+    
+    const email = submitEmailEvent.target[0].value
+
+    if (!email){
+      return setErrorMessage("Enter your email address to reset your password.")
+    }
+
+    setErrorMessage("")
+    setSuccessMessage("")
+
+    sendForgotPasswordEmail(email)
+  }
+
+  const sendForgotPasswordEmail = async email => {
+    try {
+      const forgotPasswordRequest = await fetch("http://localhost:5000/auth/forgot-password", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email})
+      })
+
+      const forgotPasswordResponse = await forgotPasswordRequest.json()
+
+      if (forgotPasswordResponse.success && forgotPasswordResponse.success === true) {
+        setSuccessMessage(forgotPasswordResponse.message)
+      } else {
+        setErrorMessage(forgotPasswordResponse.error)
+      }
+
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
   return (
     <div className={[loginStyles.forgotPassword, "page"].join(" ")}>
         <Head>
@@ -21,6 +63,8 @@ const ForgotPassword = () => {
         <Button label="LOG IN" theme="outline" onClicked={() => router.push("/login")} />
         </Link>
       </nav>
+
+      
 
       <main className="centerSelfHorizontal displayFlex flexColumn centerColumnHorizontal">
         <svg
@@ -66,9 +110,17 @@ const ForgotPassword = () => {
         <h1>Forgot Password</h1>
         <p>Pharmacy Center</p>
 
-        <form>
+        {
+          errorMessage && <ErrorBox errorMessage={errorMessage} closeErrorBox={() => setErrorMessage("")} />
+      }
+
+      {
+          successMessage && <SuccessBox successMessage={successMessage} closeSuccessBox={() => setSuccessMessage("")} />
+      }
+
+        <form onSubmit={(event) => {validateEmail(event)}}>
             <LabeledTextInput label="Email">
-                <TextInput placeholder="care@dawomed.com" onChange type="email" />
+                <TextInput placeholder="care@dawomed.com" type="email" />
             </LabeledTextInput>
 
             <div className="mt20"></div>

@@ -1,0 +1,17 @@
+.errorMessage {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background-color: #811717;
+  color: white !important;
+  font-size: 14px;
+}
+
+.errorMessage p {
+  margin: 0px;
+}
+
+.errorMessage div {
+  cursor: pointer;
+}
+/*# sourceMappingURL=styles.module.css.map */

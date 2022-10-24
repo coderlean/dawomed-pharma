@@ -6,6 +6,7 @@ import Button from '../../components/atoms/Button';
 import BankDetails from './components/bank-details';
 import Documentation from './components/documentation';
 import PharmacyInformation from './components/pharmacy-information';
+import PostSignUp from './components/post-sign-up';
 import CreateAccountSideBar from './components/sidebar';
 import Summary from './components/summary';
 import caStyles from "./styles/styles.module.css";
@@ -30,6 +31,8 @@ const CreateAccount = (props) => {
             position: 1,
             component: <PharmacyInformation currentPharmacyDetails={currentPharmacyDetails} updatePharmacyDetails={(value, field) => {
                 const temp = {...currentPharmacyDetails}
+
+                console.log({value, field});
 
                 temp.pharmacyInformation[String(field)] = value
 
@@ -62,6 +65,11 @@ const CreateAccount = (props) => {
             slug: "summary",
             position: 4,
             component: <Summary currentPharmacyDetails={currentPharmacyDetails} />
+        },
+        {
+            slug: "post-sign-up",
+            position: 5,
+            component: <PostSignUp currentPharmacyDetails={currentPharmacyDetails} />
         }
     ]
 
@@ -90,7 +98,7 @@ const CreateAccount = (props) => {
             <div className={caStyles.body}>
                 <nav className='widthFull displayFlex jcEnd'>
                     <Link href={"/login"}>
-                        <Button label={"LOG IN"} theme={"outline"} onClicked={() => router.push("/login")} />
+                        <Button label={"LOG IN"} theme={"outline"} onButtonClick={() => router.push("/login")} />
                     </Link>
                 </nav>
                 {

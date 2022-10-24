@@ -23,4 +23,12 @@
 .caSideBar .option label {
   margin-left: 10px;
 }
+
+.post_sign_up {
+  text-align: center;
+}
+
+.post_sign_up h1 {
+  color: #1D1272;
+}
 /*# sourceMappingURL=styles.module.css.map */

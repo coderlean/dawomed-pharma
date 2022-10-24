@@ -1,11 +1,11 @@
 import React from 'react';
 import buttonStyle from "./styles/styles.module.css"
 
-const Button = ({ label, onClick, type, theme, buttonIntent, leftIcon, disabled }) => {
+const Button = ({ label, onButtonClick, type, theme, buttonIntent, leftIcon, disabled }) => {
     
-    const handleClick = () => {
-        if (onClick) {
-            onClick()
+    const handleClick = (e) => {
+        if (onButtonClick) {
+            onButtonClick()
         }
     }
 
