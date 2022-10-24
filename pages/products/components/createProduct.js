@@ -396,7 +396,7 @@ const ProductInfo = ({currentDrug, mode, setCurrentDrug, updateCurrentDrug}) => 
 
             <div className='displayFlex jcSpaceBetween horizontalHalf pb20 pt20'>
                 <LabeledTextInput label={"Presentation"}>
-                    <TextInput disabled={true} value={mode === "new" ? currentDrug.dosage : currentDrug.presentation} placeholder={"Presentation"} />
+                    <TextInput disabled={true} value={mode === "new" ? currentDrug.dosage : currentDrug?.presentation} placeholder={"Presentation"} />
                 </LabeledTextInput>
 
                 <LabeledTextInput label={"Brand"}>

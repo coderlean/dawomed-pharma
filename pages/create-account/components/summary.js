@@ -20,7 +20,7 @@ const Summary = ({currentPharmacyDetails}) => {
         pharmacyData.append("role", "pharmacy")
         pharmacyData.append("email", currentPharmacyDetails.email)
         pharmacyData.append("password", currentPharmacyDetails.password)
-        pharmacyData.append("pharmacyName", currentPharmacyDetails.pharmacyName)
+        pharmacyData.append("pharmacyName", currentPharmacyDetails?.pharmacyName)
         pharmacyData.append("contact_number", currentPharmacyDetails.contact_number)
         pharmacyData.append("regPharmacistName", currentPharmacyDetails.regPharmacistName)
         pharmacyData.append("documentation", JSON.stringify({
@@ -70,7 +70,7 @@ const Summary = ({currentPharmacyDetails}) => {
             <Accordion title={"Account Creation"}>
                 <div className="displayFlex jcSpaceBetween font14">
                     <p>Name of Pharmacy</p>
-                    <p>{currentPharmacyDetails.pharmacyName}</p>
+                    <p>{currentPharmacyDetails?.pharmacyName}</p>
                 </div>
 
                 <div className="displayFlex jcSpaceBetween">
@@ -99,7 +99,7 @@ const Summary = ({currentPharmacyDetails}) => {
 
                 <div className="displayFlex jcSpaceBetween">
                     <p>Name of Pharmacy</p>
-                    <p>{currentPharmacyDetails.pharmacyName}</p>
+                    <p>{currentPharmacyDetails?.pharmacyName}</p>
                 </div>
 
                 <div className="displayFlex jcSpaceBetween">

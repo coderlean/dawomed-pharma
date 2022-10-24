@@ -110,7 +110,7 @@ const PharmacyInformation = ({currentPharmacyDetails, updatePharmacyDetails}) =>
                             </td>
                             <td>
                                 <LabeledTextInput label={"Name of Pharmacy"}>
-                                    <TextInput value={currentPharmacyDetails.pharmacyName} name="pharmacyName" />
+                                    <TextInput value={currentPharmacyDetails?.pharmacyName} name="pharmacyName" />
                                 </LabeledTextInput>
                             </td>
                         </tr>
