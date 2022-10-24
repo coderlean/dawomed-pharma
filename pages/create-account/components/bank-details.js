@@ -6,7 +6,7 @@ import { useRouter } from 'next/dist/client/router';
 import { iconsSVGs } from '../../../assets/images/icons';
 import Button from '../../../components/atoms/Button';
 import DropDown from '../../../components/atoms/DropDown';
-import TextInput from '../../../components/atoms/textInput';
+import TextInput from '../../../components/atoms/TextInput';
 import LabeledTextInput from '../../../components/molecules/LabeledTextInput';
 import caStyles from "../styles/styles.module.css"
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import TextInput from '../../atoms/textInput';
 import LTIStyle from "./styles/styles.module.css"
 
 const LabeledTextInput = ({children, label}) => {

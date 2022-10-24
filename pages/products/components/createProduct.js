@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { iconsSVGs } from '../../../assets/images/icons';
 import Button from '../../../components/atoms/Button';
 import DropDown from '../../../components/atoms/DropDown';
-import TextInput from '../../../components/atoms/textInput';
+import TextInput from '../../../components/atoms/TextInput';
 import DatePicker from '../../../components/molecules/DatePicker';
 import LabeledTextInput from '../../../components/molecules/LabeledTextInput';
 import styles from "./../styles/styles.module.css";

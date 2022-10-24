@@ -4,7 +4,7 @@ import { useRouter } from 'next/dist/client/router';
 import { useState } from 'react/cjs/react.development';
 import Button from '../../../components/atoms/Button';
 import DropDown from '../../../components/atoms/DropDown';
-import TextInput from '../../../components/atoms/textInput';
+import TextInput from '../../../components/atoms/TextInput';
 import LabeledTextInput from '../../../components/molecules/LabeledTextInput';
 import { stateLGAs, states } from '../../../constants';
 import caStyles from "../styles/styles.module.css"

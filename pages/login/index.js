@@ -7,7 +7,7 @@ import Button from "../../components/atoms/Button";
 import CheckBox from "../../components/atoms/CheckBox";
 import ErrorBox from "../../components/atoms/ErrorBox";
 import PasswordInput from "../../components/atoms/PasswordInput";
-import TextInput from "../../components/atoms/textInput";
+import TextInput from "../../components/atoms/TextInput";
 import LabeledTextInput from "../../components/molecules/LabeledTextInput";
 import loginStyles from "./styles/styles.module.css";
 
