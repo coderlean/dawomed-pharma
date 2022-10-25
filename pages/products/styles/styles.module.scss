@@ -687,6 +687,13 @@ width: max-content;
     }
 }
 
+.loaderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px;
+}
+
 .couponItem {
     color: #444444;
     font-size: 14px;

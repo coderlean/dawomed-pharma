@@ -3,11 +3,17 @@ import React from 'react';
 import loggedInLayoutStyles from '../styles/styles.module.css';
 import searchIcon from "../../../../assets/images/search.svg";
 import { useRouter } from 'next/router';
+import {useCookies} from "react-cookie"
 
 const TopNav = ({toggleShowNotifications}) => {
     var location = useRouter().pathname;
     location = location.split("/")[1];
     const [showUserMenu, setShowUserMenu] = React.useState(false);
+    const [cookies, setCookie, removeCookie] = useCookies(["user"])
+    const router = useRouter()
+    const user = JSON.parse(localStorage.getItem("user"))
+
+    console.log({user});
 
     const toggleUserMenu = () => {
         if (showUserMenu){
@@ -17,15 +23,20 @@ const TopNav = ({toggleShowNotifications}) => {
         }
     }
 
+    const signUserOut = () => {
+        removeCookie(['Token'],{path:'/'})
+        router.push("/login")
+    }
+
     return <nav className={loggedInLayoutStyles.topNav}>
         {
             showUserMenu && <div className={[loggedInLayoutStyles.userMenu]}>
-            <h6>HealthMax Pharmacy</h6>
+            <h6>{user.pharmacyName}</h6>
 
             <div>
                 <Link href='/account'>Account</Link>
                 <hr/>
-                <p>Sign Out</p>
+                <p onClick={() => signUserOut()}>Sign Out</p>
             </div>
         </div>
         }
@@ -103,7 +114,7 @@ const TopNav = ({toggleShowNotifications}) => {
 
             <div className='displayFlex alignCenter cursorPointer' onClick={() => toggleUserMenu()}>
                 <img />
-                <p className='font14 mr10'>Health Max</p>
+                <p className='font14 mr10'>{user.pharmacyName}</p>
                 
                 <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1.75744 0.817871L0.696777 1.87853L6.00006 7.18185L11.3034 1.87855L10.2427 0.817893L6.00008 5.06052L1.75744 0.817871Z" fill="white"/>

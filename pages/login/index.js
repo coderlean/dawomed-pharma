@@ -10,11 +10,16 @@ import PasswordInput from "../../components/atoms/PasswordInput";
 import TextInput from "../../components/atoms/TextInput";
 import LabeledTextInput from "../../components/molecules/LabeledTextInput";
 import loginStyles from "./styles/styles.module.css";
+import {useCookies} from "react-cookie"
+import Loader from "../../components/atoms/Loader";
+import ButtonLoader from "../../components/atoms/ButtonLoader";
 
 const Login = () => {
   const router = useRouter()
   const [loginDetails, setLoginDetails] = useState({})
   const [errorMessage, setErrorMessage] = useState("")
+  const [cookies, setCookie] = useCookies(["user"])
+  const [loggingIn, setLoggingIn] = useState(false)
 
   const updateLoginDetails = (updateLoginDetailsEvent) => {
     const field = updateLoginDetailsEvent.target.name
@@ -33,22 +38,26 @@ const Login = () => {
     } else if (!loginDetails.password){
       setErrorMessage("Enter your password")
     } else {
+      setLoggingIn(true)
       logUserIn()
     }
   }
 
   const logUserIn = async () => {
     setErrorMessage("")
+    const userLoginDetails = {type: "pharmacy", ...loginDetails}
     try {
       const logInRequest = await fetch("http://localhost:5000/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(loginDetails)
+        body: JSON.stringify(userLoginDetails)
       })
 
       const loginResponse = await logInRequest.json()
+
+      setLoggingIn(false)
 
       if (loginResponse.success && loginResponse.success === true) {
         const {token, user} = loginResponse
@@ -67,6 +76,8 @@ const Login = () => {
   const saveUserCredentials = (token, user) => {
     localStorage.setItem("userToken", token)
     localStorage.setItem("user", JSON.stringify(user))
+
+    setCookie('Token', token, { path: '/' });
 
     goToHome()
   }
@@ -87,6 +98,8 @@ const Login = () => {
           <Button label="CREATE AN ACCOUNT" theme="outline" onButtonClick={() => router.push("/create-account")} />
         </Link>
       </nav>
+
+
 
       <main className="centerSelfHorizontal displayFlex flexColumn centerColumnHorizontal">
         <svg
@@ -137,6 +150,7 @@ const Login = () => {
         }
 
         <form onChange={event => updateLoginDetails(event)} onSubmit={event => validateDetails(event)} >
+            <fieldset disabled={loggingIn}>
             <LabeledTextInput label="Email">
                 <TextInput name="email" placeholder="care@dawomed.com" type="email" />
             </LabeledTextInput>
@@ -153,11 +167,16 @@ const Login = () => {
                 <label>Remember Me</label>
             </CheckBox>
 
-            <Button theme="solid" label="CONTINUE" />
+            <button disabled={loggingIn} className={loginStyles.continueButton}>CONTINUE
+            {
+              loggingIn && <ButtonLoader />
+            }
+            </button>
 
             <div className="displayFlex centerRowHorizontal">
             <Link href="/forgot-password">CANNOT REMEMBER YOUR PASSWORD?</Link>
             </div>
+            </fieldset>
         </form>
       </main>
     </div>

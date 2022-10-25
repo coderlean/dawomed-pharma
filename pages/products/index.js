@@ -14,6 +14,7 @@ import TextInput from '../../components/atoms/TextInput';
 import DatePicker from '../../components/molecules/DatePicker';
 import ErrorBox from '../../components/atoms/ErrorBox';
 import CreateProduct from '../../components/create-product-components/components/createProduct';
+import TransparentLoader from '../../components/atoms/TransparentLoader';
 
 const getCapitalizedString  = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -43,8 +44,7 @@ const Products = () => {
     const [creatingCoupon, setCreatingCoupon] = useState(false)
     const [coupons, setCoupons] = useState([])
     const [activeCoupons, setActiveCoupons] = useState([])
-
-    console.log({coupons});
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         fetchProducts()
@@ -55,9 +55,9 @@ const Products = () => {
             const pharmacyId = JSON.parse(localStorage.getItem("user"))._id
 
             const user = JSON.parse(localStorage.getItem("user"))
-            console.log({user});
 
-            console.log({pharmacyId});
+            setLoading(true)
+
 
             const fetchProductsRequest = await fetch("http://localhost:5000/product/pharmacy/all", {
                 method: "POST",
@@ -69,7 +69,7 @@ const Products = () => {
 
             const fetchProductsResponse = await fetchProductsRequest.json()
 
-            console.log({fetchProductsResponse});
+            setLoading(false)
 
             const temp = [...products]
             temp = fetchProductsResponse.products
@@ -457,6 +457,7 @@ const Products = () => {
             </div>
 
             <div className={[styles.productsTable]}>
+                
 
                 {
                     (fetchedProducts && products.length === 0) && <div className={styles.noProductsDiv}>
@@ -477,18 +478,23 @@ const Products = () => {
 
                 {
                     activeTab !== "coupons" && <table>
+                        <thead>
+                            <tr className={styles.tableHeader}>
+                                <td>Product Image</td>
+                                <td>Product Name</td>
+                                <td>Qty (in store)</td>
+                                <td>Discount %</td>
+                                <td>Category</td>
+                                <td>Brand</td>
+                                <td>Price</td>
+                                <td>Prescription</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
                     <tbody>
-                        <tr className={styles.tableHeader}>
-                            <td>Product Image</td>
-                            <td>Product Name</td>
-                            <td>Qty (in store)</td>
-                            <td>Discount %</td>
-                            <td>Category</td>
-                            <td>Brand</td>
-                            <td>Price</td>
-                            <td>Prescription</td>
-                            <td>Action</td>
-                        </tr>
+                        
+
+                        
 
                         {
                             products.map((product, index) => <ProductTableItem mode={mode} addToDelete = {(product_id) => addProductToDelete(product_id) } setEditMode={() => {
@@ -507,7 +513,7 @@ const Products = () => {
                 </table>
                 }
 
-{
+                {
                     activeTab === "coupons" && <table>
                     <tbody>
                         <tr className={styles.tableHeader}>
@@ -520,11 +526,19 @@ const Products = () => {
                             <td>View Details</td>
                         </tr>
 
+                        
+
                         {
                             coupons.map((couponItem, index) => <CouponItem coupon={couponItem}  key={coupon._id} />)
                         }
                     </tbody>
                 </table>
+                }
+
+                {
+                    loading && <div className={styles.loaderContainer}>
+                    <TransparentLoader />
+                    </div>
                 }
             </div>
 

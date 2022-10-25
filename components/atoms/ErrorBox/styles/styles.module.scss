@@ -5,6 +5,7 @@
     background-color: rgb(129, 23, 23);
     color: white !important;
     font-size: 14px;
+    align-items: center;
 
     p {
         margin: 0px;
@@ -12,5 +13,9 @@
 
     div {
         cursor: pointer;
+    }
+
+    svg {
+        margin-left: 20px;
     }
 }

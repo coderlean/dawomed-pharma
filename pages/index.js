@@ -7,9 +7,14 @@ import Button from '../components/atoms/Button'
 import DropDown from '../components/atoms/DropDown'
 import LoggedInLayout from '../components/layouts/LoggedInLayout/loggedinLayout'
 import styles from '../styles/Home.module.css'
+import {useCookies} from "react-cookie"
+import { useRouter } from 'next/router'
 
 export default function Home() {
   const [news, setNews] = useState("")
+  const [cookies, setCookie] = useCookies(["user"])
+  const router = useRouter()
+  const [checkedLoggedIn, setCheckedLoggedIn] = useState(false)
 
   const sampleData = [
     {
@@ -58,8 +63,16 @@ export default function Home() {
   ]
 
   useEffect(() => {
+    checkLoggedIn()
     setNews(<div>News: This is what the news is</div>)
   }, [])
+
+  const checkLoggedIn = () => {
+    if (!cookies.Token){
+      router.push("/login")
+    }
+    setCheckedLoggedIn(true)
+  }
 
   const getActivityItem  = item => {
     switch (item.statusType){
@@ -108,8 +121,12 @@ export default function Home() {
         return <React.Fragment></React.Fragment>
     }
   }
+
+  if (!checkedLoggedIn) {
+    return (<div>Not logged in</div>)
+  }
   
-  return (
+  if (checkedLoggedIn){ return (
     <div className={styles.container}>
       <Head>
         <title>Dashboard | Dawomed</title>
@@ -241,7 +258,7 @@ export default function Home() {
         </div>
       </div>
     </div>
-  )
+  )}
 }
 
 const DashboardItem = ({icon, label}) => {
