@@ -7,25 +7,61 @@ import SideBar from '../../components/layouts/SideBar';
 import DropDown from '../../components/atoms/DropDown';
 import Button from '../../components/atoms/Button';
 import { getProtected } from '../../requests/getProtected';
+import {format} from "date-fns"
+import TransparentLoader from '../../components/atoms/TransparentLoader';
+import { postProtected } from '../../requests/postProtected';
+import { putProtected } from '../../requests/putProtected';
+import { useRouter } from 'next/router';
+import ErrorBox from '../../components/atoms/ErrorBox';
+import SuccessBox from '../../components/atoms/SuccessBox';
 
 const getStatusStyle = (status) => {
     switch (status){
-        case "pending":
+        case "Pending":
             return styles.pending
-        case "processing":
+        case "Processing":
             return styles.processing
-        case "declined":
+        case "Canceled":
             return styles.declined
-        case "returned":
+        case "Returned":
             return styles.returned
-        case "ready for delivery":
+        case "Ready":
             return styles.readyForDelivery
-        case "ready for pickup":
+        case "Picked Up":
             return styles.readyForPickup
         default:
             return styles.completed
     }
 }
+
+export const formatter = new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+  
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  });
+
+  const orderStatusMapping = {
+    pending : 0,
+    processing : 1,
+    ready : 2,
+    picked_up : 3,
+    delivered : 4,
+    completed: 5,
+    canceled : 6,
+    returned : 7
+  }
+
+  const order_statuses = ["Pending",
+    "Processing",
+    "Ready",
+    "Picked up",
+    "Delivered",
+    "Completed",
+    'Canceled' ,
+    "Returned"]
 
 
 const Products = () => {
@@ -34,24 +70,72 @@ const Products = () => {
     const [orders, setOrders] = useState([])
     const [allOrders, setAllOrders] = useState([])
     const [selectedOrder, setSelectedOrder] = useState({})
+    const [fetchingOrders, setFetchingOrders] = useState(true)
+    const [newStatus, setNewStatus] = useState("")
+    const router = useRouter()
+    const [sidebar_error, set_sidebar_error] = useState("")
+    const [sidebar_success, set_sidebar_success] = useState("")
+    const [updating_status, set_updating_status] = useState(false)
+
+   
+
 
     useEffect(() => {
-        setOrders(sampleOrders)
-        setAllOrders(sampleOrders)
+        if (router?.query?.id) {
+            getOrder(router?.query?.id)
+        }
+        
+    }, [router])
+
+    const getOrder = async (id) => {
+        try {
+           const order = await getProtected(`orders/${id}`) 
+
+           if (order && order.status && order.status === "OK") {
+            let temp = {...selectedOrder}
+            temp = order.data
+            setSelectedOrder(temp)
+           }
+
+           console.log({order});
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+
+    const orderStatuses = ["pending", "processing", "completed", "ready", "cancelled", "declined", "returned"]
+
+    useEffect(() => {
         fetchOrders()
     }, [])
 
+    const getFormattedDate = orderDate => {
+
+        const date = new Date(orderDate)
+
+        return format(date, "PP")
+    }
+
     const setCurrentTab = (currentTab) => {
         var tempOrders = allOrders
-        tempOrders = tempOrders.filter(order => order.status.toLowerCase() === currentTab)
+        tempOrders = tempOrders.filter(order => String(order_statuses[order.status]).toLowerCase() === currentTab)
         setOrders(tempOrders)
     }
 
     const fetchOrders = async () => {
+        setFetchingOrders(true)
         const pharmacy = JSON.parse(localStorage.getItem("user"))
         console.log({pharmacy});
         try {
             const ordersList = await getProtected(`orders/pharmacy/all/${pharmacy._id}`)
+
+            setFetchingOrders(false)
+
+            console.log({ordersList});
+
+            setOrders(ordersList.data)
+            setAllOrders(ordersList.data)
         } catch (error) {
             console.log(error);
         }
@@ -67,13 +151,22 @@ const Products = () => {
             case "pending":
                 setCurrentTab("pending")
                 break;
-            case "declined":
-                setCurrentTab("declined")
+            case "canceled":
+                setCurrentTab("canceled")
+                break;
+                case "processing":
+                setCurrentTab("processing")
                 break;
             case "ready":
                 setCurrentTab("ready")
                 break;
-            case "returns":
+                case "picked up":
+                setCurrentTab("picked up")
+                break;
+                case "delivered":
+                setCurrentTab("delivered")
+                break;
+            case "returned":
                 setCurrentTab("returned")
                 break;
             case "completed":
@@ -95,6 +188,42 @@ const Products = () => {
         } else {
             return (selectedOrder.price * selectedOrder.quantity) + selectedOrder.deliveryFee
         }
+    }
+
+    const handleStatusChange = e => {
+        setNewStatus(e.target.value)
+    }
+
+    const saveNewStatus = e => {
+        try {
+            const saveNewStatusRequest = postProtected("")
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const updateOrderStatus = async event => {
+        event.preventDefault()
+        set_updating_status(true)
+        set_sidebar_success("")
+        set_sidebar_error("")
+
+        const value = event.target[0].value
+
+        const updateOrderStatusRequest = await putProtected(`orders/status/${selectedOrder._id}`, {new_status : value})
+
+        set_updating_status(false)
+        if (updateOrderStatusRequest && updateOrderStatusRequest.status === "OK") {
+            set_sidebar_success("Successfully updated order status.")
+            fetchOrders()
+
+            let temp = {...selectedOrder}
+            selectedOrder.status = value
+            setSelectedOrder(temp)
+        } else {
+            set_sidebar_error(updateOrderStatusRequest.error.message)
+        }
+
     }
 
 
@@ -124,27 +253,27 @@ const Products = () => {
                             <tr>
                                 <td className={styles.leftCell}>Order Date:</td>
 
-                                <td className={styles.rightCell}>{selectedOrder.dateOrdered}</td>
+                                <td className={styles.rightCell}>{getFormattedDate(selectedOrder.orderDate)}</td>
                             </tr>
 
                             <tr>
                                 <td className={styles.leftCell}>Customer Name:</td>
 
-                                <td className={styles.rightCell}>{selectedOrder.customer.name}</td>
+                                <td className={styles.rightCell}>{`${selectedOrder.customerDetails.contact_details.first_name} ${selectedOrder.customerDetails.contact_details.last_name}`}</td>
                             </tr>
 
                             <tr>
                                 <td className={styles.leftCell}>Phone:</td>
 
-                                <td className={styles.rightCell}>{selectedOrder.customer.phoneNumber}</td>
+                                <td className={styles.rightCell}>{selectedOrder.customerDetails?.contact_details?.phoneNumber}</td>
                             </tr>
 
-                            <tr>
+                            {/* <tr>
                                 <td className={styles.leftCell}>Payment Method:</td>
 
                                 <td className={styles.rightCell}>{selectedOrder.paymentMethod}</td>
-                            </tr>
-
+                            </tr> */}
+{/* 
                             <tr>
                                 <td className={styles.leftCell}>Item Name:</td>
 
@@ -155,15 +284,59 @@ const Products = () => {
                                 <td className={styles.leftCell}>Quantity:</td>
 
                                 <td className={styles.rightCell}>{selectedOrder.quantity}</td>
-                            </tr>
+                            </tr> */}
 
                             <tr>
                                 <td className={styles.leftCell}>Order Status:</td>
 
-                                <td className={styles.rightCell}><span><label className={[styles.status, "m0", getStatusStyle(selectedOrder.status)].join(" ")}>{selectedOrder.status.slice(0,1).toUpperCase() + selectedOrder.status.slice(1)}</label></span></td>
+                                <td className={styles.rightCell}><span><label className={[styles.status, "m0", getStatusStyle(order_statuses[selectedOrder.status])].join(" ")}>{order_statuses[selectedOrder.status].slice(0,1).toUpperCase() + order_statuses[selectedOrder.status].slice(1)}</label></span></td>
                             </tr>
 
-                            {
+                            <tr>
+                                <td className={styles.leftCell}>Items Ordered:</td>
+
+                                <td className={styles.rightCell}>
+                                    <table className={styles.productsTable}>
+                                        <thead>
+                                            <tr>
+                                                <td>
+                                                    Name
+                                                </td>
+
+                                                <td>
+                                                    Quantity
+                                                </td>
+
+                                                <td>
+                                                    Price 
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                selectedOrder.products.map((item, index) => <tr key={index}>
+
+                                                    <td>
+                                                        {item?.productId?.name}
+                                                    </td>
+
+                                                    <td>
+                                                        {item.quantity_requested}
+                                                    </td>
+
+                                                    <td>
+                                                        {formatter.format(item.productId.price)}
+                                                    </td>
+
+
+                                                </tr>)
+                                            }
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            {/* {
                                 selectedOrder.deliveryMethod !== "Pick Up" && <>
                                 <tr>
                                 <td className={styles.leftCell}>Delivery Merchant:</td>
@@ -183,13 +356,13 @@ const Products = () => {
                                 <td className={styles.rightCell}>{selectedOrder.deliveryFee}</td>
                             </tr>
                                 </>
-                            }
+                            } */}
 
-                            <tr>
+                            {/* <tr>
                                 <td className={styles.leftCell}>Price:</td>
 
                                 <td className={styles.rightCell}>{selectedOrder.price}</td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </table>
 
@@ -200,7 +373,7 @@ const Products = () => {
                         <tr>
                                 <td className={styles.leftCell}>Total:</td>
 
-                                <td className={styles.total}>{`N ${getTotal(selectedOrder)}`}</td>
+                                <td className={styles.total}>{formatter.format(selectedOrder.totalAmount)}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -209,8 +382,30 @@ const Products = () => {
                 </div>
 
                 <footer className={["displayFlex alignCenter", styles.sidebarFooter].join(" ")}>
-                        <DropDown options={["Pending", "Processing", "Completed", "Ready for Delivery/Pick up", "Cancelled", "Declined"]} placeholder={selectedOrder.status.slice(0,1).toUpperCase() + selectedOrder.status.slice(1)} defaultValue={selectedOrder.status.slice(0,1).toUpperCase() + selectedOrder.status.slice(1)} onChange={(e) => handleStatusChange(e)} />
+                    <div>
+                        {
+                            sidebar_error && <ErrorBox errorMessage={sidebar_error} hideClose={true}  />
+                        }
+
+                        {
+                            sidebar_success && <SuccessBox successMessage={sidebar_success} noClose={true} />
+                        }
+                        
+                    </div>
+                    <form disabled={updating_status} onSubmit={event => updateOrderStatus(event)}>
+                    <select disabled={updating_status}>
+                        <option value={0} disabled selected>Pending</option>
+                        <option value={1} disabled={selectedOrder.status >= 1 || selectedOrder.status > 4}>Processing</option>
+                        <option value={2} disabled={selectedOrder.status >= 2 || selectedOrder.status > 4}>Ready</option>
+                        <option value={3} disabled={selectedOrder.status >= 3 || selectedOrder.status > 4} >Picked Up</option>
+                        <option value={4} disabled={selectedOrder.status >= 4 || selectedOrder.status > 4}>Delivered</option>
+                        <option value={5} disabled={selectedOrder.status > 4}>Completed</option>
+                        <option value={6} disabled={selectedOrder.status > 4}>Canceled</option>
+                        <option value={7} disabled={selectedOrder.status > 4}>Returned</option>
+                    </select>
+                        {/* <DropDown options={order_statuses} placeholder={order_statuses[selectedOrder.status].slice(0,1).toUpperCase() + order_statuses[selectedOrder.status].slice(1)} defaultValue={order_statuses[selectedOrder.status].slice(0,1).toUpperCase() + order_statuses[selectedOrder.status].slice(1)} onChange={(e) => handleStatusChange(e)} /> */}
                         <Button label={"Submit"} theme={"solid"} />
+                    </form>
                     </footer>
             </SideBar>
             }
@@ -229,13 +424,19 @@ const Products = () => {
 
                     <p className={activeTab === "pending" ? styles.active : styles.inactive} onClick={() => setTab("pending")}>Pending</p>
 
-                    <p className={activeTab === "declined" ? styles.active : styles.inactive} onClick={() => setTab("declined")}>Declined</p>
+                    <p className={activeTab === "processing" ? styles.active : styles.inactive} onClick={() => setTab("processing")}>Processing</p>
 
-                    <p className={activeTab === "ready" ? styles.active : styles.inactive} onClick={() => setTab("ready")}>Ready for Pick Up</p>
+                    <p className={activeTab === "canceled" ? styles.active : styles.inactive} onClick={() => setTab("canceled")}>Canceled</p>
+
+                    <p className={activeTab === "picked up" ? styles.active : styles.inactive} onClick={() => setTab("picked up")}>Picked Up</p>
+
+                    <p className={activeTab === "delivered" ? styles.active : styles.inactive} onClick={() => setTab("delivered")}>Delivered</p>
+
+                    <p className={activeTab === "ready" ? styles.active : styles.inactive} onClick={() => setTab("ready")}>Ready</p>
 
                     <p className={activeTab === "completed" ? styles.active : styles.inactive} onClick={() => setTab("completed")}>Completed</p>
 
-                    <p className={activeTab === "returns" ? styles.active : styles.inactive} onClick={() => setTab("returns")}>Returns</p>
+                    <p className={activeTab === "returned" ? styles.active : styles.inactive} onClick={() => setTab("returned")}>Returned</p>
                 </div>
             </header>
 
@@ -258,26 +459,33 @@ const Products = () => {
 
             <div className={[styles.productsTable]}>
                 <table>
-                    <tbody>
-                        <tr className={styles.tableHeader}>
+                    <thead>
+                    <tr className={styles.tableHeader}>
                             <td>REF</td>
-                            <td>ITEM NAME</td>
+
                             <td>CUSTOMER</td>
                             <td>DATE ORDERED</td>
                             <td>DELIVERY METHOD</td>
-                            <td>PRICE</td>
-                            <td>QTY</td>
                             <td>TOTAL</td>
                             <td>STATUS</td>
                             <td>DELIVERY DATE</td>
                             <td>Action</td>
                         </tr>
+                    </thead>
+                    <tbody>
+                        
 
                         {
                             orders.map((order, index) => <OrderTableItem order={order} key={order._id} setSelectedOrder={() => setSelectedOrder(order)} />)
                         }
                     </tbody>
                 </table>
+
+                {
+                    fetchingOrders && <div>
+                    <TransparentLoader />
+                </div>
+                }
             </div>
 
         </div>
@@ -294,6 +502,14 @@ Products.getLayout = function getLayout (page) {
 export default Products
 
 const OrderTableItem = ({ order, setSelectedOrder }) => {
+    const getFormattedDate = orderDate => {
+
+        const date = new Date(orderDate)
+
+        return format(date, "PP")
+    }
+
+    
 
 
     return (
@@ -302,40 +518,30 @@ const OrderTableItem = ({ order, setSelectedOrder }) => {
                 <p>{order._id}</p>
             </td>
 
+
             <td>
-                <p>{order.itemName}</p>
+                <p>{`${order?.customerDetails?.contact_details?.first_name} ${order?.customerDetails?.contact_details?.last_name}`}</p>
             </td>
 
             <td>
-                <p>{order.customer.name}</p>
+                <p>{getFormattedDate(order.orderDate)}</p>
             </td>
 
             <td>
-                <p>{order.dateOrdered}</p>
+                <p>{"Pick Up"}</p>
             </td>
 
-            <td>
-                <p>{order.deliveryMethod}</p>
-            </td>
 
             <td>
-                <p>{order.price}</p>
-            </td>
-
-            <td>
-                <p>{order.quantity}</p>
-            </td>
-
-            <td>
-                <p>{order.price * order.quantity}</p>
+                <p>{formatter.format(order.totalAmount)}</p>
             </td>
             
             <td>
-                <label className={[styles.status, getStatusStyle(order.status)].join(" ")}>{order.status[0].toUpperCase() + order.status.substr(1)}</label>   
+                <label className={[styles.status, getStatusStyle(order_statuses[order.status])].join(" ")}>{String(order_statuses[order.status])[0].toUpperCase() + String(order_statuses[order.status]).substr(1)}</label>   
             </td>
 
             <td>
-                <p>{order.deliveryDate}</p>
+                <p>{"-"}</p>
             </td>
 
             <td>
@@ -346,151 +552,3 @@ const OrderTableItem = ({ order, setSelectedOrder }) => {
         </tr>
     )
 }
-
-const sampleOrders = [
-    {
-        itemName: "Azithromycin",
-        quantity: 10,
-        discountPercentage: 10,
-        category: "Antibiotics",
-        brand: "Emzor",
-        price: 2500,
-        prescription: false,
-        rating: 3,
-        _id: 1,
-        customer: {
-            name: "John Doe",
-            phoneNumber: "08104898400",
-            deliveryAddress: "20, Adeola Hopewell Street, Victoria Island, Lagos"
-        },
-        dateOrdered : Date.now(),
-        deliveryMethod : "Gokada",
-        status: "pending",
-        deliveryDate: Date.now(),
-        paymentMethod: "Debit Card",
-        paymentMerchant: "Visa",
-        deliveryFee: 1500
-    },
-
-    {
-        itemName: "Lincomycin",
-        quantity: 1,
-        discountPercentage: 10,
-        category: "Antibiotics",
-        brand: "Emzor",
-        price: 1500,
-        prescription: false,
-        rating: 3,
-        _id: 2,
-        customer: {
-            name: "Chioma Jesus",
-            phoneNumber: "08104898400",
-            deliveryAddress: "20, Adeola Hopewell Street, Victoria Island, Lagos"
-        },
-        dateOrdered : Date.now(),
-        deliveryMethod : "MaxNG",
-        status: "pending",
-        deliveryDate: Date.now(),
-        paymentMethod: "Debit Card",
-        paymentMerchant: "Visa",
-        deliveryFee: 1500
-    },
-
-    {
-        itemName: "Panadol",
-        quantity: 2,
-        discountPercentage: 10,
-        category: "Pain killer",
-        brand: "Emzor",
-        price: 200,
-        prescription: false,
-        rating: 3,
-        _id: 3,
-        customer: {
-            name: "Abdulkadir Ahmed",
-            phoneNumber: "08104898400",
-            deliveryAddress: "20, Adeola Hopewell Street, Victoria Island, Lagos"
-        },
-        dateOrdered : Date.now(),
-        deliveryMethod : "Pick Up",
-        status: "completed",
-        deliveryDate: Date.now(),
-        paymentMethod: "Debit Card",
-        paymentMerchant: "Visa",
-        deliveryFee: 1500
-    },
-
-    {
-        itemName: "Ventolin",
-        quantity: 1,
-        discountPercentage: 10,
-        category: "Inhaler",
-        brand: "Emzor",
-        price: 2800,
-        prescription: false,
-        rating: 3,
-        _id: 4,
-        customer: {
-            name: "Bunmi Adeosun",
-            phoneNumber: "08104898400",
-            deliveryAddress: "20, Adeola Hopewell Street, Victoria Island, Lagos"
-        },
-        dateOrdered : Date.now(),
-        deliveryMethod : "Gokada",
-        status: "returned",
-        deliveryDate: Date.now(),
-        paymentMethod: "Debit Card",
-        paymentMerchant: "Visa",
-        deliveryFee: 1500
-    },
-
-    {
-        itemName: "Voltfast 100mg",
-        quantity: 2,
-        discountPercentage: 10,
-        category: "Pain Killer",
-        brand: "Emzor",
-        price: 800,
-        prescription: false,
-        rating: 3,
-        _id: 5,
-        customer: {
-            name: "Tara Holmes",
-            phoneNumber: "08104898400",
-            deliveryAddress: "20, Adeola Hopewell Street, Victoria Island, Lagos"
-        },
-        dateOrdered : Date.now(),
-        deliveryMethod : "Pick Up",
-        status: "declined",
-        deliveryDate: Date.now(),
-        paymentMethod: "Debit Card",
-        paymentMerchant: "Visa",
-        deliveryFee: 1500
-    },
-
-    // {
-    //     itemName: "Lonart DS",
-    //     quantity: 2,
-    //     discountPercentage: 10,
-    //     category: "Antimalarial",
-    //     brand: "Emzor",
-    //     price: 2250,
-    //     prescription: false,
-    //     rating: 3,
-    //     _id: 5,
-    //     customer: {
-    //         name: "Kenny Laja",
-    //         phoneNumber: "08104898400",
-    //         deliveryAddress: "20, Adeola Hopewell Street, Victoria Island, Lagos"
-    //     },
-    //     dateOrdered : Date.now(),
-    //     deliveryMethod : "Pick Up",
-    //     status: "processing",
-    //     deliveryDate: Date.now(),
-    //     paymentMethod: "Debit Card",
-    //     paymentMerchant: "Visa",
-    //     deliveryFee: 1500
-    // },
-
-
-]

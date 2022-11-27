@@ -881,3 +881,173 @@
 
 
 }
+
+
+.requestModalContainer {
+    display: flex;
+      width: 50%;
+  
+      &>div {
+        flex: 1;
+      }
+  
+      &>span {
+        cursor: pointer;
+      }
+  }
+
+  .requestPayoutModal {
+    background-color: white;
+    width: 50%;
+    box-sizing: border-box;
+  
+  
+    header {
+      padding: 0px;
+    }
+  
+    h2 {
+      margin: 0px;
+      padding: 20px;
+      color: #1d1272;
+    }
+  
+    form {
+      & > div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+  
+        .disabledField {
+          background-color: rgb(237, 237, 237);
+        }
+  
+        & > div {
+          width: 48%;
+          display: flex;
+          flex-direction: column;
+  
+          label {
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #444444;
+          }
+  
+          div {
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            border-style: none;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #999999;
+  
+            input {
+              flex: 1;
+              border-style: none;
+            }
+  
+            p {
+              margin: 0px;
+              color: rgb(71, 71, 71);
+            }
+          }
+        }
+      }
+    }
+  
+    hr {
+      margin: 0px;
+      border-style: none;
+      border-top-style: solid;
+      border-top-width: 1px;
+      border-top-color: rgb(222, 222, 222);
+    }
+  
+    button {
+      width: 100%;
+      padding: 15px;
+      border-style: none;
+      background-color: #1d1272;
+      color: white;
+      box-sizing: border-box;
+      cursor: pointer;
+  
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      p {
+        margin: 0px;
+      }
+    }
+  }
+  
+  .payoutSuccess {
+    width: 40%;
+    background-color: white;
+  
+    header {
+      background-color: #29bc9b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+  
+    button {
+      width: 100%;
+      border-style: none;
+      cursor: pointer;
+      border-top-style: solid;
+      border-top-width: 1px;
+      border-top-color: rgb(219, 219, 219);
+      background-color: white;
+      padding: 20px;
+      color: #626262;
+  
+      &:hover {
+        background-color: #f7f7f7;
+      }
+    }
+  
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+  
+      p {
+        margin: 0px;
+      }
+  
+      p:nth-child(1) {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 32px;
+        /* identical to box height, or 178% */
+  
+        display: flex;
+        align-items: center;
+        text-align: center;
+  
+        /* Geist theme/Gray/foreground */
+  
+        color: #000000;
+        margin-bottom: 15px;
+      }
+  
+      p:nth-child(2) {
+        font-weight: 400;
+        color: #717171;
+        text-align: center;
+      }
+    }
+  }
+  

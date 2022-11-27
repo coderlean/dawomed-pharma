@@ -131,7 +131,23 @@ export  const iconsSVGs = {
 
     miniGreyClipboard: <svg width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M8 1.2963H7.83333V1.01852C7.83333 0.814815 7.68333 0.740741 7.5 0.740741H5.66667C5.66667 0.185185 5.36817 0 5 0C4.63183 0 4.33333 0.185185 4.33333 0.740741H2.5C2.31667 0.740741 2.16667 0.814815 2.16667 1.01852V1.2963H2C0.897167 1.2963 0 2.20056 0 3.42593V12.6852C0 13.9106 0.897167 15 2 15H8C9.10283 15 10 13.9106 10 12.6852V3.42593C10 2.20056 9.10283 1.2963 8 1.2963ZM5 0.277778C5.184 0.277778 5.33333 0.443704 5.33333 0.648148C5.33333 0.852593 5.184 1.01852 5 1.01852C4.816 1.01852 4.66667 0.852593 4.66667 0.648148C4.66667 0.443704 4.816 0.277778 5 0.277778ZM9.33333 12.6852C9.33333 13.502 8.73517 14.2593 8 14.2593H2C1.26483 14.2593 0.666667 13.502 0.666667 12.6852V3.42593C0.666667 2.60907 1.26483 2.03704 2 2.03704H2.16667L2 2.77778C2 2.98148 2.15 3.14815 2.33333 3.14815H7.66667C7.85 3.14815 8 2.98148 8 2.77778L7.83333 2.03704H8C8.73517 2.03704 9.33333 2.60907 9.33333 3.42593V12.6852Z" fill="#C1C1C1"/>
+    </svg>,
+
+    payoutSuccess :  <svg width="220" height="64" viewBox="0 0 220 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M125.667 29.546V31.9993C125.664 37.7498 123.802 43.3451 120.358 47.9508C116.915 52.5566 112.076 55.9259 106.561 57.5564C101.047 59.1868 95.1529 58.991 89.7588 56.9982C84.3646 55.0054 79.7592 51.3222 76.6294 46.4982C73.4995 41.6741 72.0129 35.9675 72.3913 30.2295C72.7697 24.4915 74.9927 19.0295 78.7289 14.6582C82.4651 10.2868 87.5143 7.24033 93.1233 5.97304C98.7324 4.70574 104.601 5.28554 109.854 7.62598" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M125.667 10.667L99 37.3603L91 29.3603" stroke="white" stroke-Width="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M42 5V13" stroke="#CFDFFE" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M38 9L46 9" stroke="#CFDFFE" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M6 32V40" stroke="#AAFFEC" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M2 36L10 36" stroke="#AAFFEC" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M182 24V32" stroke="#F7B955" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M178 28L186 28" stroke="#F7B955" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx="217" cy="52" r="3" fill="#DDD9FE"/>
+    <circle cx="155" cy="58" r="3" fill="#DDD9FE"/>
+    <circle cx="41" cy="58" r="3" fill="#F7B955"/>
+    <circle cx="147.5" cy="4.5" r="4.5" fill="#D2E9FF"/>
     </svg>
+    
     
     
     

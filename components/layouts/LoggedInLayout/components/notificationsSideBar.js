@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { iconsSVGs } from '../../../../assets/images/icons';
+import { getProtected } from '../../../../requests/getProtected';
 import styles from '../styles/styles.module.css';
+import {format} from "date-fns"
+import { useRouter } from 'next/router';
 
 const NotificationsSideBar = ({toggleShowNotifications}) => {
+    const [notifications, setNotifications] = useState([])
+    useEffect(() => {
+        fetchPharmacyNotifications()
+    }, [])
     const sampleData = [
         {
           customerName: "John Doe",
@@ -49,13 +56,32 @@ const NotificationsSideBar = ({toggleShowNotifications}) => {
         }
       ]
 
+    const fetchPharmacyNotifications = async () => {
+        try {
+          const notificationsList = await getProtected(`pharmacies/notifications`)
+    
+          let temp = [...notifications]
+          temp = notificationsList.data
+          setNotifications(temp)
+        } catch (error) {
+          console.log({error});
+        }
+      }
+    
+      console.log({notifications});
+    
+
     const getNotificationData = item => {
-        switch (item.statusType) {
-            case "new order":
+        console.log({item});
+        switch (item.activity) {
+            case "New Order":
                 return {
                     icon: iconsSVGs.shoppingCart,
                     title: "New Order!",
-                    text: `New order for item ${item.productName} on ${item.date}`
+                    text: `You have received a new order. `,
+                    date: item.date,
+                    id: item.orderID._id,
+                    type: "New Order"
                 }
             case "return":
                 return {
@@ -90,13 +116,13 @@ const NotificationsSideBar = ({toggleShowNotifications}) => {
                 <header>
                     <div className='displayFlex alignCenter p20'>
                     <h3>Notifications</h3>
-                    <label>5</label>
+                    <label>{notifications.length}</label>
                     </div>
                 </header>
 
                 <div className='pb20'>
                     {
-                        sampleData.map((item, index) => <NotificationItem key={index} data={getNotificationData(item)} />)
+                        notifications.map((item, index) => <NotificationItem key={index} data={getNotificationData(item)} />)
                     }
                 </div>
 
@@ -106,16 +132,40 @@ const NotificationsSideBar = ({toggleShowNotifications}) => {
 }
 
 const NotificationItem = ({data}) => {
+    console.log({data});
+    const [date, setDate] = useState("")
+    const router = useRouter()
+
+    useEffect(() => {
+        setNotificationDate()
+    }, [])
+
+    const setNotificationDate = () => {
+        console.log("date", data.date);
+        const notificationDate = new Date(data.date)
+        console.log(data.date);
+        setDate(format(notificationDate, "PPP"))
+    }
+
+    const handleClick = () => {
+        switch (data.type) {
+            case "New Order": 
+                router.push(`/orders?id=${data.id}`)
+        }
+    }
+    
+    
     if (Object.entries(data).length === 0) {
         return <></>
     } else {
-        return <div className={[styles.notificationBarItem, "displayFlex alignCenter"].join(" ")}>
+        return <div onClick={() => handleClick()} className={[styles.notificationBarItem, "displayFlex alignCenter"].join(" ")}>
         <div className={styles.icon}>
             {data.icon}
         </div>
         <div>
             <h4>{data.title}</h4>
             <p>{data.text}</p>
+            <p className={styles.notificationDate}>{date}</p>
         </div>
 
         <label>View Details</label>

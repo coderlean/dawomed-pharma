@@ -20,6 +20,10 @@ const LoggedInLayout = ({ children }) => {
     }
 
     useEffect(() => {
+        	setShowNotifications(false)
+    }, [router])
+
+    useEffect(() => {
         checkLoggedIn()
         
     })

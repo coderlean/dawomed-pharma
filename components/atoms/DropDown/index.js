@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import dropDownStyle from "./styles/styles.module.css"
 
-const DropDown = ({placeholder, defaultValue, options, name}) => {
+const DropDown = ({placeholder, defaultValue, options, name, onChange}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState("")
 
@@ -27,7 +27,7 @@ const DropDown = ({placeholder, defaultValue, options, name}) => {
     }, [])
 
     return (
-        <div className={dropDownStyle.dropdown} onClick={() => handleClick()}>
+        <div  className={dropDownStyle.dropdown} onClick={() => handleClick()}>
             {/* <div className={dropDownStyle.selectedBox}>
                 <p>{selectedOption !== "" ? selectedOption : placeholder}</p>
                 {

@@ -9,12 +9,77 @@ import LoggedInLayout from '../components/layouts/LoggedInLayout/loggedinLayout'
 import styles from '../styles/Home.module.css'
 import {useCookies} from "react-cookie"
 import { useRouter } from 'next/router'
+import { getProtected } from '../requests/getProtected'
+import Modal from '../components/layouts/Modal'
+import ButtonLoader from '../components/atoms/ButtonLoader'
+import ErrorBox from '../components/atoms/ErrorBox'
+import { postProtected } from '../requests/postProtected'
+import SuccessBox from '../components/atoms/SuccessBox'
+import { iconsSVGs } from '../assets/images/icons'
+import { Line } from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
 export default function Home() {
   const [news, setNews] = useState("")
   const [cookies, setCookie] = useCookies(["user"])
   const router = useRouter()
   const [checkedLoggedIn, setCheckedLoggedIn] = useState(false)
+  const [requestingPayout, setRequestingPayout] = useState(false)
+  const [payoutErrorMessage, setPayoutErrorMessage] = useState("")
+  const [payoutSuccess, setPayoutSuccess] = useState(false)
+  const [payingOut, setPayingOut] = useState(false)
+  const [saleStats, setSaleStats] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
+  const [notifications, setNotifications] = useState([])
+  const [pharmacyData, setPharmacyData] = useState({
+    balance : "",
+    sales: "",
+    returns : "",
+    escrow : ""
+  })
+
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+
+  const options = {
+    responsive: true,
+  plugins: {
+
+    title: {
+      display: false,
+      text: 'Chart.js Line Chart',
+    },
+  },
+  }
+
+  const labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September" , "October", "November", "December"]
+
+  const statsData = {
+    labels,
+    datasets : [
+      {
+        label: 'Sales',
+        data: saleStats,
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      }
+    ]
+  }
 
   const sampleData = [
     {
@@ -65,6 +130,7 @@ export default function Home() {
   useEffect(() => {
     checkLoggedIn()
     setNews(<div>News: This is what the news is</div>)
+    fetchPharmacyData()
   }, [])
 
   const checkLoggedIn = () => {
@@ -72,6 +138,67 @@ export default function Home() {
       router.push("/login")
     }
     setCheckedLoggedIn(true)
+  }
+
+  const fetchPharmacyData = async () => {
+    try {
+      const pharmacyData = await getProtected("pharmacies/data")
+
+      console.log({pharmacyData});
+
+      if (pharmacyData && pharmacyData.status === "OK") {
+        let temp = {...pharmacyData}
+        temp["balance"] = pharmacyData.data.balance
+        temp["sales"] = pharmacyData.data.sales
+        temp["returns"] = pharmacyData.data.returns
+        temp["escrow"] = pharmacyData.data.escrow
+        temp["bank_details"] = pharmacyData.data.bank_details
+        setPharmacyData(temp)
+
+        const salesData = Object.values(pharmacyData.data.salesStats)
+
+        temp = [...saleStats]
+        temp = salesData
+        setSaleStats(temp)
+      }
+    } catch (error) {
+      console.log({error});
+    }
+  }
+
+
+
+  const validatePayoutData = event => {
+    event.preventDefault()
+
+    const payoutAmount = event.target[3].value
+
+    if (!payoutAmount) {
+      setPayoutErrorMessage("Please enter the amount you want to be paid out.")
+    } else if (payoutAmount > pharmacyData.balance) {
+      setPayoutErrorMessage("Your requested amout is greater than your current balance.")
+    } else {
+      setPayoutErrorMessage("")
+      requestPayout(payoutAmount)
+    }
+  }
+
+  const requestPayout = async payoutAmount => {
+    try {
+      setRequestingPayout(true)
+      const requestPayout = await postProtected("pharmacies/requestPayout", {payoutAmount})
+
+      if (requestPayout && requestPayout.status === "OK") {
+        setPayoutSuccess(true)
+        setPayingOut(false)
+      } else {
+        setPayoutErrorMessage(requestPayout?.error?.message)
+      }
+
+      setRequestingPayout(false)
+    } catch (error) {
+      console.log({error});
+    }
   }
 
   const getActivityItem  = item => {
@@ -130,7 +257,114 @@ export default function Home() {
     <div className={styles.container}>
       <Head>
         <title>Dashboard | Dawomed</title>
+
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"></link>
       </Head>
+
+      {payingOut && <Modal>
+          <div className={styles.requestModalContainer}>
+          <div className={styles.requestPayoutModal}>
+            <header>
+              <h2>Request Payout</h2>
+            </header>
+
+            <hr />
+            
+            <form onSubmit={event => validatePayoutData(event)}>
+              {
+                payoutErrorMessage && <span>
+                <ErrorBox errorMessage={payoutErrorMessage} closeErrorBox={() => setPayoutErrorMessage("")} />
+              </span>
+              }
+
+              <div>
+                <div>
+                  <label>Account Name</label>
+
+                  <div className={styles.disabledField}>
+                    <input disabled placeholder='Account Name' value={pharmacyData?.bank_details?.account_name} />
+                    <p></p>
+                  </div>
+                </div>
+
+                <div>
+                  <label>Account Number</label>
+                  
+                  <div className={styles.disabledField}>
+                    <input disabled placeholder='Account Number' value={pharmacyData?.bank_details?.account_number} />
+                    <p></p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div >
+                  <label>Available Balance</label>
+                  
+                  <div className={styles.disabledField}>
+                    <input disabled placeholder='Available Balance' value={Intl.NumberFormat("En-US").format(pharmacyData.balance)} />
+                    <p>₦</p>
+                  </div>
+                </div>
+
+                <div >
+                  <label>Payout Amount</label>
+                  
+                  <div>
+                    <input disabled={requestingPayout} placeholder='Payout Amount' />
+                    <p>₦</p>
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+
+              <div>
+                <button disabled={requestingPayout}>
+                  {
+                    !requestingPayout && <p>Request Payout</p>
+                  }
+                  {
+                    requestingPayout && <ButtonLoader />
+                  }
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <span onClick={() => setPayingOut(false)}>
+            {
+              iconsSVGs.closeIconWhite
+            }
+          </span>
+          </div>
+        
+      </Modal>
+      }
+
+      {
+        payoutSuccess && <Modal>
+        <div className={styles.payoutSuccess}>
+          <header>
+            {
+              iconsSVGs.payoutSuccess
+            }
+          </header>
+
+          <div>
+            <p>PAYOUT REQUEST SUCCESSFUL</p>
+
+            <p>We have received your payout request and would process it as soon as possible and pay out the requested amount to your saved bank account.</p>
+
+            <hr />
+
+            
+          </div>
+
+          <button onClick={() => setPayoutSuccess(false)}>DONE</button>
+        </div>
+      </Modal>
+      }
 
       
       {
@@ -189,9 +423,11 @@ export default function Home() {
           <h3>Available Funds</h3>
 
           <div className='displayFlex jcSpaceBetween'>
-            <p>320k <span>NGN</span></p>
+            <p>{pharmacyData.balance} <span>NGN</span></p>
 
-            <Button label={"Request Pay Out"} theme={"solid"} />
+            {
+              pharmacyData.balance > 0 && <Button label={"Request Pay Out"} theme={"solid"} onButtonClick={() => setPayingOut(true)} />
+            }
           </div>
 
         </div>
@@ -205,7 +441,8 @@ export default function Home() {
             <path d="M12.3243 13.4743H7.84961" stroke="#666666" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         }
-        label="Total Orders"
+        data={pharmacyData.escrow + " NGN"}
+        label="In Escrow"
         />
 
         <DashboardItem
@@ -217,6 +454,7 @@ export default function Home() {
             <path fillRule="evenodd" clipRule="evenodd" d="M20.4607 23.8369C20.862 23.8369 21.1874 24.1622 21.1874 24.5622C21.1874 24.9636 20.862 25.2889 20.4607 25.2889C20.0607 25.2889 19.7354 24.9636 19.7354 24.5622C19.7354 24.1622 20.0607 23.8369 20.4607 23.8369Z" fill="#666666" stroke="#666666" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         }
+        data={pharmacyData.sales}
         label="Total Sales"
         />
 
@@ -229,6 +467,7 @@ export default function Home() {
             <path d="M24.9801 15.438C24.9801 15.438 22.0868 20.9047 19.5428 20.9047C16.9988 20.9047 14.1055 15.438 14.1055 15.438" stroke="#666666" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         }
+        data={pharmacyData.returns}
         label="Return Requests"
         />
       </div>
@@ -241,7 +480,7 @@ export default function Home() {
           </header>
 
           <main>
-
+              <Line options={options} data={statsData} />
           </main>
         </div>
 
@@ -261,7 +500,7 @@ export default function Home() {
   )}
 }
 
-const DashboardItem = ({icon, label}) => {
+const DashboardItem = ({icon, label, data}) => {
   return (
     <div className={[styles.dashboardItem, styles.box].join(" ")}>
       <div>
@@ -272,7 +511,7 @@ const DashboardItem = ({icon, label}) => {
       <div>
         <div className='displayFlex alignCenter'>
           {icon}
-          <p>100</p>
+          <p>{data}</p>
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@ import Button from "../../../components/atoms/Button"
 import DropDown from "../../../components/atoms/DropDown"
 import Styles from "../styles/styles.module.css"
 
-const AccountStatement = () => {
+const AccountStatement = ({showRequestPayout}) => {
     const [currentTab, setCurrentTab] = useState("all")
 
     return (
@@ -56,7 +56,7 @@ const AccountStatement = () => {
                             <div className="displayFlex jcSpaceBetween">
                                 <p>320k <span>NGN</span></p>
 
-                                <Button label="Request Payout" />
+                                <Button label="Request Payout" onButtonClick={() => showRequestPayout()} />
                             </div>
                         </div>
 

@@ -1,3 +1,31 @@
+.updateButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #1D1272;
+  color: white;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 20px;
+  border-style: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.updateButton svg {
+  margin-left: 20px;
+}
+
+.slipID {
+  font-weight: 600;
+  color: #1D1272;
+  font-size: 20px;
+}
+
 .orders {
   background-color: #fafafa;
   -webkit-box-sizing: border-box;
@@ -84,6 +112,10 @@
 
 .orders .sidebarFooter button {
   margin-left: 10px;
+  width: 100%;
+  margin: 0px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .orders .sidebarContent {
@@ -96,6 +128,14 @@
   padding-left: 24px;
   padding-right: 24px;
   padding-top: 8px;
+}
+
+.orders .sidebarContent table table {
+  padding: 0px;
+}
+
+.orders .sidebarContent table table td {
+  padding-left: 20px;
 }
 
 .orders .sidebarContent hr {
@@ -136,6 +176,10 @@
           justify-content: end;
   color: #111111;
   font-weight: 700;
+}
+
+.orders .sidebarContent footer button {
+  width: 100%;
 }
 
 .orders header {
@@ -263,6 +307,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 14px;
+  width: 100%;
 }
 
 .orders .createProductModal header {
@@ -531,6 +576,26 @@
   color: white;
 }
 
+.actionButtons {
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.actionButtons > div {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-right: 10px;
+}
+
+.actionButtons > button {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-left: 10px;
+}
+
 .scanSideBar {
   background-color: white;
   -webkit-box-flex: 1;
@@ -557,6 +622,30 @@
   padding: 24px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+}
+
+.scanSideBar .sidebarContainer button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #1D1272;
+  color: white;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 20px;
+  border-style: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.scanSideBar .sidebarContainer button svg {
+  margin-left: 20px;
 }
 
 .scanSideBar .scanButton {

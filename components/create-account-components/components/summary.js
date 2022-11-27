@@ -40,7 +40,11 @@ const Summary = ({currentPharmacyDetails}) => {
         if (createPharmacyAccountResponse.status === "OK") {
             router.push("/create-account/post-sign-up")
         } else {
-            setErrorMessage(createPharmacyAccountResponse.error)
+            if (createPharmacyAccountResponse?.error?.code && createPharmacyAccountResponse?.error?.message) {
+                setErrorMessage(createPharmacyAccountResponse?.error?.message)
+            } else {
+                setErrorMessage(createPharmacyAccountResponse?.error)
+            }
         }
     }
 

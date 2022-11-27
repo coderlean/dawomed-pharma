@@ -1,5 +1,5 @@
 .container {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 
 .container .ticker {
@@ -23,35 +23,35 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  background-color: #FFEFCF;
+  background-color: #ffefcf;
   border-style: none;
   border-style: solid;
   border-width: 2px;
   padding-left: 16px;
   padding-right: 16px;
-  border-color: #F7B955;
+  border-color: #f7b955;
   margin-top: 8px;
   padding-top: 6px;
   padding-bottom: 6px;
   font-size: 14px;
-  color: #AB570A;
+  color: #ab570a;
 }
 
 .container .verificationAlert button {
   padding-top: 4px;
   padding-bottom: 4px;
-  color: #AB570A;
+  color: #ab570a;
   border-style: none;
   border-style: solid;
   border-width: 2px;
-  border-color: #AB570A;
+  border-color: #ab570a;
   font-weight: 600;
   background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
 }
 
 .container .verificationAlert button:hover {
-  background-color: #AB570A;
+  background-color: #ab570a;
   color: white;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .container .dashboardBoxes .available {
-  background-color: #84A50A;
+  background-color: #84a50a;
   padding: 16px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -139,7 +139,7 @@
   border-style: none;
   border-style: solid;
   border-width: 1px;
-  border-color: #EAEAEA;
+  border-color: #eaeaea;
 }
 
 .container .dashboardBoxes .dashboardItem h4 {
@@ -172,7 +172,7 @@
   border-style: none;
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  border-bottom-color: #EAEAEA;
+  border-bottom-color: #eaeaea;
 }
 
 .container .statsAndActivities header p {
@@ -225,7 +225,7 @@
 }
 
 .container .statsAndActivities .activities main .activityItem .more {
-  color: #6458BF;
+  color: #6458bf;
   font-weight: normal;
   white-space: nowrap;
   overflow: hidden;
@@ -411,5 +411,210 @@
         -ms-flex-direction: column;
             flex-direction: column;
   }
+}
+
+.requestModalContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 50%;
+}
+
+.requestModalContainer > div {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.requestModalContainer > span {
+  cursor: pointer;
+}
+
+.requestPayoutModal {
+  background-color: white;
+  width: 50%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.requestPayoutModal header {
+  padding: 0px;
+}
+
+.requestPayoutModal h2 {
+  margin: 0px;
+  padding: 20px;
+  color: #1d1272;
+}
+
+.requestPayoutModal form > div {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.requestPayoutModal form > div .disabledField {
+  background-color: #ededed;
+}
+
+.requestPayoutModal form > div > div {
+  width: 48%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.requestPayoutModal form > div > div label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #444444;
+}
+
+.requestPayoutModal form > div > div div {
+  width: 100%;
+  padding: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-style: none;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #999999;
+}
+
+.requestPayoutModal form > div > div div input {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border-style: none;
+}
+
+.requestPayoutModal form > div > div div p {
+  margin: 0px;
+  color: #474747;
+}
+
+.requestPayoutModal hr {
+  margin: 0px;
+  border-style: none;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #dedede;
+}
+
+.requestPayoutModal button {
+  width: 100%;
+  padding: 15px;
+  border-style: none;
+  background-color: #1d1272;
+  color: white;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.requestPayoutModal button p {
+  margin: 0px;
+}
+
+.payoutSuccess {
+  width: 40%;
+  background-color: white;
+}
+
+.payoutSuccess header {
+  background-color: #29bc9b;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 20px;
+}
+
+.payoutSuccess button {
+  width: 100%;
+  border-style: none;
+  cursor: pointer;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #dbdbdb;
+  background-color: white;
+  padding: 20px;
+  color: #626262;
+}
+
+.payoutSuccess button:hover {
+  background-color: #f7f7f7;
+}
+
+.payoutSuccess div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 20px;
+}
+
+.payoutSuccess div p {
+  margin: 0px;
+}
+
+.payoutSuccess div p:nth-child(1) {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 32px;
+  /* identical to box height, or 178% */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  /* Geist theme/Gray/foreground */
+  color: #000000;
+  margin-bottom: 15px;
+}
+
+.payoutSuccess div p:nth-child(2) {
+  font-weight: 400;
+  color: #717171;
+  text-align: center;
 }
 /*# sourceMappingURL=Home.module.css.map */

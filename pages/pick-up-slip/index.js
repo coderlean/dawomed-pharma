@@ -12,11 +12,16 @@ import dynamic from "next/dynamic";
 import Image from 'next/image';
 import scanSuccess from "../../assets/images/scanSuccess.png";
 import sampleQR from "../../assets/images/sampleQR.png";
+import { postProtected } from '../../requests/postProtected';
+import { getProtected } from '../../requests/getProtected';
+import { formatter } from '../orders';
+import { putProtected } from '../../requests/putProtected';
+import ButtonLoader from '../../components/atoms/ButtonLoader';
 const QrReader = dynamic(() => import("react-qr-reader"), { ssr: false });
 
 const getStatusStyle = (status) => {
     switch (status){
-        case "used":
+        case "Used":
             return styles.returned
         default:
             return styles.completed
@@ -32,11 +37,13 @@ const PickUpSlip = () => {
     const [selectedSlip, setSelectedSlip] = useState({})
     const [slipID, setSlipID] = useState("")
     const [scanning, setScanning] = useState(false)
+    const [scannedSlip, setSCannedSlip] = useState(null)
     const [scannedSlipDetails, setScannedSlipDetails] = useState({})
+    const [updatingSlip, setUpdatingSlip] = useState(false)
+    const [fetchingSlip, setFetchingSlip] = useState(false)
 
     useEffect(() => {
-        setSlips(sampleOrders)
-        setAllSlips(sampleOrders)
+        fetchPickupSlips()
 
         const availableContraints = navigator.mediaDevices.getSupportedConstraints()
     }, [])
@@ -105,6 +112,75 @@ const PickUpSlip = () => {
         setSlips(tempSlips)
     }
 
+    const fetchPickupSlips = async () => {
+        try {
+            const pharmacyPickupSlips = await postProtected("pickup-slips/pharmacy")
+
+            if (pharmacyPickupSlips && pharmacyPickupSlips.status && pharmacyPickupSlips.status === "OK") {
+                const temp = [...slips]
+                temp = pharmacyPickupSlips.data
+                setSlips(temp)
+
+                temp = [...allSlips]
+                temp = pharmacyPickupSlips.data
+                setAllSlips(temp)
+            }
+
+            console.log({pharmacyPickupSlips});
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const updatePickupSlipStatus = async () => {
+        try {
+            setUpdatingSlip(true)
+            const updatePickupSlipStatus = await putProtected(`pickup-slips/${selectedSlip._id}`)
+
+            setUpdatingSlip(false)
+            if (updatePickupSlipStatus.slip && updatePickupSlipStatus?.slip?._id) {
+                console.log("Slip updated");
+                let temp = [...slips]
+                temp = temp.map((item) => {
+                    if (item._id === updatePickupSlipStatus?.slip?._id) {
+                        console.log("Matched");
+                        item["status"] = "Used"
+                    }
+                    return item
+                })
+                setSlips(temp)
+            }
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const fetchSlip = async (result) => {
+        
+        try {
+            if (typeof result === "string") {
+                setFetchingSlip(true)
+                const slipResult = await getProtected(`pickup-slips/${result}`)
+                console.log({slipResult});
+                setFetchingSlip(false)
+
+                let temp = {...scannedSlip}
+                temp = slipResult
+                setSCannedSlip(temp)
+
+                setSlipID(slipResult._id)
+            }
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const getPickupSlipByID = event => {
+        event.preventDefault()
+        const slipIDString = event.target[0].value
+        fetchSlip(slipIDString)
+    }
+
 
     return (
         <div className={styles.orders}>
@@ -132,22 +208,22 @@ const PickUpSlip = () => {
                             <tr>
                                 <td className={styles.leftCell}>Order Date:</td>
 
-                                <td className={styles.rightCell}>{selectedSlip.dateOrdered}</td>
+                                <td className={styles.rightCell}>{(new Date(selectedSlip?.createdDate)).toLocaleDateString("en-NG")}</td>
                             </tr>
 
                             <tr>
                                 <td className={styles.leftCell}>Customer Name:</td>
 
-                                <td className={styles.rightCell}>{selectedSlip.customer.name}</td>
+                                <td className={styles.rightCell}>{`${selectedSlip?.orderId?.customerDetails?.contact_details.first_name} ${selectedSlip?.orderId?.customerDetails?.contact_details.last_name}`}</td>
                             </tr>
 
                             <tr>
                                 <td className={styles.leftCell}>Phone:</td>
 
-                                <td className={styles.rightCell}>{selectedSlip.customer.phoneNumber}</td>
+                                <td className={styles.rightCell}>{selectedSlip?.orderId?.customerDetails?.contact_details?.contact_number}</td>
                             </tr>
 
-                            <tr>
+                            {/* <tr>
                                 <td className={styles.leftCell}>Payment Method:</td>
 
                                 <td className={styles.rightCell}>{selectedSlip.paymentMethod}</td>
@@ -163,7 +239,7 @@ const PickUpSlip = () => {
                                 <td className={styles.leftCell}>Quantity:</td>
 
                                 <td className={styles.rightCell}>{selectedSlip.quantity}</td>
-                            </tr>
+                            </tr> */}
 
                             <tr>
                                 <td className={styles.leftCell}>Order Status:</td>
@@ -172,31 +248,75 @@ const PickUpSlip = () => {
                             </tr>
 
                             {
-                                selectedSlip.deliveryMethod !== "Pick Up" && <>
-                                <tr>
-                                <td className={styles.leftCell}>Delivery Merchant:</td>
+                            //     selectedSlip.deliveryMethod !== "Pick Up" && <>
+                            //     <tr>
+                            //     <td className={styles.leftCell}>Delivery Merchant:</td>
 
-                                <td className={styles.rightCell}>{selectedSlip.deliveryMethod}</td>
-                            </tr>
+                            //     <td className={styles.rightCell}>{selectedSlip.deliveryMethod}</td>
+                            // </tr>
 
-                            <tr>
-                                <td className={styles.leftCell}>Delivery Address</td>
+                            // <tr>
+                            //     <td className={styles.leftCell}>Delivery Address</td>
 
-                                <td className={styles.rightCell}>{selectedSlip.deliveryAddress}</td>
-                            </tr>
+                            //     <td className={styles.rightCell}>{selectedSlip.deliveryAddress}</td>
+                            // </tr>
 
-                            <tr>
-                                <td className={styles.leftCell}>Delivery Fee:</td>
+                            // <tr>
+                            //     <td className={styles.leftCell}>Delivery Fee:</td>
 
-                                <td className={styles.rightCell}>{selectedSlip.deliveryFee}</td>
-                            </tr>
-                                </>
+                            //     <td className={styles.rightCell}>{selectedSlip.deliveryFee}</td>
+                            // </tr>
+                            //     </>
                             }
 
                             <tr>
                                 <td className={styles.leftCell}>Price:</td>
 
                                 <td className={styles.rightCell}>{selectedSlip.price}</td>
+                            </tr>
+
+                            <tr>
+                                <td className={styles.leftCell}>Items Ordered:</td>
+
+                                <td className={styles.rightCell}>
+                                    <table className={styles.productsTable}>
+                                        <thead>
+                                            <tr>
+                                                <td>
+                                                    Name
+                                                </td>
+
+                                                <td>
+                                                    Quantity
+                                                </td>
+
+                                                <td>
+                                                    Price 
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                selectedSlip?.orderId?.products.map((item, index) => <tr key={index}>
+
+                                                    <td>
+                                                        {item?.productId?.name}
+                                                    </td>
+
+                                                    <td>
+                                                        {item.quantity_requested}
+                                                    </td>
+
+                                                    <td>
+                                                        {formatter.format(item.productId.price)}
+                                                    </td>
+
+
+                                                </tr>)
+                                            }
+                                        </tbody>
+                                    </table>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -208,7 +328,7 @@ const PickUpSlip = () => {
                         <tr>
                                 <td className={styles.leftCell}>Total:</td>
 
-                                <td className={styles.total}>{`N ${getTotal(selectedSlip)}`}</td>
+                                <td className={styles.total}>{`${formatter.format(selectedSlip.orderId.totalAmount)}`}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -219,9 +339,17 @@ const PickUpSlip = () => {
                 </div>
 
                 <footer className={["displayFlex alignCenter", styles.sidebarFooter].join(" ")}>
-                        <DropDown options={["Pending", "Processing", "Completed", "Ready for Delivery/Pick up", "Cancelled", "Declined"]} placeholder={selectedSlip.status.slice(0,1).toUpperCase() + selectedSlip.status.slice(1)} defaultValue={selectedSlip.status.slice(0,1).toUpperCase() + selectedSlip.status.slice(1)} onChange={(e) => handleStatusChange(e)} />
-                        <Button label={"Submit"} theme={"solid"} />
-                    </footer>
+                        {/* <DropDown options={["Pending", "Processing", "Completed", "Ready for Delivery/Pick up", "Cancelled", "Declined"]} placeholder={selectedSlip.status.slice(0,1).toUpperCase() + selectedSlip.status.slice(1)} defaultValue={selectedSlip.status.slice(0,1).toUpperCase() + selectedSlip.status.slice(1)} onChange={(e) => handleStatusChange(e)} /> */}
+                        {/* <Button onButtonClick={() => updatePickupSlipStatus()} label={"Set As Used"} theme={"solid"} /> */}
+
+                        {
+                            selectedSlip.status === "Activated" && <button disabled={updatingSlip} onClick={() => updatePickupSlipStatus()} className={styles.updateButton}>SET AS USED
+                            {
+                            updatingSlip && <ButtonLoader />
+                            }
+                            </button>
+                        }
+                </footer>
 
                 
             </SideBar>
@@ -267,7 +395,7 @@ const PickUpSlip = () => {
                                     onScan={(result) => {
                                         console.log({result});
                                         if (result){
-                                            setSlipID(result);
+                                            fetchSlip(result)
                                         }
                                     }}
 
@@ -275,7 +403,7 @@ const PickUpSlip = () => {
                                         console.log({error});
                                     }}
 
-                                    facingMode={'environment'}
+                                    facingMode={'user'}
                                     style={{ width: '50%', marginBottom: "20px" }} 
                                 />
                                 }
@@ -291,10 +419,15 @@ const PickUpSlip = () => {
 
                                 {
                                     slipID !== "" && 
-                                    <div className='displayFlex'>
+                                    <React.Fragment>
+
+                                        <div>
+                                        <p className={styles.slipID}>{slipID}</p>
+
+                                        <div className={['displayFlex', styles.actionButtons].join(" ")}>
                                         <div className={styles.rescanButton}>
                                             <Button disabled={false} 
-                                                onClicked={()=> {
+                                                onButtonClick={()=> {
                                                     setSlipID("")
                                                 }} label={"Scan Again"} 
                                                 theme={"outline"} 
@@ -302,17 +435,30 @@ const PickUpSlip = () => {
                                             />
                                         </div>
 
-                                        <div className='width20'></div>
+
 
                                         <Button disabled={false} 
-                                            onClicked={() => {
-                                                setScannedSlipDetails({name: "Godson"})
+                                            onButtonClick={() => {
+                                                // const temp = {...scannedSlipDetails}
+                                                // temp = scannedSlip
+                                                // setScannedSlipDetails(temp)
+                                                setScanning(false)
+                                                let temp = {...selectedSlip}
+                                                temp = scannedSlip
+                                                setSelectedSlip(temp)
+                                                setSlipID("")
+                                                temp = {...scannedSlip}
+                                                temp = {}
+                                                setSCannedSlip(temp)
                                             }} 
                                             label={"View Details"} 
                                             theme={"solid"} 
                                         />
 
-                                    </div>
+                                        </div>
+                                        </div>
+                                        
+                                    </React.Fragment>
                                 }
 
                             </div>
@@ -334,10 +480,17 @@ const PickUpSlip = () => {
                                         </tr> */}
 
                                         <tr >
-                                            <td><p className='font14'>Pickup Number</p></td>
                                             <td className='pl20'>
-                                                <p className='m0 font12 greyLabelText mb5 pt20'>Enter the eight (8) digit code on your pickup slip</p>
-                                                <TextInput type={"number"} max={999999999} maxLength={8} />
+                                                <form onSubmit={event => getPickupSlipByID(event)}>
+                                                    <p className='m0 font12 greyLabelText mb5 pt20'>Enter the eight (8) digit code on your pickup slip</p>
+                                                    <TextInput  max={999999999} placeholder="Pickup slip number" />
+
+                                                    <button>Get Slip
+                                                        {
+                                                            fetchingSlip && <ButtonLoader />
+                                                        }
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
 
@@ -463,7 +616,7 @@ const PickUpSlip = () => {
                             <td>CUSTOMER</td>
                             <td>DATE GENERATED</td>
                             <td>STATUS</td>
-                            <td>DATE ACTIVATED</td>
+                            {/* <td>DATE ACTIVATED</td> */}
                             <td>ACTION</td>
                         </tr>
 
@@ -491,29 +644,27 @@ PickUpSlip.getLayout = function getLayout (page) {
 export default PickUpSlip
 
 const OrderTableItem = ({ slip, setSelectedSlip }) => {
-
-
     return (
         <tr className={styles.orderTableItem}>
             <td className={styles.image}>
-                <p>{slip._id}</p>
+                <p>{slip?._id}</p>
             </td>
 
             <td>
-                <p>{slip.customer.name}</p>
+                <p>{`${slip?.orderId?.customerDetails?.contact_details.first_name} ${slip?.orderId?.customerDetails?.contact_details.last_name}`}</p>
             </td>
 
             <td>
-                <p>{(new Date(slip.dateGenerated)).toLocaleDateString("en-NG")}</p>
+                <p>{(new Date(slip.createdDate)).toLocaleDateString("en-NG")}</p>
             </td>
 
             <td>
                 <p className={[getStatusStyle(slip.status), styles.status].join(" ")}>{slip.status.slice(0,1).toUpperCase() + slip.status.slice(1)}</p>
             </td>
 
-            <td>
-                <p>{(new Date(slip.dateActivated)).toLocaleDateString("en-NG")}</p>
-            </td>
+            {/* <td>
+                <p>{slip.dateActivated ? (new Date(slip.dateActivated)).toLocaleDateString("en-NG") : "-"}</p>
+            </td> */}
 
             <td>
                 <button onClick={() => setSelectedSlip(slip)}>View Details</button>

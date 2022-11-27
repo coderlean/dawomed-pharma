@@ -14,7 +14,12 @@ import caStyles from "./styles/styles.module.css";
 const CreateAccount = (props) => {
     const [currentPharmacyDetails, setCurrentPharmacyDetails] = useState({
         pharmacyInformation: {
-            state: "abia"
+            state: "abia",
+            coordinates : {
+                lat: 6.598211400000001,
+                lng: 3.354126
+            },
+            first_address: "20 Tiamiyu Savage Street, Victoria Island, Lagos."
         },
         documentation: {
 

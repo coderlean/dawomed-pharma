@@ -16,6 +16,11 @@ import AccountStatement from './tabs/accountStatement';
 import OrdersOverview from './tabs/ordersOverview';
 import ReturnsOverview from './tabs/returnsOverview';
 import StoreActivities from './tabs/storeActivities';
+import { postProtected } from '../../requests/postProtected';
+import Modal from '../../components/layouts/Modal';
+import ButtonLoader from '../../components/atoms/ButtonLoader';
+import ErrorBox from '../../components/atoms/ErrorBox';
+import { getProtected } from '../../requests/getProtected';
 const QrReader = dynamic(() => import("react-qr-reader"), { ssr: false });
 
 const getStatusStyle = (status) => {
@@ -37,6 +42,41 @@ const Payment = () => {
     const [slipID, setSlipID] = useState("")
     const [scanning, setScanning] = useState(false)
     const [scannedSlipDetails, setScannedSlipDetails] = useState({})
+    const [requestingPayout, setRequestingPayout] = useState(false)
+    const [payoutErrorMessage, setPayoutErrorMessage] = useState("")
+    const [payoutSuccess, setPayoutSuccess] = useState(false)
+    const [payingOut, setPayingOut] = useState(false)
+    const [pharmacyData, setPharmacyData] = useState({
+        balance : "",
+        sales: "",
+        returns : "",
+        escrow : ""
+      })
+
+      useEffect(() => {
+        fetchPharmacyData()
+      }, [])
+
+      const fetchPharmacyData = async () => {
+        try {
+          const pharmacyData = await getProtected("pharmacies/data")
+    
+          console.log({pharmacyData});
+    
+          if (pharmacyData && pharmacyData.status === "OK") {
+            let temp = {...pharmacyData}
+            temp["balance"] = pharmacyData.data.balance
+            temp["sales"] = pharmacyData.data.sales
+            temp["returns"] = pharmacyData.data.returns
+            temp["escrow"] = pharmacyData.data.escrow
+            temp["bank_details"] = pharmacyData.data.bank_details
+            setPharmacyData(temp)
+
+          }
+        } catch (error) {
+          console.log({error});
+        }
+      }
 
     useEffect(() => {
         setSlips(sampleOrders)
@@ -109,9 +149,148 @@ const Payment = () => {
         setSlips(tempSlips)
     }
 
+    const validatePayoutData = event => {
+        event.preventDefault()
+    
+        const payoutAmount = event.target[3].value
+    
+        if (!payoutAmount) {
+          setPayoutErrorMessage("Please enter the amount you want to be paid out.")
+        } else if (payoutAmount > pharmacyData.balance) {
+          setPayoutErrorMessage("Your requested amout is greater than your current balance.")
+        } else {
+          setPayoutErrorMessage("")
+          requestPayout(payoutAmount)
+        }
+      }
+
+    const requestPayout = async payoutAmount => {
+        try {
+          setRequestingPayout(true)
+          const requestPayout = await postProtected("pharmacies/requestPayout", {payoutAmount})
+    
+          if (requestPayout && requestPayout.status === "OK") {
+            setPayoutSuccess(true)
+            setPayingOut(false)
+          } else {
+            setPayoutErrorMessage(requestPayout?.error?.message)
+          }
+    
+          setRequestingPayout(false)
+        } catch (error) {
+          console.log({error});
+        }
+      }
+
 
     return (
         <div className={styles.orders}>
+
+{payingOut && <Modal>
+          <div className={styles.requestModalContainer}>
+          <div className={styles.requestPayoutModal}>
+            <header>
+              <h2>Request Payout</h2>
+            </header>
+
+            <hr />
+            
+            <form onSubmit={event => validatePayoutData(event)}>
+              {
+                payoutErrorMessage && <span>
+                <ErrorBox errorMessage={payoutErrorMessage} closeErrorBox={() => setPayoutErrorMessage("")} />
+              </span>
+              }
+
+              <div>
+                <div>
+                  <label>Account Name</label>
+
+                  <div className={styles.disabledField}>
+                    <input disabled placeholder='Account Name' value={pharmacyData?.bank_details?.account_name} />
+                    <p></p>
+                  </div>
+                </div>
+
+                <div>
+                  <label>Account Number</label>
+                  
+                  <div className={styles.disabledField}>
+                    <input disabled placeholder='Account Number' value={pharmacyData?.bank_details?.account_number} />
+                    <p></p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div >
+                  <label>Available Balance</label>
+                  
+                  <div className={styles.disabledField}>
+                    <input disabled placeholder='Available Balance' value={Intl.NumberFormat("En-US").format(pharmacyData.balance)} />
+                    <p>₦</p>
+                  </div>
+                </div>
+
+                <div >
+                  <label>Payout Amount</label>
+                  
+                  <div>
+                    <input disabled={requestingPayout} placeholder='Payout Amount' />
+                    <p>₦</p>
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+
+              <div>
+                <button disabled={requestingPayout}>
+                  {
+                    !requestingPayout && <p>Request Payout</p>
+                  }
+                  {
+                    requestingPayout && <ButtonLoader />
+                  }
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <span onClick={() => setPayingOut(false)}>
+            {
+              iconsSVGs.closeIconWhite
+            }
+          </span>
+          </div>
+        
+      </Modal>
+      }
+
+      {
+        payoutSuccess && <Modal>
+        <div className={styles.payoutSuccess}>
+          <header>
+            {
+              iconsSVGs.payoutSuccess
+            }
+          </header>
+
+          <div>
+            <p>PAYOUT REQUEST SUCCESSFUL</p>
+
+            <p>We have received your payout request and would process it as soon as possible and pay out the requested amount to your saved bank account.</p>
+
+            <hr />
+
+            
+          </div>
+
+          <button onClick={() => setPayoutSuccess(false)}>DONE</button>
+        </div>
+      </Modal>
+      }
+
             {
                 (Object.entries(selectedSlip).length > 0) && <SideBar closeSideBar={() => closeSideBar()}>
                 <h1 className={styles.sidebarTitle}>Order Details</h1>
@@ -268,7 +447,7 @@ const Payment = () => {
 
             <div>
                     {
-                        activeTab === "account statement" && <AccountStatement />
+                        activeTab === "account statement" && <AccountStatement showRequestPayout={() => setPayingOut(true)} />
                     }
 
                     {
