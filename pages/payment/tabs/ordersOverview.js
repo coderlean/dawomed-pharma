@@ -10,20 +10,32 @@ import dynamic from "next/dynamic";
 import Image from 'next/image';
 import scanSuccess from "../../../assets/images/scanSuccess.png";
 import sampleQR from "../../../assets/images/sampleQR.png";
+import { format } from 'date-fns';
+import { plain_formatter } from './accountStatement';
 const QrReader = dynamic(() => import("react-qr-reader"), { ssr: false });
 
 const getStatusStyle = (status) => {
     switch (status){
-        case "used":
+        case "Pending":
+            return styles.pending
+        case "Processing":
+            return styles.processing
+        case "Canceled":
+            return styles.declined
+        case "Returned":
             return styles.returned
+        case "Ready":
+            return styles.readyForDelivery
+        case "Picked Up":
+            return styles.readyForPickup
         default:
             return styles.completed
     }
 }
 
 
-const OrdersOverview = () => {
-    const [orders, setOrders] = useState([])
+const OrdersOverview = ({orders}) => {
+
     const [allSlips, setAllSlips] = useState([])
     const [selectedOrder, setSelectedOrder] = useState({})
     const [slipID, setSlipID] = useState("")
@@ -31,8 +43,7 @@ const OrdersOverview = () => {
     const [scannedOrderDetails, setScannedOrderDetails] = useState({})
 
     useEffect(() => {
-        setOrders(sampleOrders)
-        setAllSlips(sampleOrders)
+
 
         const availableContraints = navigator.mediaDevices.getSupportedConstraints()
     }, [])
@@ -217,10 +228,7 @@ const OrdersOverview = () => {
                     {iconsSVGs.filterIconGrey}
                 </div>
 
-                <Button label={"Scan Code"} onClicked={() => {
-                    setScanning(true)
-                    // setScannedOrderDetails({})
-                }} theme={"solid"} leftIcon={iconsSVGs.qrCodeWhite} />
+
             </div>
 
             <div className={[styles.productsTable]}>
@@ -230,13 +238,12 @@ const OrdersOverview = () => {
                             <td>ORDER N0.</td>
                             {/* <td>ITEM NAME</td> */}
                             <td>ORDER CONF. DATE</td>
-                            <td>PRODUCT</td>
-                            <td>PRODUCT SKU</td>
-                            <td>SALES</td>
+                            <td>PAYMENT REF.</td>
                             <td>PERCENTAGE (%)</td>
                             <td>COMMISSION</td>
+                            <td>GROSS AMOUNT</td>
                             <td>NET AMOUNT</td>
-                            <td>PAYOUT STATUS</td>
+                            <td>STATUS</td>
                             <td>ACTION</td>
                         </tr>
 
@@ -256,37 +263,46 @@ const OrdersOverview = () => {
 
 export default OrdersOverview
 
+const order_statuses = ["Pending",
+"Processing",
+"Ready",
+"Picked up",
+"Delivered",
+"Completed",
+'Canceled' ,
+"Returned"]
+
 const OrderTableItem = ({ order, setSelectedOrder }) => {
     return (
         <tr className={styles.orderTableItem}>
             <td className={styles.image}>
-                <p>{order.order_id}</p>
+                <p>{order._id}</p>
             </td>
 
             <td>
-                <p>{order.order_conf_date}</p>
+                <p>{format(new Date(order.orderDate), "PPP")}</p>
             </td>
 
             <td>
-                <p>{order.product_name}</p>
+                <p>{order.paymentRef}</p>
             </td>
 
             
 
             <td>
-                <p>{order.product_name}</p>
+                <p>{order.commission_percentage ? order.commission_percentage : 0}</p>
             </td>
 
             <td>
-                <p>{order.product_name}</p>
+                <p>{(order.commission_percentage/100) * order.totalAmount}</p>
             </td>
 
             <td>
-                <p>{order.product_name}</p>
+                <p>{plain_formatter.format(order.preDiscountedAmount)}</p>
             </td>
 
             <td>
-                <p>{order.product_name}</p>
+                <p>{plain_formatter.format(order.totalAmount - ((order.commission_percentage/100) * order.totalAmount))}</p>
             </td>
 
             <td>
@@ -298,11 +314,13 @@ const OrderTableItem = ({ order, setSelectedOrder }) => {
             </td> */}
 
             <td>
-                <p className={[getStatusStyle(order.payout_status), styles.status].join(" ")}>{order.payout_status}</p>
+                <p className={[getStatusStyle(order_statuses[order.status]), styles.status].join(" ")}>{order_statuses[order.status]}</p>
             </td>
 
             <td>
-                <button onClick={() => setSelectedOrder(order)}>View Details</button>
+                <a href={`/orders?id=${order._id}`} target="_blank" rel="noreferrer">
+                    <button>View Order</button>
+                </a>
             </td>
 
 

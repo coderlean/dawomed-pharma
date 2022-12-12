@@ -1050,4 +1050,44 @@
       }
     }
   }
+
+  .activitiesContainer {
+    display: flex;
+    margin-left: 60px;
+    margin-right: 60px;
+    justify-content: space-between;
+    margin-top: 50px;
+
+    &>div {
+        width: 48%;
+
+        table {
+            width: 100%;
+            background-color: white;
+            border-style: none;
+            border-style: solid;
+            border-width: 2px;
+            border-color: #e6e6e6;
+            border-collapse: collapse;
+
+            td {
+                padding: 15px;
+            }
+
+            thead {
+                td {
+                    border-style: none;
+                border-bottom-style: solid;
+                border-bottom-width: 1px;
+                border-bottom-color: rgb(219, 219, 219);
+                font-weight: bold;
+                }
+            }
+
+            tbody {
+                color: #666666;
+            }
+        }
+    }
+  }
   

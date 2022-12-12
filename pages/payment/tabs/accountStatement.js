@@ -1,13 +1,91 @@
 
 
-import { useState } from "react"
+import { format } from "date-fns"
+import { useEffect, useState } from "react"
 import { iconsSVGs } from "../../../assets/images/icons"
 import Button from "../../../components/atoms/Button"
 import DropDown from "../../../components/atoms/DropDown"
 import Styles from "../styles/styles.module.css"
 
-const AccountStatement = ({showRequestPayout}) => {
+export let plain_formatter = Intl.NumberFormat('en')
+
+const AccountStatement = ({showRequestPayout, financial_data}) => {
     const [currentTab, setCurrentTab] = useState("all")
+    let formatter = Intl.NumberFormat('en', { notation: 'compact' })
+    
+    const [total_balance, set_total_balance] = useState(0)
+    const [payouts, set_payouts] = useState([])
+
+    useEffect(() => {
+        calculate_total_balance()
+        setPayoutsList()
+    }, [financial_data])
+
+    const calculate_total_balance = () => {
+        if (Object.values(financial_data).length > 0) {
+            const sales_total = financial_data.orders_amount + financial_data.sales_fees
+            const refunds_total = financial_data.refunds_amount + financial_data.refunds_on_fees
+            const commissions_total = financial_data.commissions_amount + financial_data.commission_on_return
+            const pay_out_total = financial_data.paid_out_amount
+
+            set_total_balance(sales_total - (refunds_total + commissions_total + pay_out_total))
+        }
+    }
+
+    const setPayoutsList = () => {
+        if (Object.values(financial_data).length > 0) {
+            let temp = {...payouts}
+            temp = financial_data.payouts
+            set_payouts(temp)
+
+
+        }
+    }
+
+    const getPayoutStatus = status => {
+        switch (status) {
+            case "Pending":
+            return "Pending"
+            case "completed":
+                return "Paid Out"
+                case "Completed":
+                    return "Paid Out"
+                    case "Under Review": 
+                    return "Under Review"
+                    default: 
+                    return "Not Approved"
+        }
+
+    }
+
+    const handleTabChange = tab => {
+        setCurrentTab(tab)
+
+        let temp = [...payouts]
+
+        if (tab === "all") {
+            temp = financial_data.payouts
+        }
+
+        if (tab === "open") {
+            temp = financial_data.payouts.filter(item => {
+                if (item.status === "Pending" || item.status === "pending") {
+                    return item
+                }
+            })
+        }
+
+        if (tab === "paid") {
+            temp = financial_data.payouts.filter(item => {
+                if (item.status === "Completed" || item.status === "completed") {
+                    return item
+                }
+            })
+        }
+
+        set_payouts(temp)
+
+    }
 
     return (
         <div className={Styles.accountStatement}>
@@ -54,7 +132,7 @@ const AccountStatement = ({showRequestPayout}) => {
                             <h3>Available Funds</h3>
 
                             <div className="displayFlex jcSpaceBetween">
-                                <p>320k <span>NGN</span></p>
+                                <p>{formatter.format(financial_data?.pharmacyFinancials?.balance ? financial_data?.pharmacyFinancials?.balance : 0)} <span>NGN</span></p>
 
                                 <Button label="Request Payout" onButtonClick={() => showRequestPayout()} />
                             </div>
@@ -73,9 +151,9 @@ const AccountStatement = ({showRequestPayout}) => {
                     
                     <div className={Styles.summaryBox}>
                         <div className="p20">
-                            <button onClick={() => setCurrentTab("all")} className={currentTab === "all" ? [Styles.tabButton, Styles.tabButtonActive].join(" ") : Styles.tabButton}>ALL</button>
-                            <button onClick={() => setCurrentTab("open")} className={currentTab === "open" ? [Styles.tabButton, Styles.tabButtonActive].join(" ") : Styles.tabButton}>OPEN</button>
-                            <button onClick={() => setCurrentTab("paid")} className={currentTab === "paid" ? [Styles.tabButton, Styles.tabButtonActive].join(" ") : Styles.tabButton}>PAID</button>
+                            <button onClick={() => handleTabChange("all")} className={currentTab === "all" ? [Styles.tabButton, Styles.tabButtonActive].join(" ") : Styles.tabButton}>ALL</button>
+                            <button onClick={() => handleTabChange("open")} className={currentTab === "open" ? [Styles.tabButton, Styles.tabButtonActive].join(" ") : Styles.tabButton}>OPEN</button>
+                            <button onClick={() => handleTabChange("paid")} className={currentTab === "paid" ? [Styles.tabButton, Styles.tabButtonActive].join(" ") : Styles.tabButton}>PAID</button>
                         </div>
 
                         <hr />
@@ -92,27 +170,20 @@ const AccountStatement = ({showRequestPayout}) => {
                             </thead>
 
                             <tbody>
-                                <tr>
+                                {
+                                    payouts.map((item, index) => <tr key={index}>
                                     <td>
-                                        <p>13 Sep 2020 - 14 Sep 2020</p>
-                                        <label>Jkgdlskwe</label>
+                                        <p>{format(new Date(item.date), "PPP")}</p>
+                                        {/* <label>Jkgdlskwe</label> */}
                                     </td>
 
-                                    <td>OPEN</td>
+                                    <td>{getPayoutStatus(item.status)}</td>
 
-                                    <td>15,000 NGN</td>
-                                </tr>
+                                    <td>{`${plain_formatter.format(item.amount)} NGN`}</td>
+                                </tr>)
+                                }
 
-                                <tr>
-                                    <td>
-                                        <p>13 Sep 2020 - 14 Sep 2020</p>
-                                        <label>Jkgdlskwe</label>
-                                    </td>
 
-                                    <td>OPEN</td>
-
-                                    <td>15,000 NGN</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -133,7 +204,7 @@ const AccountStatement = ({showRequestPayout}) => {
 
                             <div>
 
-                            <p>320k <span>NGN</span></p>
+                            <p>{formatter.format(financial_data.paid_out_amount ? financial_data.paid_out_amount : 0)} <span>NGN</span></p>
                             </div>
                         </div>
 
@@ -143,7 +214,7 @@ const AccountStatement = ({showRequestPayout}) => {
 
                             <div>
 
-                                <p>320k <span>NGN</span></p>
+                                <p>{formatter.format(financial_data?.pharmacyFinancials?.balance ? financial_data?.pharmacyFinancials?.balance : 0)} <span>NGN</span></p>
                             </div>
                         </div>
                     </div>
@@ -195,17 +266,17 @@ const AccountStatement = ({showRequestPayout}) => {
                                     <td>
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
                                             <p>Sales</p>
-                                            <p>0.00NGN</p>
+                                            <p>{`${financial_data.orders_amount} NGN`}</p>
                                         </div>
 
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
                                             <p>Fees</p>
-                                            <p>0.00NGN</p>
+                                            <p>{`${financial_data.sales_fees} NGN`}</p>
                                         </div>
 
                                         <div className={[Styles.greyCell, "displayFlex jcSpaceBetween alignCenter pt10 pb10"].join(" ")}>
                                             <p className="fw600">Subtotal</p>
-                                            <p>0.00NGN</p>
+                                            <p>{`${financial_data.orders_amount + financial_data.sales_fees} NGN`}</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -218,18 +289,18 @@ const AccountStatement = ({showRequestPayout}) => {
 
                                     <td>
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
-                                            <p>Refun on returns/canceled orders</p>
-                                            <p>0.00NGN</p>
+                                            <p>Refund on returns/canceled orders</p>
+                                            <p>{`${financial_data.refunds_amount} NGN`}</p>
                                         </div>
 
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
                                             <p>Refund on fees</p>
-                                            <p>0.00NGN</p>
+                                            <p>{`${financial_data.refunds_on_fees} NGN`}</p>
                                         </div>
 
                                         <div className={[Styles.greyCell, "displayFlex jcSpaceBetween alignCenter pt10 pb10"].join(" ")}>
                                             <p className="fw600">Subtotal</p>
-                                            <p>0.00NGN</p>
+                                            <p>{`${financial_data.refunds_on_fees + financial_data.refunds_amount} NGN`}</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -243,17 +314,30 @@ const AccountStatement = ({showRequestPayout}) => {
                                     <td>
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
                                             <p>Commission on sales</p>
-                                            <p>0.00NGN</p>
+                                            <p>{`${financial_data.commissions_amount} NGN`}</p>
                                         </div>
 
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
                                             <p>Commission on return amount</p>
-                                            <p>0.00NGN</p>
+                                            <p>{`${financial_data.commission_on_return} NGN`}</p>
                                         </div>
 
                                         <div className={[Styles.greyCell, "displayFlex jcSpaceBetween alignCenter pt10 pb10"].join(" ")}>
                                             <p className="fw600">Subtotal</p>
-                                            <p>0.00NGN</p>
+                                            <p>{`${financial_data.commission_on_return + financial_data.commissions_amount} NGN`}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p>Pay Out</p>
+                                    </td>
+
+                                    <td>
+                                        <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
+                                            <p>Total Paid Out</p>
+                                            <p>{`${financial_data.paid_out_amount} NGN`}</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -268,7 +352,7 @@ const AccountStatement = ({showRequestPayout}) => {
                                     <td className={[Styles.greyCell].join(" ")}>
                                         <div className={[Styles.greyCell, "displayFlex jcSpaceBetween alignCenter pt10 pb10"].join(" ")}>
                                             <p className="fw600">Total Balance</p>
-                                            <p>0.00NGN</p>
+                                            <p>{total_balance}</p>
                                         </div>
                                     </td>
                                 </tr>

@@ -46,6 +46,12 @@ const Payment = () => {
     const [payoutErrorMessage, setPayoutErrorMessage] = useState("")
     const [payoutSuccess, setPayoutSuccess] = useState(false)
     const [payingOut, setPayingOut] = useState(false)
+    const [financial_data, set_financial_data] = useState({
+      returns : [],
+      payouts: []
+    })
+    const [orders, set_orders] = useState([])
+    const [returns, setReturns] = useState([])
     const [pharmacyData, setPharmacyData] = useState({
         balance : "",
         sales: "",
@@ -55,7 +61,9 @@ const Payment = () => {
 
       useEffect(() => {
         fetchPharmacyData()
+        fetchPharmacyOrders()
       }, [])
+
 
       const fetchPharmacyData = async () => {
         try {
@@ -78,9 +86,28 @@ const Payment = () => {
         }
       }
 
+      const fetchPharmacyOrders = async () => {
+        try {
+          const pharmacy_orders_request = await getProtected("orders/pharmacy/all")
+
+          if (pharmacy_orders_request && pharmacy_orders_request.status === "OK") {
+            let temp = [...orders]
+            temp = pharmacy_orders_request.data
+            set_orders(temp)
+          }
+          console.log({orders: pharmacy_orders_request.data});
+
+
+          console.log({pharmacy_orders_request});
+        } catch (error) {
+          console.log({error});
+        }
+      }
+
     useEffect(() => {
         setSlips(sampleOrders)
         setAllSlips(sampleOrders)
+        getFinancialData()
 
         const availableContraints = navigator.mediaDevices.getSupportedConstraints()
     }, [])
@@ -181,6 +208,21 @@ const Payment = () => {
           console.log({error});
         }
       }
+
+      const getFinancialData = async () => {
+        try {
+          const financial_data_request = await getProtected("payments/financials")
+
+          let temp = {...financial_data}
+          temp = financial_data_request.data
+          set_financial_data(temp)
+
+        } catch (error) {
+          console.log({error});
+        }
+      }
+
+
 
 
     return (
@@ -447,15 +489,15 @@ const Payment = () => {
 
             <div>
                     {
-                        activeTab === "account statement" && <AccountStatement showRequestPayout={() => setPayingOut(true)} />
+                        activeTab === "account statement" && <AccountStatement financial_data={financial_data} showRequestPayout={() => setPayingOut(true)} />
                     }
 
                     {
-                        activeTab === "orders overview" && <OrdersOverview />
+                        activeTab === "orders overview" && <OrdersOverview orders={orders} />
                     }
 
                     {
-                        activeTab === "returns overview" && <ReturnsOverview />
+                        activeTab === "returns overview" && <ReturnsOverview returns={financial_data.returns} />
                     }
 
                     {

@@ -100,12 +100,12 @@ const TopNav = ({toggleShowNotifications}) => {
         </div>
 
         <div className='displayFlex alignCenter p10 pr30'>
-            <div className={[loggedInLayoutStyles.searchDiv, 'displayFlex alignCenter'].join(" ")}>
+            {/* <div className={[loggedInLayoutStyles.searchDiv, 'displayFlex alignCenter'].join(" ")}>
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" clipRule="evenodd" d="M11.9304 12.9893C9.5765 14.8221 6.171 14.6565 4.00712 12.4926C1.66397 10.1495 1.66397 6.3505 4.00712 4.00736C6.35026 1.66421 10.1493 1.66421 12.4924 4.00736C14.6563 6.17125 14.8218 9.57674 12.989 11.9306C13.0005 11.9408 13.0117 11.9513 13.0227 11.9623L16.2047 15.1443C16.4976 15.4372 16.4976 15.9121 16.2047 16.205C15.9118 16.4978 15.4369 16.4978 15.1441 16.205L11.9621 13.023C11.9511 13.012 11.9405 13.0008 11.9304 12.9893ZM5.06778 11.432C6.82514 13.1893 9.67438 13.1893 11.4317 11.432C13.1891 9.67462 13.1891 6.82538 11.4317 5.06802C9.67438 3.31066 6.82514 3.31066 5.06778 5.06802C3.31042 6.82538 3.31042 9.67462 5.06778 11.432Z" fill="white" fillOpacity="0.6"/>
                 </svg>
                 <input placeholder='Search' />
-            </div>
+            </div> */}
 
             <svg onClick={() => toggleShowNotifications()}  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className='mr20 cursorPointer'>
                 <path fillRule="evenodd" clipRule="evenodd" d="M14 3V3.28988C16.8915 4.15043 19 6.82898 19 10V17H20V19H4V17H5V10C5 6.82898 7.10851 4.15043 10 3.28988V3C10 1.89543 10.8954 1 12 1C13.1046 1 14 1.89543 14 3ZM7 17H17V10C17 7.23858 14.7614 5 12 5C9.23858 5 7 7.23858 7 10V17ZM14 21V20H10V21C10 22.1046 10.8954 23 12 23C13.1046 23 14 22.1046 14 21Z" fill="white" fillOpacity="0.6"/>

@@ -16,7 +16,7 @@ import ErrorBox from '../../components/atoms/ErrorBox';
 import CreateProduct from '../../components/create-product-components/components/createProduct';
 import TransparentLoader from '../../components/atoms/TransparentLoader';
 
-const getCapitalizedString  = string => {
+export const getCapitalizedString  = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 

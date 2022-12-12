@@ -10,6 +10,8 @@ import dynamic from "next/dynamic";
 import Image from 'next/image';
 import scanSuccess from "../../../assets/images/scanSuccess.png";
 import sampleQR from "../../../assets/images/sampleQR.png";
+import { format } from 'date-fns';
+import { plain_formatter } from './accountStatement';
 const QrReader = dynamic(() => import("react-qr-reader"), { ssr: false });
 
 const getStatusStyle = (status) => {
@@ -22,9 +24,10 @@ const getStatusStyle = (status) => {
 }
 
 
-const ReturnsOverview = () => {
+const ReturnsOverview = ({returns}) => {
     const [slips, setSlips] = useState([])
     const [allSlips, setAllSlips] = useState([])
+    const [allReturns, setAllReturns] = useState([])
     const [selectedSlip, setSelectedSlip] = useState({})
     const [slipID, setSlipID] = useState("")
     const [scanning, setScanning] = useState(false)
@@ -32,7 +35,7 @@ const ReturnsOverview = () => {
 
     useEffect(() => {
         setSlips(sampleOrders)
-        setAllSlips(sampleOrders)
+        setAllReturns(returns)
 
         const availableContraints = navigator.mediaDevices.getSupportedConstraints()
     }, [])
@@ -214,29 +217,28 @@ const ReturnsOverview = () => {
                     {iconsSVGs.filterIconGrey}
                 </div>
 
-                <Button label={"Scan Code"} onClicked={() => {
-                    setScanning(true)
-                    // setScannedSlipDetails({})
-                }} theme={"solid"} leftIcon={iconsSVGs.qrCodeWhite} />
+
             </div>
 
             <div className={[styles.productsTable]}>
                 <table>
                     <tbody>
                         <tr className={styles.tableHeader}>
-                            <td>REF</td>
+                            <td>ORDER N0.</td>
                             {/* <td>ITEM NAME</td> */}
-                            <td>CUSTOMER</td>
-                            <td>DATE GENERATED</td>
+                            <td>ORDER DATE</td>
+                            <td>PAYMENT REF.</td>
+                            <td>DATE RETURNED</td>
+                            <td>REASON</td>
+                            <td>REFUND AMOUNT</td>
                             <td>STATUS</td>
-                            <td>DATE ACTIVATED</td>
                             <td>ACTION</td>
                         </tr>
 
                         {
-                            slips.map((slip, index) => <OrderTableItem slip={slip} key={slip._id} setSelectedSlip={() => {
-                                setScannedSlipDetails(slip)
-                                setSelectedSlip(slip)
+                            allReturns.map((item, index) => <OrderTableItem order={item.order_id} key={item.order_id._id} returns_data={item} setSelectedOrder={() => {
+                                setScannedOrderDetails(order)
+                                setSelectedOrder(order)
                             }} />)
                         }
                     </tbody>
@@ -249,33 +251,67 @@ const ReturnsOverview = () => {
 
 export default ReturnsOverview
 
-const OrderTableItem = ({ slip, setSelectedSlip }) => {
+const order_statuses = ["Pending",
+"Processing",
+"Ready",
+"Picked up",
+"Delivered",
+"Completed",
+'Canceled' ,
+"Returned"]
 
+const OrderTableItem = ({ order, returns_data}) => {
+
+    console.log({returns_data});
 
     return (
         <tr className={styles.orderTableItem}>
             <td className={styles.image}>
-                <p>{slip._id}</p>
+                <p>{order._id}</p>
             </td>
 
             <td>
-                <p>{slip.customer.name}</p>
+                <p>{format(new Date(order.orderDate), "PPP")}</p>
             </td>
 
             <td>
-                <p>{(new Date(slip.dateGenerated)).toLocaleDateString("en-NG")}</p>
+                <p>{order.paymentRef}</p>
+            </td>
+
+            
+
+            <td>
+                <p>{returns_data.date_returned ? format(returns_data.date_returned, "PPP") : "Return pending"}</p>
             </td>
 
             <td>
-                <p className={[getStatusStyle(slip.status), styles.status].join(" ")}>{slip.status.slice(0,1).toUpperCase() + slip.status.slice(1)}</p>
+                <p>{returns_data.reason}</p>
             </td>
 
             <td>
+                <p>{plain_formatter.format(order.preDiscountedAmount)}</p>
+            </td>
+
+            {/* <td>
+                <p>{plain_formatter.format(order.totalAmount - ((order.commission_percentage/100) * order.totalAmount))}</p>
+            </td> */}
+
+            <td>
+                <p>{returns_data.status}</p>
+            </td>
+
+            {/* <td>
                 <p>{(new Date(slip.dateActivated)).toLocaleDateString("en-NG")}</p>
-            </td>
+            </td> */}
+
+            {/* <td>
+                <p className={[getStatusStyle(order_statuses[order.status]), styles.status].join(" ")}>{returns_data.status}</p>
+            </td> */}
 
             <td>
-                <button onClick={() => setSelectedSlip(slip)}>View Details</button>
+                <a href={`/orders?id=${order._id}`} target="_blank" rel="noreferrer">
+                    <button>View Order</button>
+                </a>
             </td>
 
 

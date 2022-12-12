@@ -58,7 +58,7 @@ export default function Home() {
 
   const options = {
     responsive: true,
-  plugins: {
+    plugins: {
 
     title: {
       display: false,
