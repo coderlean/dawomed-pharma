@@ -1,0 +1,277 @@
+.account {
+  nav {
+    display: flex;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-bottom-style: none;
+    border-bottom-style: solid;
+    border-bottom-color: #eaeaea;
+    border-bottom-width: 1px;
+
+    & > div {
+      padding: 18px;
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      /* or 143% */
+
+      display: flex;
+      align-items: center;
+      text-align: center;
+      border-bottom-style: none;
+      border-bottom-style: solid;
+      border-bottom-color: rgba(0, 0, 0, 0);
+
+      /* Grey / 600 */
+
+      color: #757575;
+
+      &:hover {
+        font-weight: bold;
+        color: #1d1272;
+        cursor: pointer;
+        background-color: #f9f9fe;
+        border-bottom-color: #1d1272;
+      }
+    }
+
+    .active {
+      font-weight: bold;
+      color: #1d1272;
+      cursor: pointer;
+      background-color: #f9f9fe;
+      border-bottom-color: #1d1272;
+    }
+  }
+
+  .title {
+    padding-left: 40px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #eaeaea;
+
+    h2 {
+      margin: 0px;
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 28px;
+      /* or 175% */
+
+      display: flex;
+      align-items: center;
+
+      /* Geist theme/Gray/accent 8 */
+
+      color: #111111;
+    }
+  }
+
+  .general {
+    background-color: #fafafa;
+
+    button, .button {
+      width: 100%;
+      padding: 10px;
+      border-style: none;
+      color: white;
+      background-color: #1d1272;
+      cursor: pointer;
+    }
+
+    & > div {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+
+    hr {
+      border-style: none;
+      border-top-style: solid;
+      border-color: #eaeaea;
+    }
+
+    .forms {
+      width: 50%;
+      margin-left: auto;
+      margin-right: auto;
+
+      table {
+        width: 100%;
+
+        tr {
+          td:nth-child(1) {
+            white-space: nowrap;
+            text-align: right;
+            padding-right: 20px;
+          }
+
+          td:nth-child(2) {
+            width: 100%;
+          }
+
+          label {
+            font-family: "Inter";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            /* identical to box height, or 143% */
+
+            /* Geist theme/Gray/accent 6 */
+
+            color: #444444;
+          }
+
+          td {
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+            & > input,
+            select {
+              border-style: none;
+              padding-left: 16px;
+              padding-right: 16px;
+              padding-top: 10px;
+              padding-bottom: 10px;
+              border-style: none;
+              border: 1px solid #999999;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .storeLogo {
+    display: flex;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+
+    & > div:nth-child(2) {
+      flex: 1;
+      border-style: none;
+      border-style: dashed;
+      border-width: 1px;
+      border-color: #999999;
+      margin-left: 50px;
+      div {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        p:nth-child(2) {
+          font-family: "Overpass";
+          font-style: normal;
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 24px;
+
+          /* or 150% */
+
+          text-align: center;
+          cursor: pointer;
+
+          /* Geist theme/Gray/accent 7 */
+
+          color: #333333;
+          margin-bottom: 0px;
+        }
+
+        p:nth-child(3) {
+          font-family: "Inter";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 20px;
+          /* identical to box height, or 143% */
+
+          text-align: center;
+
+          /* Geist theme/Gray/accent 4 */
+
+          color: #888888;
+          margin: 0px;
+        }
+      }
+    }
+  }
+
+  .documentation {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+
+    table {
+        width: 100%;
+
+        tr {
+            td:nth-child(1) {
+                display: flex;
+                align-items: center;
+
+                label {
+                    margin-left: 24px;
+                    color: #333333;
+                }
+            }
+
+            td:nth-child(2) {
+                color: rgb(153, 13, 13);
+            }
+        }
+    }
+
+    & > div {
+      display: flex;
+      justify-content: space-between;
+
+      align-items: center;
+
+      &>div {
+        
+      }
+
+      p:nth-child(2) {
+        color: rgb(153, 13, 13);
+      }
+    }
+
+    button {
+        color: #1d1272;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0);
+        border-style: none;
+        border-style: solid;
+        border-color: #1d1272;
+    }
+  }
+}
+
+.terms {
+  padding: 50px;
+
+  p {
+    font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 28px;
+/* or 175% */
+
+display: flex;
+align-items: center;
+text-align: justify;
+
+/* Geist theme/Gray/accent 5 */
+
+color: #666666;
+  }
+}

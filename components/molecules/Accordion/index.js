@@ -13,8 +13,8 @@ const Accordion = ({title, children}) => {
     }
 
     return (
-        <div className={accordionStyle.accordion} onClick={() => toggleAccordion()}> 
-            <header>
+        <div className={accordionStyle.accordion} > 
+            <header onClick={() => toggleAccordion()}>
                 <h3>{title}</h3>
                 <p>{accordionOpen ? "-" : "+"}</p>
             </header>

@@ -5,60 +5,18 @@ import styles from '../styles/styles.module.css';
 import {format} from "date-fns"
 import { useRouter } from 'next/router';
 
-const NotificationsSideBar = ({toggleShowNotifications}) => {
+const NotificationsSideBar = ({toggleShowNotifications, resetNotificationsCount}) => {
     const [notifications, setNotifications] = useState([])
     useEffect(() => {
         fetchPharmacyNotifications()
     }, [])
-    const sampleData = [
-        {
-          customerName: "John Doe",
-          productName: "Product 1",
-          date: "2020-01-01",
-          productID: "1",
-          orderID: "1",
-          statusType: "new order"
-        }, 
-        {
-          customerName: "Jane Doe",
-          productName: "Product 2",
-          date: "2020-01-01",
-          productID: "2",
-          orderID: "2",
-          statusType: "return"
-        },
-        {
-          customerName: "Gbenga Adeolu",
-          productName: "Product 3",
-          date: "2020-01-01",
-          productID: "3",
-          orderID: "3",
-          statusType: "delivery",
-          deliveryCompany: "DHL"
-        },
-        {
-          customerName: "Anu Fatoki",
-          productName: "Product 4",
-          date: "2020-01-01",
-          productID: "4",
-          orderID: "4",
-          statusType: "new order"
-        },
-        {
-          customerName: "Anu Fatoki",
-          productName: "Product 4",
-          date: "2020-01-01",
-          productID: "4",
-          orderID: "4",
-          statusType: "update",
-          title: "We would like to announce a new version of Dawomed for Pharmacies",
-          body: "We would like to announce a new version of Dawomed for Pharmacies. This is a very important update that will help you to get the most out of Dawomed. We are very excited to announce this update and we hope you will enjoy Dawomed as much as we enjoyed making it."
-        }
-      ]
 
     const fetchPharmacyNotifications = async () => {
         try {
           const notificationsList = await getProtected(`pharmacies/notifications`)
+
+          console.log("resetting notifications count");
+          resetNotificationsCount()
     
           let temp = [...notifications]
           temp = notificationsList.data
@@ -67,12 +25,10 @@ const NotificationsSideBar = ({toggleShowNotifications}) => {
           console.log({error});
         }
       }
-    
-      console.log({notifications});
+
     
 
     const getNotificationData = item => {
-        console.log({item});
         switch (item.activity) {
             case "New Order":
                 return {
@@ -132,7 +88,7 @@ const NotificationsSideBar = ({toggleShowNotifications}) => {
 }
 
 const NotificationItem = ({data}) => {
-    console.log({data});
+
     const [date, setDate] = useState("")
     const router = useRouter()
 
@@ -141,9 +97,7 @@ const NotificationItem = ({data}) => {
     }, [])
 
     const setNotificationDate = () => {
-        console.log("date", data.date);
         const notificationDate = new Date(data.date)
-        console.log(data.date);
         setDate(format(notificationDate, "PPP"))
     }
 

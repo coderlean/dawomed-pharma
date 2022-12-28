@@ -37,8 +37,6 @@ const CreateAccount = (props) => {
             component: <PharmacyInformation currentPharmacyDetails={currentPharmacyDetails} updatePharmacyDetails={(value, field) => {
                 const temp = {...currentPharmacyDetails}
 
-                console.log({value, field});
-
                 temp.pharmacyInformation[String(field)] = value
 
                 setCurrentPharmacyDetails(temp)

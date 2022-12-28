@@ -66,7 +66,6 @@
   color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
   font-weight: bold;
-  margin-right: 50px;
   cursor: pointer;
 }
 
@@ -78,12 +77,30 @@
   color: white;
   font-size: 14px;
   font-weight: bold;
-  margin-right: 50px;
   cursor: pointer;
 }
 
 .topNav .activeNavItem:hover {
   color: white;
+}
+
+.topNav .countContainer {
+  display: inline;
+  margin-right: 50px;
+}
+
+.topNav .countContainer label {
+  background-color: #DF1642;
+  color: white;
+  padding: 4px;
+  font-size: 12px;
+  border-style: none;
+  border-radius: 3px;
+  margin-left: 5px;
+}
+
+.topNav .mr50 {
+  margin-right: 50px;
 }
 
 .topNav .logoDiv {
@@ -232,5 +249,26 @@
 
 .notificationDate {
   font-size: 10px !important;
+}
+
+.notification {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-right: 20px;
+}
+
+.notification label {
+  background-color: #DF1642;
+  color: white;
+  padding: 4px;
+  font-size: 12px;
+  border-style: none;
+  border-radius: 3px;
+  margin-left: 5px;
+}
+
+.notification svg {
+  margin-right: 0px;
 }
 /*# sourceMappingURL=styles.module.css.map */

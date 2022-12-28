@@ -67,7 +67,7 @@ z-index: 5000;
         color: rgba(255,255,255,0.6);
         font-size: 14px;
         font-weight: bold;
-        margin-right: 50px;
+
         cursor: pointer;
 
         &:hover {
@@ -79,12 +79,29 @@ z-index: 5000;
         color: white;
         font-size: 14px;
         font-weight: bold;
-        margin-right: 50px;
         cursor: pointer;
 
         &:hover {
             color: white;
         }
+    }
+
+    .countContainer {
+        display: inline;
+        margin-right: 50px;
+        label {
+            background-color: #DF1642;
+        color: white;
+        padding: 4px;
+        font-size: 12px;
+        border-style: none;
+        border-radius: 3px;
+        margin-left: 5px;
+        }
+    }
+
+    .mr50 {
+        margin-right: 50px;
     }
 
 
@@ -231,4 +248,22 @@ z-index: 5000;
 
 .notificationDate {
     font-size: 10px !important;
+}
+
+.notification {
+    align-items: center;
+    margin-right: 20px;
+    label {
+        
+        background-color: #DF1642;
+        color: white;
+        padding: 4px;
+        font-size: 12px;
+        border-style: none;
+        border-radius: 3px;
+        margin-left: 5px;
+    }
+    svg {
+        margin-right: 0px;
+    }
 }

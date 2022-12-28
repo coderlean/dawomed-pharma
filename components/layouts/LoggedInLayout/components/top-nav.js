@@ -5,15 +5,13 @@ import searchIcon from "../../../../assets/images/search.svg";
 import { useRouter } from 'next/router';
 import {useCookies} from "react-cookie"
 
-const TopNav = ({toggleShowNotifications}) => {
+const TopNav = ({toggleShowNotifications, newActivityCount}) => {
     var location = useRouter().pathname;
     location = location.split("/")[1];
     const [showUserMenu, setShowUserMenu] = React.useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(["user"])
     const router = useRouter()
     const user = JSON.parse(localStorage.getItem("user"))
-
-    console.log({user});
 
     const toggleUserMenu = () => {
         if (showUserMenu){
@@ -89,12 +87,30 @@ const TopNav = ({toggleShowNotifications}) => {
                 </div>
             </div>
 
-            <div>
-                <Link href={"/"}><label className={location === "" ? loggedInLayoutStyles.activeNavItem : loggedInLayoutStyles.inactiveNavItem}>Dashboard</label></Link>
-                <Link href={"/products"}><label className={location === "products" ? loggedInLayoutStyles.activeNavItem : loggedInLayoutStyles.inactiveNavItem}>Products</label></Link>
-                <Link href={"/orders"}><label className={location === "orders" ? loggedInLayoutStyles.activeNavItem : loggedInLayoutStyles.inactiveNavItem}>Orders</label></Link>
-                <Link href={"/pick-up-slip"}><label className={location === "pick-up-slip" ? loggedInLayoutStyles.activeNavItem : loggedInLayoutStyles.inactiveNavItem}>Pick Up Slip</label></Link>
-                <Link href={"/payment"}><label className={location === "payment" ? loggedInLayoutStyles.activeNavItem : loggedInLayoutStyles.inactiveNavItem}>Payment</label></Link>
+            <div className='displayFlex, alignCenter'>
+                <Link href={"/"}><label className={location === "pick-up-slip" ? [loggedInLayoutStyles.activeNavItem, loggedInLayoutStyles.mr50].join(" ") : [loggedInLayoutStyles.inactiveNavItem, loggedInLayoutStyles.mr50].join(" ")}>Dashboard</label></Link>
+                <Link href={"/products"}><span><label className={location === "pick-up-slip" ? [loggedInLayoutStyles.activeNavItem, loggedInLayoutStyles.mr50].join(" ") : [loggedInLayoutStyles.inactiveNavItem, loggedInLayoutStyles.mr50].join(" ")}>Products</label></span></Link>
+                <Link href={"/orders"}>
+                    <span>
+                    <label className={location === "orders" ? loggedInLayoutStyles.activeNavItem : loggedInLayoutStyles.inactiveNavItem}>Orders</label>
+                    <div className={loggedInLayoutStyles.countContainer}>
+                        {
+                            newActivityCount.newOrdersCount > 0 && <label>{newActivityCount.newOrdersCount}</label>
+                        }
+                    </div>
+                    </span>
+                </Link>
+                <Link href={"/pick-up-slip"}>
+                    <span>
+                    <label className={location === "pick-up-slip" ? loggedInLayoutStyles.activeNavItem : loggedInLayoutStyles.inactiveNavItem}>Pick Up Slip</label>
+                    <div className={loggedInLayoutStyles.countContainer}>
+                        {
+                            newActivityCount.newPickUpSlipsCount > 0 && <label>{newActivityCount.newPickUpSlipsCount}</label>
+                        }
+                    </div>
+                    </span>
+                </Link>
+                <Link href={"/payment"}><label className={location === "pick-up-slip" ? [loggedInLayoutStyles.activeNavItem, loggedInLayoutStyles.mr50].join(" ") : [loggedInLayoutStyles.inactiveNavItem, loggedInLayoutStyles.mr50].join(" ")}>Payment</label></Link>
                 <Link href={"/report"}><label className={location === "report" ? loggedInLayoutStyles.activeNavItem : loggedInLayoutStyles.inactiveNavItem}>Report</label></Link>
             </div>
         </div>
@@ -107,13 +123,18 @@ const TopNav = ({toggleShowNotifications}) => {
                 <input placeholder='Search' />
             </div> */}
 
-            <svg onClick={() => toggleShowNotifications()}  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className='mr20 cursorPointer'>
+            <svg onClick={() => toggleShowNotifications()}  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className='cursorPointer'>
                 <path fillRule="evenodd" clipRule="evenodd" d="M14 3V3.28988C16.8915 4.15043 19 6.82898 19 10V17H20V19H4V17H5V10C5 6.82898 7.10851 4.15043 10 3.28988V3C10 1.89543 10.8954 1 12 1C13.1046 1 14 1.89543 14 3ZM7 17H17V10C17 7.23858 14.7614 5 12 5C9.23858 5 7 7.23858 7 10V17ZM14 21V20H10V21C10 22.1046 10.8954 23 12 23C13.1046 23 14 22.1046 14 21Z" fill="white" fillOpacity="0.6"/>
             </svg>
 
 
             <div className='displayFlex alignCenter cursorPointer' onClick={() => toggleUserMenu()}>
+                <div className={loggedInLayoutStyles.notification}>
                 <img />
+                {
+                    newActivityCount.newNotificationsCount > 0 && <label>{newActivityCount.newNotificationsCount}</label>
+                }
+                </div>
                 <p className='font14 mr10'>{user.pharmacyName}</p>
                 
                 <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">

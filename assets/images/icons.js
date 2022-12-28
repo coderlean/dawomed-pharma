@@ -1,3 +1,5 @@
+import { pharmImage } from "./pharmimage";
+
 export  const iconsSVGs = {
     shoppingCart : <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path fillRule="evenodd" clipRule="evenodd" d="M5.79166 2H1V4H4.2184L6.9872 16.6776H7V17H20V16.7519L22.1932 7.09095L22.5308 6H6.6552L6.08485 3.38852L5.79166 2ZM19.9869 8H7.092L8.62081 15H18.3978L19.9869 8Z" fill="#F5A623"/>
@@ -146,7 +148,28 @@ export  const iconsSVGs = {
     <circle cx="155" cy="58" r="3" fill="#DDD9FE"/>
     <circle cx="41" cy="58" r="3" fill="#F7B955"/>
     <circle cx="147.5" cy="4.5" r="4.5" fill="#D2E9FF"/>
+    </svg>,
+
+    pharmImage : pharmImage,
+
+    placeholderImage : <svg width="65" height="65" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.5" y="0.5" width="64" height="64" rx="32" fill="#EAEAEA"/>
+    <path opacity="0.5" d="M41.8333 20.5H23.1667C21.6939 20.5 20.5 21.6939 20.5 23.1667V41.8333C20.5 43.3061 21.6939 44.5 23.1667 44.5H41.8333C43.3061 44.5 44.5 43.3061 44.5 41.8333V23.1667C44.5 21.6939 43.3061 20.5 41.8333 20.5Z" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path opacity="0.5" d="M27.8335 29.8335C28.9381 29.8335 29.8335 28.9381 29.8335 27.8335C29.8335 26.7289 28.9381 25.8335 27.8335 25.8335C26.7289 25.8335 25.8335 26.7289 25.8335 27.8335C25.8335 28.9381 26.7289 29.8335 27.8335 29.8335Z" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path opacity="0.5" d="M44.4998 36.5002L37.8332 29.8335L23.1665 44.5002" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>,
+
+    documentIcon : <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="64" height="64" fill="#EAEAEA"/>
+    <path opacity="0.5" d="M34.6668 18.667H24.0002C23.2929 18.667 22.6146 18.9479 22.1145 19.448C21.6144 19.9481 21.3335 20.6264 21.3335 21.3337V42.667C21.3335 43.3742 21.6144 44.0525 22.1145 44.5526C22.6146 45.0527 23.2929 45.3337 24.0002 45.3337H40.0002C40.7074 45.3337 41.3857 45.0527 41.8858 44.5526C42.3859 44.0525 42.6668 43.3742 42.6668 42.667V26.667L34.6668 18.667Z" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path opacity="0.5" d="M34.6665 18.667V26.667H42.6665" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path opacity="0.5" d="M37.3332 33.333H26.6665" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M37.3332 38.667H26.6665" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M29.3332 28H27.9998H26.6665" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
+    
+    
+
     
     
     
