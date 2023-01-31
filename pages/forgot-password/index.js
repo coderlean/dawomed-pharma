@@ -9,6 +9,7 @@ import PasswordInput from "../../components/atoms/PasswordInput";
 import SuccessBox from "../../components/atoms/SuccessBox";
 import TextInput from "../../components/atoms/TextInput";
 import LabeledTextInput from "../../components/molecules/LabeledTextInput";
+import { postPlain } from "../../requests/postPlain";
 import loginStyles from "./styles/styles.module.css";
 
 const ForgotPassword = () => {
@@ -33,15 +34,17 @@ const ForgotPassword = () => {
 
   const sendForgotPasswordEmail = async email => {
     try {
-      const forgotPasswordRequest = await fetch("http://localhost:5000/auth/forgot-password", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({email})
-      })
+      const forgotPasswordResponse = postPlain("auth/forgot-password", {email})
+      
+      // await fetch("http://localhost:5000/auth/forgot-password", {
+      //   method: "POST",
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({email})
+      // })
 
-      const forgotPasswordResponse = await forgotPasswordRequest.json()
+      // const forgotPasswordResponse = await forgotPasswordRequest.json()
 
       if (forgotPasswordResponse.success && forgotPasswordResponse.success === true) {
         setSuccessMessage(forgotPasswordResponse.message)

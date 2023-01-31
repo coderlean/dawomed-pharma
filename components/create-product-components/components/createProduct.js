@@ -11,6 +11,9 @@ import Image from 'next/image';
 import Loader from '../../atoms/Loader';
 import ErrorBox from '../../atoms/ErrorBox';
 import SuccessBox from '../../atoms/SuccessBox';
+import { postProtected } from '../../../requests/postProtected';
+import { putProtected } from '../../../requests/putProtected';
+import { postProtectedMultiPart } from '../../../requests/postProtectedMultiPart';
 
 const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, mode, fetchProducts, setCurrentDrugDetails, setMode, deleteDraft}) => {
     const [currentTab, setCurrentTab] = useState(0)
@@ -127,15 +130,17 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
         setErrorMessage("")
         const token = localStorage.getItem("userToken")
 
-            const createProductRequest = await fetch("http://localhost:5000/product/new", {
-                method : "POST",
-                headers: {
-                    "authorization": `Bearer ${token}`
-                },
-                body : productData
-            })
+            const createProductResponse = await postProtectedMultiPart("product/new", productData)
+            
+            // await fetch("http://localhost:5000/product/new", {
+            //     method : "POST",
+            //     headers: {
+            //         "authorization": `Bearer ${token}`
+            //     },
+            //     body : productData
+            // })
 
-            const createProductResponse = await createProductRequest.json()
+            // const createProductResponse = await createProductRequest.json()
 
             console.log({createProductResponse});
 
@@ -155,15 +160,17 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
     const updateProduct = async (productData) => {
         const token = localStorage.getItem("userToken")
 
-            const createProductRequest = await fetch(`http://localhost:5000/product/${currentDrug._id}`, {
-                method : "PUT",
-                headers: {
-                    "authorization": `Bearer ${token}`
-                },
-                body : productData
-            })
+            const createProductResponse = postProtectedMultiPart(`product/${currentDrug._id}`, productData)
+            
+            // await fetch(`http://localhost:5000/product/${currentDrug._id}`, {
+            //     method : "PUT",
+            //     headers: {
+            //         "authorization": `Bearer ${token}`
+            //     },
+            //     body : productData
+            // })
 
-            const createProductResponse = await createProductRequest.json()
+            // const createProductResponse = await createProductRequest.json()
 
             if (createProductResponse.success){
                 setCreatedProduct(true)
@@ -178,15 +185,17 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
         const productData = generateProductData()
         const token = localStorage.getItem("userToken")
 
-            const createProductRequest = await fetch(`http://localhost:5000/product/draft/${currentDrug._id}`, {
-                method : "PUT",
-                headers: {
-                    "authorization": `Bearer ${token}`
-                },
-                body : productData
-            })
+            const createProductResponse = postProtectedMultiPart(`product/draft/${currentDrug._id}`, productData)
+            
+            // await fetch(`http://localhost:5000/product/draft/${currentDrug._id}`, {
+            //     method : "PUT",
+            //     headers: {
+            //         "authorization": `Bearer ${token}`
+            //     },
+            //     body : productData
+            // })
 
-            const createProductResponse = await createProductRequest.json()
+            // const createProductResponse = await createProductRequest.json()
 
             if (createProductResponse.success){
                     setDraftLabel("Draft updated")
@@ -230,15 +239,17 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
         const token = localStorage.getItem("userToken")
 
         try {
-            const createDraftRequest = await fetch("http://localhost:5000/product/draft/new", {
-                method : "POST",
-                headers: {
-                    "authorization": `Bearer ${token}`
-                },
-                body : productData
-            })
+            const createDraftResponse = postProtectedMultiPart("product/draft/new", productData)
+            
+            // await fetch("http://localhost:5000/product/draft/new", {
+            //     method : "POST",
+            //     headers: {
+            //         "authorization": `Bearer ${token}`
+            //     },
+            //     body : productData
+            // })
 
-            const createDraftResponse = await createDraftRequest.json()
+            // const createDraftResponse = await createDraftRequest.json()
 
             if (createDraftResponse.success){
                 setSaveDraftLabel("Draft saved")
@@ -351,15 +362,17 @@ const ProductInfo = ({currentDrug, mode, setCurrentDrug, updateCurrentDrug}) => 
     const findDrugs = async (drug_name) => {
         setQuery(drug_name)
         try {
-            const searchDrugsListRequest = await fetch("http://localhost:5000/product/drugs/search", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({query: drug_name})
-            })
+            const searchDrugsListResponse = postProtected("product/drugs/search", {query: drug_name})
+            
+            // await fetch("http://localhost:5000/product/drugs/search", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json"
+            //     },
+            //     body: JSON.stringify({query: drug_name})
+            // })
 
-            const searchDrugsListResponse = await searchDrugsListRequest.json()
+            // const searchDrugsListResponse = await searchDrugsListRequest.json()
 
             const tempDrugSearchResults = [...drugSearchResults]
             tempDrugSearchResults = searchDrugsListResponse.data

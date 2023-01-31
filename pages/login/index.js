@@ -13,6 +13,7 @@ import loginStyles from "./styles/styles.module.css";
 import {useCookies} from "react-cookie"
 import Loader from "../../components/atoms/Loader";
 import ButtonLoader from "../../components/atoms/ButtonLoader";
+import { postPlain } from "../../requests/postPlain";
 
 const Login = () => {
   const router = useRouter()
@@ -47,15 +48,17 @@ const Login = () => {
     setErrorMessage("")
     const userLoginDetails = {type: "pharmacy", ...loginDetails}
     try {
-      const logInRequest = await fetch("http://localhost:5000/auth/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(userLoginDetails)
-      })
+      const loginResponse = postPlain("auth/signin", userLoginDetails)
+      
+      // await fetch("http://localhost:5000/auth/signin", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify(userLoginDetails)
+      // })
 
-      const loginResponse = await logInRequest.json()
+      // const loginResponse = await logInRequest.json()
 
       setLoggingIn(false)
 

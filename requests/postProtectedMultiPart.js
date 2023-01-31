@@ -2,7 +2,7 @@ export const postProtectedMultiPart = async (path, data) => {
     const token = localStorage.getItem("userToken")
 
     try {
-        const request = await fetch(`http://localhost:5000/${path}`, {
+        const request = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${path}`, {
             method: 'POST',
             headers: {
                 "authorization": `Bearer ${token}`

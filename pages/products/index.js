@@ -21,6 +21,8 @@ import SuccessBox from '../../components/atoms/SuccessBox';
 import ButtonLoader from '../../components/atoms/ButtonLoader';
 import Link from 'next/link';
 import { useClickedOutside } from '../../helpers/hooks';
+import { postPlain } from '../../requests/postPlain';
+import { deleteProtected } from '../../requests/deleteProtected';
 
 
 export const getCapitalizedString  = string => {
@@ -87,15 +89,17 @@ const Products = () => {
             setLoading(true)
 
 
-            const fetchProductsRequest = await fetch("http://localhost:5000/product/pharmacy/all", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({pharmacyId: pharmacyId})
-            })
+            const fetchProductsResponse = await postProtected("product/pharmacy/all", {pharmacyId: pharmacyId})
+            
+            // await fetch("http://localhost:5000/product/pharmacy/all", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json"
+            //     },
+            //     body: JSON.stringify({pharmacyId: pharmacyId})
+            // })
 
-            const fetchProductsResponse = await fetchProductsRequest.json()
+            // const fetchProductsResponse = await fetchProductsRequest.json()
 
             setLoading(false)
 
@@ -129,15 +133,17 @@ const Products = () => {
         try {
             const pharmacyId = JSON.parse(localStorage.getItem("user"))._id
 
-            const fetchDraftsRequest = await fetch("http://localhost:5000/product/pharmacy/drafts/all", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({pharmacyId: "62a12f4cc56f56c9f6b14c28"})
-            })
+            const fetchDraftsResponse = await postPlain("product/pharmacy/drafts/all", {pharmacyId: pharmacyId})
+            
+            // await fetch("http://localhost:5000/product/pharmacy/drafts/all", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json"
+            //     },
+            //     body: JSON.stringify({pharmacyId: "62a12f4cc56f56c9f6b14c28"})
+            // })
 
-            const fetchDraftsResponse = await fetchDraftsRequest.json()
+            // const fetchDraftsResponse = await fetchDraftsRequest.json()
 
             console.log({fetchDraftsResponse});
 
@@ -173,14 +179,16 @@ const Products = () => {
     const deleteDraft = async (draftID) => {
         try {
             const token = localStorage.getItem("userToken")
-            const deleteDraftRequest = await fetch(`http://localhost:5000/product/draft/${draftID}`, {
-                method: "DELETE",
-                headers: {
-                    "authorization": `Bearer ${token}`
-                }
-            })
+            const deleteDraftResponse = deleteProtected(`product/draft/${draftID}`,{})
+            
+            // await fetch(`http://localhost:5000/product/draft/${draftID}`, {
+            //     method: "DELETE",
+            //     headers: {
+            //         "authorization": `Bearer ${token}`
+            //     }
+            // })
 
-            const deleteDraftResponse = await deleteDraftRequest.json()
+            // const deleteDraftResponse = await deleteDraftRequest.json()
 
             if (deleteDraftResponse.success || productsToDelete.length > 0) {
                 const temp = [...productsToDelete]
@@ -222,16 +230,18 @@ const Products = () => {
         try {
             const token = localStorage.getItem("userToken")
 
-            const createCouponRequest = await fetch("http://localhost:5000/coupon/new", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({...coupon, status: status})
-            })
+            const createCouponResponse = postProtected("coupon/new", {...coupon, status: status})
+            
+            // await fetch("http://localhost:5000/coupon/new", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //         "authorization": `Bearer ${token}`
+            //     },
+            //     body: JSON.stringify({...coupon, status: status})
+            // })
 
-            const createCouponResponse = await createCouponRequest.json()
+            // const createCouponResponse = await createCouponRequest.json()
 
             if (createCouponResponse.success) {
                 setCreatingCoupon("created")
@@ -973,15 +983,17 @@ const DeleteProduct = ({ onCancel, productsToDelete, fetchProducts, mode, delete
         setDeleting("processing")
         try {
             const token = localStorage.getItem("userToken")
-            const deleteProductsRequest = await fetch(`http://localhost:5000/product/${productsToDelete[0]}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`
-                }
-            })
+            const deleteProductsResponse = deleteProtected(`product/${productsToDelete[0]}`)
+            
+            // await fetch(`http://localhost:5000/product/${productsToDelete[0]}`, {
+            //     method: "DELETE",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //         "authorization": `Bearer ${token}`
+            //     }
+            // })
 
-            const deleteProductsResponse = await deleteProductsRequest.json()
+            // const deleteProductsResponse = await deleteProductsRequest.json()
 
             if (deleteProductsResponse.success){
                 setDeleting("completed")

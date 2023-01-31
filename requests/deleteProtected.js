@@ -1,9 +1,9 @@
-export const putProtected = async (path, data) => {
+export const deleteProtected = async (path, data) => {
     const token = localStorage.getItem("userToken")
     console.log({token});
     try {
         const request = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${path}`, {
-            method: 'PUT',
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 "authorization": `Bearer ${token}`
