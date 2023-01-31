@@ -62,7 +62,7 @@ const ForgotPassword = () => {
             <title>Forgot Password</title>
         </Head>
       <nav>
-        <Link href={"/create-account"}>
+        <Link href={"/create-account"} passHref={true}>
         <Button label="LOG IN" theme="outline" onClicked={() => router.push("/login")} />
         </Link>
       </nav>

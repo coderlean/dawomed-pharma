@@ -26,7 +26,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
             const sales_total = financial_data.orders_amount + financial_data.sales_fees
             const refunds_total = financial_data.refunds_amount + financial_data.refunds_on_fees
             const commissions_total = financial_data.commissions_amount + financial_data.commission_on_return
-            const pay_out_total = financial_data.paid_out_amount
+            const pay_out_total = financial_data?.paid_out_amount
 
             set_total_balance(sales_total - (refunds_total + commissions_total + pay_out_total))
         }
@@ -204,7 +204,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
 
                             <div>
 
-                            <p>{formatter.format(financial_data.paid_out_amount ? financial_data.paid_out_amount : 0)} <span>NGN</span></p>
+                            <p>{formatter.format(financial_data?.paid_out_amount ? financial_data?.paid_out_amount : 0)} <span>NGN</span></p>
                             </div>
                         </div>
 
@@ -337,7 +337,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
                                     <td>
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
                                             <p>Total Paid Out</p>
-                                            <p>{`${financial_data.paid_out_amount} NGN`}</p>
+                                            <p>{`${financial_data?.paid_out_amount} NGN`}</p>
                                         </div>
                                     </td>
                                 </tr>
