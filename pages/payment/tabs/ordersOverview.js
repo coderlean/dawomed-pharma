@@ -12,6 +12,7 @@ import scanSuccess from "../../../assets/images/scanSuccess.png";
 import sampleQR from "../../../assets/images/sampleQR.png";
 import { format } from 'date-fns';
 import { plain_formatter } from './accountStatement';
+import { postProtected } from '../../../requests/postProtected';
 const QrReader = dynamic(() => import("react-qr-reader"), { ssr: false });
 
 const getStatusStyle = (status) => {
@@ -34,17 +35,24 @@ const getStatusStyle = (status) => {
 }
 
 
-const OrdersOverview = ({orders}) => {
+const OrdersOverview = ({allOrders}) => {
+    console.log({allOrders});
 
     const [allSlips, setAllSlips] = useState([])
     const [selectedOrder, setSelectedOrder] = useState({})
     const [slipID, setSlipID] = useState("")
     const [scanning, setScanning] = useState(false)
     const [scannedOrderDetails, setScannedOrderDetails] = useState({})
+    const [searchQuery, setSearchQuery] = useState({
+        query: "",
+        searchBy: "",
+        orderBy: "newest"
+    })
+    const [orders, setOrders] = useState([])
 
     useEffect(() => {
 
-
+        setOrders(allOrders)
         const availableContraints = navigator.mediaDevices.getSupportedConstraints()
     }, [])
 
@@ -86,6 +94,34 @@ const OrdersOverview = ({orders}) => {
         var tempSlips = allSlips
         tempSlips = tempSlips.filter(slip => slip.status.toLowerCase() === "used")
         setOrders(tempSlips)
+    }
+
+    const updateSearchDetails = event => {
+        const field = event.target.name
+        const value = event.target.value
+
+        let temp = {...searchQuery}
+        temp[field] = value
+        setSearchQuery(temp)
+    }
+
+    const searchOrders = async event => {
+        try {
+            event.preventDefault()
+
+        const searchOrdersRequest = await postProtected(`orders/search/pharmacy`, searchQuery)
+
+        console.log({searchOrdersRequest});
+
+        if (searchOrdersRequest && searchOrdersRequest.status === "OK") {
+            let temp = {...orders}
+            temp = searchOrdersRequest.data
+            setOrders(temp)
+        }
+        } catch (error) {
+            console.log({error});
+        }
+
     }
 
 
@@ -212,24 +248,39 @@ const OrdersOverview = ({orders}) => {
 
 
 
+<form className={styles.searchForm} onChange={event => updateSearchDetails(event)} onSubmit={event => searchOrders(event)}>
             <div className={[styles.searchDiv, 'displayFlex jcEnd pt20 pb20'].join(" ")}>
                 <div className={[styles.search, "displayFlex alignCenter mr10"].join(" ")}>
-                    <input placeholder='Search' />
+                    <input placeholder='Search' name='query' />
+                    <select className={styles.searchList} name="searchBy">
+                        <option value={""}>All</option>
+                        <option value={"id"}>Order ID</option>
+                        <option value={"name"}>Customer Name</option>
+                        <option value={"email"}>Customer Email</option>
+                    </select>
                     {iconsSVGs.searchIconGrey}
                 </div>
 
                 <div className={[styles.sort, "displayFlex alignCenter mr10"].join(" ")}>
                     <p>Sort by: Recent</p>
+                    <select className={styles.searchList} name="orderBy">
+                        <option value={"newest"}>Newest</option>
+                        <option value={"oldest"}>Oldest</option>
+                        <option value={"lowest"}>Lowest Amount</option> 
+                        <option value={"highest"}>Highest Amount</option>
+
+                    </select>
                     {iconsSVGs.sortIconGrey}
                 </div>
 
-                <div className={[styles.filter, "displayFlex alignCenter"].join(" ")}>
+                {/* <div className={[styles.filter, "displayFlex alignCenter"].join(" ")}>
                     <p>Filter by</p>
                     {iconsSVGs.filterIconGrey}
-                </div>
+                </div> */}
 
-
+                <Button label={"Search"} />
             </div>
+            </form>
 
             <div className={[styles.productsTable]}>
                 <table>

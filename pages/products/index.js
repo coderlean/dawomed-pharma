@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { iconsSVGs } from '../../assets/images/icons';
 import LoggedInLayout from '../../components/layouts/LoggedInLayout/loggedinLayout';
 import styles from "./styles/styles.module.css";
@@ -15,6 +15,13 @@ import DatePicker from '../../components/molecules/DatePicker';
 import ErrorBox from '../../components/atoms/ErrorBox';
 import CreateProduct from '../../components/create-product-components/components/createProduct';
 import TransparentLoader from '../../components/atoms/TransparentLoader';
+import { postProtected } from '../../requests/postProtected';
+import * as xlsx from "xlsx"
+import SuccessBox from '../../components/atoms/SuccessBox';
+import ButtonLoader from '../../components/atoms/ButtonLoader';
+import Link from 'next/link';
+import { useClickedOutside } from '../../helpers/hooks';
+
 
 export const getCapitalizedString  = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -45,9 +52,30 @@ const Products = () => {
     const [coupons, setCoupons] = useState([])
     const [activeCoupons, setActiveCoupons] = useState([])
     const [loading, setLoading] = useState(true)
+    const [searchQuery, setSearchQuery] = useState({
+        queryString: "",
+        searchBy: "name",
+        sortBy: "newest",
+    })
+    const [couponSearchQuery, setCouponSearchQuery] = useState({
+        queryString: "",
+        searchBy: "name",
+        sortBy: "newest",
+        filterBy: "all",
+    })
+    const [productsList, setProductsList] = useState([])
+    const [productsListFile, setProductsListFile] = useState("")
+    const productsListSelect = useRef(null)
+    const [batchSuccessMessage, setBatchSuccessMessage] = useState("")
+    const [batchErrorMessage, setBatchErrorMessage] = useState("")
+    const [batchUploading, setBatchUploading] = useState(false)
+    const [batchCreating, setBatchCreating] = useState(false)
+    const [drafts, setDrafts] = useState([])
+    const uploadProductMenu = useClickedOutside(() => {setShowUploadProductMenu(false)})
 
     useEffect(() => {
         fetchProducts()
+        fetchDrafts()
     }, [])
 
     const fetchProducts = async () => {
@@ -101,7 +129,7 @@ const Products = () => {
         try {
             const pharmacyId = JSON.parse(localStorage.getItem("user"))._id
 
-            const fetchProductsRequest = await fetch("http://localhost:5000/product/pharmacy/drafts/all", {
+            const fetchDraftsRequest = await fetch("http://localhost:5000/product/pharmacy/drafts/all", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -109,13 +137,15 @@ const Products = () => {
                 body: JSON.stringify({pharmacyId: "62a12f4cc56f56c9f6b14c28"})
             })
 
-            const fetchProductsResponse = await fetchProductsRequest.json()
+            const fetchDraftsResponse = await fetchDraftsRequest.json()
 
-            const temp = [...products]
-            temp = fetchProductsResponse.products
-            setProducts(temp)
+            console.log({fetchDraftsResponse});
 
-            console.log({fetchProductsResponse});
+            const temp = [...drafts]
+            temp = fetchDraftsResponse.data
+            setDrafts(temp)
+
+
         } catch (error) {
             console.log({error});
         }
@@ -162,7 +192,7 @@ const Products = () => {
         }
     }
 
-    const validateCoupon = () => {
+    const validateCoupon = (status) => {
         if (!coupon.name){
             setCouponErrorMessage("Name is required")
             return
@@ -178,14 +208,17 @@ const Products = () => {
         } else if (!coupon.percentage){
             setCouponErrorMessage("Percentage is required")
             return
+        } else if (coupon.percentage > 100){
+            setCouponErrorMessage("Coupon percentage cannot be more than 100%")
+            return
         } else {
             setCreatingCoupon("creating")
             setCouponErrorMessage("")
-            createCoupon()
+            createCoupon(status)
         }
     }
 
-    const createCoupon = async () => {
+    const createCoupon = async (status) => {
         try {
             const token = localStorage.getItem("userToken")
 
@@ -195,13 +228,14 @@ const Products = () => {
                     "Content-Type": "application/json",
                     "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(coupon)
+                body: JSON.stringify({...coupon, status: status})
             })
 
             const createCouponResponse = await createCouponRequest.json()
 
             if (createCouponResponse.success) {
                 setCreatingCoupon("created")
+                fetchProducts()
             } else {
                 setCreatingCoupon(true)
                 setCouponErrorMessage(createCouponResponse.error)
@@ -211,7 +245,116 @@ const Products = () => {
         }
     }
 
-    console.log({creatingCoupon});
+    const updateQuery = event => {
+        const name = event.target.name
+        const value = event.target.value
+
+        const temp = {...searchQuery}
+        temp[name] = value
+        setSearchQuery(temp)
+    }
+
+    const updateCouponQuery = event => {
+        const name = event.target.name
+        const value = event.target.value
+
+        const temp = {...couponSearchQuery}
+        temp[name] = value
+        setCouponSearchQuery(temp)
+    }
+
+    const sendSearchQuery = async (event) => {
+        try {
+            event.preventDefault()
+
+            setLoading(true)
+
+            const searchQueryRequest = await postProtected("products/find", searchQuery)
+
+            setLoading(false)
+
+            if (searchQueryRequest.status && searchQueryRequest.status === "OK") {
+                const temp = [...products]
+                temp = searchQueryRequest.data
+                setProducts(temp)
+    
+                temp = {...stock}
+    
+                searchQueryRequest.data.forEach(product => {
+                    if (Number(product.quantity) === Number(product.sold)) {
+                        temp.outOfStock.push(product)
+                    } else {
+                        temp.inStock.push(product)
+                    }
+                })
+            }
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const sendCouponSearchQuery = async (event) => {
+        try {
+            event.preventDefault()
+
+            setLoading(true)
+
+            const searchQueryRequest = await postProtected("products/coupons/find", couponSearchQuery)
+
+            setLoading(false)
+
+            if (searchQueryRequest.status && searchQueryRequest.status === "OK") {
+                const temp = [...coupons]
+                temp = searchQueryRequest.data
+                setCoupons(temp)
+
+            }
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    console.log({coupon});
+
+    const handleFileSelected = (event) => {
+        console.log(event.target.files[0]);
+        setProductsListFile(event.target.files[0])
+
+        if (event.target.files.length > 0) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+            const data = e.target.result;
+            const workbook = xlsx.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            const json = xlsx.utils.sheet_to_json(worksheet);
+
+            let temp = [...productsList]
+            temp = json
+            setProductsList(temp)
+        }
+
+        reader.readAsArrayBuffer(event.target.files[0]);
+        };
+        
+    }
+
+    const batchUploadProducts = async () => {
+        try {
+            setBatchUploading(true)
+            const createProductsRequest = await postProtected("products/create/batch", productsList)
+            setBatchUploading(false)
+
+            console.log({createProductsRequest});
+            if (createProductsRequest.status && createProductsRequest.status === "OK") {
+                setBatchSuccessMessage(createProductsRequest.message)
+            } else {
+                setBatchErrorMessage(createProductsRequest.error.message)
+            }
+        } catch (error) {
+            console.log({error});
+        }
+    }
 
     
 
@@ -269,9 +412,9 @@ const Products = () => {
                         creatingCoupon === true && <form onChange={event => updateCouponDetails(event)} onSubmit={event => {
                             event.preventDefault()
                             const temp = {...coupon}
-                            temp["status"] = "active"
+                            temp["status"] = "Active"
                             setCoupon(temp)
-                            validateCoupon()
+                            validateCoupon("Active")
                         }} className={styles.createCouponForm}>
                         <div className={styles.couponCreateFormContainer}>
                         <table>
@@ -318,13 +461,15 @@ const Products = () => {
                         <hr />
 
                         <div className={styles.couponActionButtons}>
-                            <Button label={"Cancel"} type="button" theme="outline" onClick={() => setCreatingCoupon(false) } />
-                            <Button label={"Save As Draft"} type="button" theme="outline" onClick={() => {
-                                const temp = {...coupon}
-                                temp["status"] = "draft"
-                                setCoupon(temp)
-                                validateCoupon()
-                            }} />
+                            <Button label={"Cancel"} type="button" theme="outline" onButtonClick={() => setCreatingCoupon(false) } />
+                            {
+                                !coupon.id && <Button label={"Save As Draft"} type="button" theme="outline" onButtonClick={() => {
+                                    const temp = {...coupon}
+                                    temp["status"] = "Draft"
+                                    setCoupon(temp)
+                                    validateCoupon("Draft")
+                                }} />
+                            }
                             <Button label={"Save Coupon"}  />
                         </div>
                     </form>
@@ -349,7 +494,7 @@ const Products = () => {
                                 coupon.status !== "draft" && <p>{coupon.code.toUpperCase()}</p>
                             }
 
-                            <Button onClick={() => setCreatingCoupon(false)} label={"Close"} />
+                            <Button onButtonClick={() => setCreatingCoupon(false)} label={"Close"} />
                         </div>
                     </div>
                     }
@@ -357,6 +502,42 @@ const Products = () => {
                     
 
 
+                </div>
+            </Modal>
+            }
+
+            {
+                batchCreating && <Modal>
+                <div className={styles.productUploadModal}>
+                    <h3>UPLOAD PRODUCTS</h3>
+                    <p className={styles.uploadRunnerText}>Upload a filled copy of the <Link href={"/template.xlsx"} >product upload template excel sheet</Link>.</p>
+
+                    {
+                        batchErrorMessage && <ErrorBox errorMessage={batchErrorMessage} hideClose={true} />
+                    }
+
+                    {
+                        batchSuccessMessage && <SuccessBox successMessage={batchSuccessMessage} noClose={true} />
+                    }
+
+                    {
+                        productsListFile && <p className={styles.fileName}>{productsListFile.name}<p>{`(${productsList.length} ${productsList.length === 1 ? " product" : " products"})`}</p></p>
+                    }
+
+                    <div className={styles.actionButtons}>
+                        <div className='displayFlex'>
+                            <button className={styles.selectButton} onClick={() => {productsListSelect.current.click()}}>Select file</button>
+
+                            <button className={styles.uploadButton} onClick={() => batchUploadProducts()}>Upload {batchUploading && <ButtonLoader />}</button>
+
+                            <input type={"file"} ref={productsListSelect} style={{display: "none"}} onChange={event => handleFileSelected(event)} />
+                        </div>
+                        
+
+                        <button className={styles.cancelButton} onClick={() => setBatchCreating(false)}>Close</button>
+                    </div>
+
+                    
                 </div>
             </Modal>
             }
@@ -371,8 +552,14 @@ const Products = () => {
                         <p>Add Product</p>
                     </div>
 
-                    <div  className={['displayFlex alignCenter', styles.uploadProductNavItem].join(" ")}>
-                        <span onClick={() => setShowUploadProductMenu(true)} className='displayFlex alignCenter'>
+                    <div ref={uploadProductMenu}  className={['displayFlex alignCenter', styles.uploadProductNavItem].join(" ")}>
+                        <span onClick={() => {
+                            if (showNewProductModal) {
+                                setShowNewProductModal(false)
+                            } else {
+                                setShowUploadProductMenu(!showUploadProductMenu)
+                            }
+                        }} className='displayFlex alignCenter'>
                         {iconsSVGs.downloadLightPrimary}
                         <p>Import Product</p>
                         {iconsSVGs.dropCaretGrey}
@@ -383,9 +570,10 @@ const Products = () => {
                         </div>
 
                         {
-                            showUploadProductMenu && <div className={styles.uploadProductMenu}>
+                            showUploadProductMenu && <div className={styles.uploadProductMenu} >
                             <div onClick={() => {
                                 setShowUploadProductMenu(false)
+                                setBatchCreating(true)
                             }}>
                                 {
                                     iconsSVGs.downloadLightPrimary
@@ -393,11 +581,15 @@ const Products = () => {
                                 <p>Upload Product - Excel Template</p>
                             </div>
 
-                            <div>
+                            <div >
                                 {
                                     iconsSVGs.downloadLightPrimary
                                 }
-                                <p>Download Excel Template</p>
+                                <Link href='/template.xlsx' download>
+                                <p onClick={() => {
+                                setShowUploadProductMenu(false)
+                            }}>Download Excel Template</p>
+                                </Link>
                             </div>
                         </div>
                         }
@@ -415,6 +607,9 @@ const Products = () => {
                         fetchDrafts()
                         setMode("drafts")
                         setActiveTab("drafts")
+                        const temp = {...products}
+                        temp = drafts
+                        setProducts(temp)
                     }}>Drafts</p>
 
                     <p className={activeTab === "in stock" ? styles.active : styles.inactive} onClick={() => {
@@ -436,13 +631,29 @@ const Products = () => {
             </header>
 
             <div className={[styles.searchDiv, 'displayFlex jcEnd pt20 pb20'].join(" ")}>
+                {
+                    activeTab !== "coupons" && <React.Fragment>
+                        <form onChange={event => updateQuery(event)} onSubmit={event => sendSearchQuery(event)}>
                 <div className={[styles.search, "displayFlex alignCenter mr10"].join(" ")}>
-                    <input placeholder='Search' />
-                    {iconsSVGs.searchIconGrey}
+                    <input placeholder='Search' name='queryString' />
+
+                    <select className={styles.searchDropdown} name="searchBy">
+                        <option value={"name"}>By Product Name</option>
+                        <option value={"id"}>By Product ID</option>
+                        <option value={"brand"}>By Brand</option>
+
+                    </select>
                 </div>
+                </form>
 
                 <div className={[styles.sort, "displayFlex alignCenter mr10"].join(" ")}>
-                    <p>Sort by: Recent</p>
+                    <p>Sort by:</p>
+                    <select onChange={event => updateQuery(event)} name="sortBy" className={styles.sortDropdown}>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="highest price">Highest Price</option>
+                        <option value="lowest price">Lowest Price</option>
+                    </select>
                     {iconsSVGs.sortIconGrey}
                 </div>
 
@@ -450,9 +661,60 @@ const Products = () => {
                     <p>Filter by</p>
                     {iconsSVGs.filterIconGrey}
                 </div>
+                    </React.Fragment>
+                }
 
                 {
-                    activeTab === "coupons" && <Button onButtonClick={() => setCreatingCoupon(true)} label={"Add New Coupon"} />
+                    activeTab === "coupons" && <React.Fragment>
+                        <form className={styles.couponSearch} onChange={event => updateCouponQuery(event)} onSubmit={event => sendCouponSearchQuery(event)}>
+
+                    <React.Fragment>
+                        
+                            <div className={[styles.search, "displayFlex alignCenter mr10"].join(" ")}>
+                                <input placeholder='Search' name='queryString' />
+
+                                <select className={styles.searchDropdown} name="searchBy">
+                                    <option value={"name"}>By Coupon Name</option>
+                                    <option value={"code"}>By Coupon Code</option>
+                                    <option value={"percentage"}>By Percentage</option>
+
+                                </select>
+                            </div>
+                        
+
+                <div className={[styles.sort, "displayFlex alignCenter mr10"].join(" ")}>
+                    <p>Sort by:</p>
+                    <select onChange={event => updateQuery(event)} name="sortBy" className={styles.sortDropdown}>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="highest price">Highest Percentage</option>
+                        <option value="lowest price">Lowest Percentage</option>
+                    </select>
+                    {iconsSVGs.sortIconGrey}
+                </div>
+
+                <div className={[styles.filter, "displayFlex alignCenter"].join(" ")}>
+                    <p>Filter by</p>
+
+                    <select name='filterBy'>
+                        <option value="all">All</option>
+                        <option value="Active">Active</option>
+                        <option value="Expired">Expired</option>
+                        <option value="Draft">Drafts</option>
+                    </select>
+                    {iconsSVGs.filterIconGrey}
+                </div>
+                    </React.Fragment>
+                    </form>
+
+                        <Button onButtonClick={() => {
+                            let temp = {...coupon}
+                            temp = {}
+                            setCoupon(temp)
+
+                            setCreatingCoupon(true)
+                        }} label={"Add New Coupon"} />
+                    </React.Fragment>
                 }
             </div>
 
@@ -523,13 +785,18 @@ const Products = () => {
                             <td>Status</td>
                             <td>Start Date</td>
                             <td>Expiry Date</td>
-                            <td>View Details</td>
+
                         </tr>
 
                         
 
                         {
-                            coupons.map((couponItem, index) => <CouponItem coupon={couponItem}  key={coupon._id} />)
+                            coupons.map((couponItem, index) => <CouponItem editDraft={currentCoupon => {
+                                let temp = {...coupon}
+                                temp = currentCoupon
+                                setCoupon(temp)
+                                setCreatingCoupon(true)
+                            }} coupon={couponItem}  key={coupon._id} />)
                         }
                     </tbody>
                 </table>
@@ -557,6 +824,7 @@ export default Products
 
 const ProductTableItem = ({ product, setCurrentDrug, setEditMode, addToDelete, mode }) => {
     const [showMenu, setShowMenu] = useState(false)
+    const productContextMenu = useClickedOutside(() => setShowMenu(false))
     return (
         <tr className={styles.productTableItem}>
             <td className={styles.image}>
@@ -597,7 +865,7 @@ const ProductTableItem = ({ product, setCurrentDrug, setEditMode, addToDelete, m
                     setCurrentDrug(product)
                 } }>Edit</button>
                 
-                <span>
+                <span ref={productContextMenu}>
                     <button onClick={() => setShowMenu(true)}>. . .</button>
 
                     {
@@ -631,7 +899,7 @@ const ProductTableItem = ({ product, setCurrentDrug, setEditMode, addToDelete, m
     )
 }
 
-const CouponItem = ({ coupon }) => {
+const CouponItem = ({ coupon, editDraft }) => {
     const [showMenu, setShowMenu] = useState(false)
 
     const getStatusStyle = (status) => {
@@ -681,8 +949,10 @@ const CouponItem = ({ coupon }) => {
 
             <td>
                 <div className='displayFlex'>
-                    <Button label="Edit" theme={"outline"} />
-                    <Button label="View Details" theme={"outline"}  />
+                    {
+                        coupon.status === "Draft" && <Button onButtonClick={() => editDraft(coupon)} label="Edit" theme={"outline"}  />
+                    }
+                    {/* <Button label="View Details" theme={"outline"}  /> */}
                 </div>
             </td>
 

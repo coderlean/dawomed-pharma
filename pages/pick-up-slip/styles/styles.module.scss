@@ -62,6 +62,7 @@
     font-weight: 600;
     color: #1D1272;
     font-size: 20px;
+    margin-top: 10px;
 }
 
 .orders {
@@ -646,4 +647,20 @@
             }
         }
     }
+}
+
+.searchSlipsForm {
+    display: flex;
+
+    input, select {
+        border-style: none;
+    }
+}
+
+.foundLabel {
+    text-align: center;
+    margin-top: 0px;
+    color: #767676;
+    margin-bottom: 0px;
+    font-weight: bold;
 }

@@ -754,3 +754,83 @@ width: max-content;
     background-color: #fce8ec;
     color: #b4455e;
 }
+
+.searchDropdown, .sortDropdown {
+    border-style: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.couponSearch {
+    display: flex;
+
+    select {
+        border-style: none;
+    }
+}
+
+.productUploadModal {
+    background-color: white;
+    padding: 20px;
+
+    h3 {
+        margin-top: 0px;
+        font-weight: bold;
+        color: #1D1272;
+        margin-bottom: 0px;
+    }
+
+    .uploadRunnerText {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #4a4a4a;
+    }
+
+    button {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .actionButtons {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .fileName {
+        color: #1D1272;
+        margin-bottom: 20px;
+
+        p {
+            margin: 0px;
+        }
+    }
+
+    .selectButton {
+        border-style: none;
+        border-style: solid;
+        border-color: #1D1272;
+        color: #1D1272;
+        border-width: 2px;
+        background-color: rgba(0,0,0,0);
+        margin-right: 10px;
+    }
+
+    .uploadButton {
+        background-color: #1D1272;
+        color: white;
+        border-style: none;
+        border-style: solid;
+        border-color: #1D1272;
+        border-width: 2px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .cancelButton {
+        border-style: none;
+        background-color: rgba(125,125,125,0.6);
+        color: white;
+    }
+    
+
+}

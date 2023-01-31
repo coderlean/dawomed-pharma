@@ -822,4 +822,92 @@
   background-color: #fce8ec;
   color: #b4455e;
 }
+
+.searchDropdown, .sortDropdown {
+  border-style: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.couponSearch {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.couponSearch select {
+  border-style: none;
+}
+
+.productUploadModal {
+  background-color: white;
+  padding: 20px;
+}
+
+.productUploadModal h3 {
+  margin-top: 0px;
+  font-weight: bold;
+  color: #1D1272;
+  margin-bottom: 0px;
+}
+
+.productUploadModal .uploadRunnerText {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #4a4a4a;
+}
+
+.productUploadModal button {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.productUploadModal .actionButtons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.productUploadModal .fileName {
+  color: #1D1272;
+  margin-bottom: 20px;
+}
+
+.productUploadModal .fileName p {
+  margin: 0px;
+}
+
+.productUploadModal .selectButton {
+  border-style: none;
+  border-style: solid;
+  border-color: #1D1272;
+  color: #1D1272;
+  border-width: 2px;
+  background-color: rgba(0, 0, 0, 0);
+  margin-right: 10px;
+}
+
+.productUploadModal .uploadButton {
+  background-color: #1D1272;
+  color: white;
+  border-style: none;
+  border-style: solid;
+  border-color: #1D1272;
+  border-width: 2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.productUploadModal .cancelButton {
+  border-style: none;
+  background-color: rgba(125, 125, 125, 0.6);
+  color: white;
+}
 /*# sourceMappingURL=styles.module.css.map */

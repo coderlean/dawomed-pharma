@@ -21,6 +21,16 @@
   min-height: 100vh;
 }
 
+.orders .searchForm select {
+  border-style: none;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.orders .searchForm button {
+  padding: 10px;
+}
+
 .orders .status {
   padding-left: 15px;
   padding-right: 15px;

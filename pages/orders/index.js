@@ -76,6 +76,11 @@ const Products = () => {
     const [sidebar_error, set_sidebar_error] = useState("")
     const [sidebar_success, set_sidebar_success] = useState("")
     const [updating_status, set_updating_status] = useState(false)
+    const [searchQuery, setSearchQuery] = useState({
+        query: "",
+        searchBy: "",
+        orderBy: "newest"
+    })
 
    
 
@@ -225,6 +230,35 @@ const Products = () => {
         }
 
     }
+
+    const updateSearchDetails = event => {
+        const field = event.target.name
+        const value = event.target.value
+
+        let temp = {...searchQuery}
+        temp[field] = value
+        setSearchQuery(temp)
+    }
+
+    const searchOrders = async event => {
+        try {
+            event.preventDefault()
+
+        const searchOrdersRequest = await postProtected(`orders/search/pharmacy`, searchQuery)
+
+        console.log({searchOrdersRequest});
+
+        if (searchOrdersRequest && searchOrdersRequest.status === "OK") {
+            setOrders(searchOrdersRequest.data)
+        }
+        } catch (error) {
+            console.log({error});
+        }
+
+    }
+
+    console.log({selectedOrder});
+
 
 
     return (
@@ -393,18 +427,39 @@ const Products = () => {
                         
                     </div>
                     <form disabled={updating_status} onSubmit={event => updateOrderStatus(event)}>
-                    <select disabled={updating_status}>
-                        <option value={0} disabled selected>Pending</option>
-                        <option value={1} disabled={selectedOrder.status >= 1 || selectedOrder.status > 4}>Processing</option>
-                        <option value={2} disabled={selectedOrder.status >= 2 || selectedOrder.status > 4}>Ready</option>
-                        <option value={3} disabled={selectedOrder.status >= 3 || selectedOrder.status > 4} >Picked Up</option>
-                        <option value={4} disabled={selectedOrder.status >= 4 || selectedOrder.status > 4}>Delivered</option>
-                        <option value={5} disabled={selectedOrder.status > 4}>Completed</option>
-                        <option value={6} disabled={selectedOrder.status > 4}>Canceled</option>
-                        <option value={7} disabled={selectedOrder.status > 4}>Returned</option>
+                    {
+                        (selectedOrder.status  < 3 || selectedOrder.status === 5) && <select disabled={updating_status}>
+                        {/* <option value={0} disabled selected>Pending</option> */}
+                        {
+                            selectedOrder.status === 0 && <option value={1} disabled={selectedOrder.status >= 1 || selectedOrder.status > 4}>Confirmed & Being Processed</option>
+                        }
+
+                        {
+                            selectedOrder.status < 4 && <option value={2} disabled={selectedOrder.status >= 2 || selectedOrder.status > 4}>Canceled</option>
+                        }
+                        {
+                            selectedOrder.status === 1 && <option value={2} disabled={selectedOrder.status >= 2 || selectedOrder.status > 4}>Ready</option>
+                        }
+
+
+                        {
+                            selectedOrder.status === 2 && <option value={3} disabled={selectedOrder.status >= 3 || selectedOrder.status > 4} >Picked Up</option>
+                        }
+                        {/* <option value={4} disabled={selectedOrder.status >= 4 || selectedOrder.status > 4}>Delivered</option> */}
+                        {/* <option value={5} disabled={selectedOrder.status > 4}>Completed</option> */}
+                        
+                        {
+                            selectedOrder.status === 5 && <option value={7} disabled={selectedOrder.status !== 5}>Returned</option>
+                        }
                     </select>
+                    }
                         {/* <DropDown options={order_statuses} placeholder={order_statuses[selectedOrder.status].slice(0,1).toUpperCase() + order_statuses[selectedOrder.status].slice(1)} defaultValue={order_statuses[selectedOrder.status].slice(0,1).toUpperCase() + order_statuses[selectedOrder.status].slice(1)} onChange={(e) => handleStatusChange(e)} /> */}
-                        <Button label={"Submit"} theme={"solid"} />
+                        
+                        {
+                            (selectedOrder.status  < 3 || selectedOrder.status === 5) && <Button label={"Submit"} theme={"solid"} />
+                        }
+                        
+                        
                     </form>
                     </footer>
             </SideBar>
@@ -428,11 +483,13 @@ const Products = () => {
 
                     <p className={activeTab === "canceled" ? styles.active : styles.inactive} onClick={() => setTab("canceled")}>Canceled</p>
 
+                    <p className={activeTab === "ready" ? styles.active : styles.inactive} onClick={() => setTab("ready")}>Ready</p>
+
                     <p className={activeTab === "picked up" ? styles.active : styles.inactive} onClick={() => setTab("picked up")}>Picked Up</p>
 
-                    <p className={activeTab === "delivered" ? styles.active : styles.inactive} onClick={() => setTab("delivered")}>Delivered</p>
+                    <p className={activeTab === "delivered" ? styles.active : styles.inactive} onClick={() => setTab("delivered")}>In Transit</p>
 
-                    <p className={activeTab === "ready" ? styles.active : styles.inactive} onClick={() => setTab("ready")}>Ready</p>
+                    
 
                     <p className={activeTab === "completed" ? styles.active : styles.inactive} onClick={() => setTab("completed")}>Completed</p>
 
@@ -440,22 +497,39 @@ const Products = () => {
                 </div>
             </header>
 
+            <form className={styles.searchForm} onChange={event => updateSearchDetails(event)} onSubmit={event => searchOrders(event)}>
             <div className={[styles.searchDiv, 'displayFlex jcEnd pt20 pb20'].join(" ")}>
                 <div className={[styles.search, "displayFlex alignCenter mr10"].join(" ")}>
-                    <input placeholder='Search' />
+                    <input placeholder='Search' name='query' />
+                    <select className={styles.searchList} name="searchBy">
+                        <option value={""}>All</option>
+                        <option value={"id"}>Order ID</option>
+                        <option value={"name"}>Customer Name</option>
+                        <option value={"email"}>Customer Email</option>
+                    </select>
                     {iconsSVGs.searchIconGrey}
                 </div>
 
                 <div className={[styles.sort, "displayFlex alignCenter mr10"].join(" ")}>
                     <p>Sort by: Recent</p>
+                    <select className={styles.searchList} name="orderBy">
+                        <option value={"newest"}>Newest</option>
+                        <option value={"oldest"}>Oldest</option>
+                        <option value={"lowest"}>Lowest Amount</option> 
+                        <option value={"highest"}>Highest Amount</option>
+
+                    </select>
                     {iconsSVGs.sortIconGrey}
                 </div>
 
-                <div className={[styles.filter, "displayFlex alignCenter"].join(" ")}>
+                {/* <div className={[styles.filter, "displayFlex alignCenter"].join(" ")}>
                     <p>Filter by</p>
                     {iconsSVGs.filterIconGrey}
-                </div>
+                </div> */}
+
+                <Button label={"Search"} />
             </div>
+            </form>
 
             <div className={[styles.productsTable]}>
                 <table>

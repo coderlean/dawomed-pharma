@@ -1,3 +1,19 @@
+.account button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.account button svg {
+  margin-left: 10px;
+}
+
 .account nav {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -181,7 +197,7 @@
           align-items: center;
 }
 
-.account .storeLogo > div:nth-child(2) div p:nth-child(2) {
+.account .storeLogo > div:nth-child(2) div div p:nth-child(1) {
   font-family: "Overpass";
   font-style: normal;
   font-weight: 700;
@@ -195,7 +211,7 @@
   margin-bottom: 0px;
 }
 
-.account .storeLogo > div:nth-child(2) div p:nth-child(3) {
+.account .storeLogo > div:nth-child(2) div div p:nth-child(2) {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
@@ -281,5 +297,41 @@
   text-align: justify;
   /* Geist theme/Gray/accent 5 */
   color: #666666;
+}
+
+.floating {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  max-width: 20vw;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.floating p {
+  margin: 0px;
+}
+
+.error {
+  background-color: #811717;
+}
+
+.success {
+  background-color: #5a9200;
+}
+
+.newLogo {
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+}
+
+.expiryDateInput {
+  padding: 12px;
+  border-style: none;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #eeeeee;
 }
 /*# sourceMappingURL=styles.module.css.map */

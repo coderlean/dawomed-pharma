@@ -17,6 +17,8 @@ import { getProtected } from '../../requests/getProtected';
 import { formatter } from '../orders';
 import { putProtected } from '../../requests/putProtected';
 import ButtonLoader from '../../components/atoms/ButtonLoader';
+import ErrorBox from '../../components/atoms/ErrorBox';
+import TransparentLoader from '../../components/atoms/TransparentLoader';
 const QrReader = dynamic(() => import("react-qr-reader"), { ssr: false });
 
 const getStatusStyle = (status) => {
@@ -41,6 +43,14 @@ const PickUpSlip = () => {
     const [scannedSlipDetails, setScannedSlipDetails] = useState({})
     const [updatingSlip, setUpdatingSlip] = useState(false)
     const [fetchingSlip, setFetchingSlip] = useState(false)
+    const [searchQuery, setSearchQuery] = useState({
+        queryString: "",
+        searchBy: "",
+        sortBy: "recent",
+    })
+    const [fetchSlipErrorMessage, setFetchSlipErrorMessage] = useState("")
+    const [foundLabel, setFoundLabel] = useState("Order found!")
+    const [fetchingSlips, setFetchingSlips] = useState(true)
 
     useEffect(() => {
         fetchPickupSlips()
@@ -114,7 +124,9 @@ const PickUpSlip = () => {
 
     const fetchPickupSlips = async () => {
         try {
+            setFetchingSlips(true)
             const pharmacyPickupSlips = await postProtected("pickup-slips/pharmacy")
+            setFetchingSlips(false)
 
             if (pharmacyPickupSlips && pharmacyPickupSlips.status && pharmacyPickupSlips.status === "OK") {
                 const temp = [...slips]
@@ -155,7 +167,30 @@ const PickUpSlip = () => {
         }
     }
 
+    const completeOrder = async (slipID) => {
+        console.log("completing order");
+        try {
+            const completeOrder = await putProtected(`pickup-slips/pharmacy/completeOrder/${slipID}`)
+            console.log({completeOrder});
+
+            if (completeOrder && completeOrder.status && completeOrder.status === "OK") {
+                let temp = {...scannedSlip}
+                temp = completeOrder.data
+                setSCannedSlip(temp)
+
+                setSlipID(completeOrder._id)
+                setFoundLabel("Customer has picked up order. Order has been marked as completed.")
+            } else if (completeOrder && completeOrder.status && completeOrder.status === "FAILED") {
+                setFetchingSlip(false)
+                setFetchSlipErrorMessage(completeOrder.error.message)
+            }
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
     const fetchSlip = async (result) => {
+        console.log("feytching slip");
         
         try {
             if (typeof result === "string") {
@@ -164,11 +199,21 @@ const PickUpSlip = () => {
                 console.log({slipResult});
                 setFetchingSlip(false)
 
-                let temp = {...scannedSlip}
+                console.log(slipResult.status, slipResult.deliveryOption);
+
+                if (slipResult.status === "Activated" && slipResult.deliveryOption === "Pick Up") {
+                    completeOrder(slipResult._id)
+                } else {
+                    let temp = {...scannedSlip}
                 temp = slipResult
                 setSCannedSlip(temp)
 
                 setSlipID(slipResult._id)
+                setFoundLabel("Order found!")
+                }
+
+
+                
             }
         } catch (error) {
             console.log({error});
@@ -179,6 +224,36 @@ const PickUpSlip = () => {
         event.preventDefault()
         const slipIDString = event.target[0].value
         fetchSlip(slipIDString)
+    }
+
+    const updateSearchQuery = (event) => {
+        const field = event.target.name
+        const value = event.target.value
+
+        let temp = {...searchQuery}
+        temp[field] = value
+        setSearchQuery(temp)
+    }
+
+    const submitSearch = async event => {
+        event.preventDefault()
+
+        setFetchingSlips(true)
+        
+        const searchSlipRequest = await postProtected(`pickup-slips/pharmacy/search`, searchQuery)
+
+        setFetchingSlips(false)
+
+        console.log({searchSlipRequest});
+
+
+        if (searchSlipRequest && searchSlipRequest.status && searchSlipRequest.status === "OK") {
+
+            let temp = [...slips]
+            temp = searchSlipRequest.data
+            setSlips(temp)
+
+        }
     }
 
 
@@ -242,7 +317,7 @@ const PickUpSlip = () => {
                             </tr> */}
 
                             <tr>
-                                <td className={styles.leftCell}>Order Status:</td>
+                                <td className={styles.leftCell}>Slip Status:</td>
 
                                 <td className={styles.rightCell}><span><label className={[styles.status, "m0", getStatusStyle(selectedSlip.status)].join(" ")}>{selectedSlip.status.slice(0,1).toUpperCase() + selectedSlip.status.slice(1)}</label></span></td>
                             </tr>
@@ -375,13 +450,17 @@ const PickUpSlip = () => {
                                 <p>Enable systems camera</p>
                             </div>
 
+                            {
+                                fetchSlipErrorMessage && <ErrorBox closeErrorBox={() => {setFetchSlipErrorMessage("")}} errorMessage={fetchSlipErrorMessage} />
+                            }
+
                             <div className='displayFlex jcCenter'>
                                 {
                                     slipID !== "" && <Image src={scanSuccess} />
                                 }
 
                                 {
-                                    slipID === "" &&                         <QrReader 
+                                    slipID === "" && !fetchSlipErrorMessage && !fetchingSlip &&                         <QrReader 
                                     onResult={(result, error) => {
                                         if (!!result) {
                                             console.log({result});
@@ -404,14 +483,14 @@ const PickUpSlip = () => {
                                     }}
 
                                     facingMode={'user'}
-                                    style={{ width: '50%', marginBottom: "20px" }} 
+                                    style={{ width: '50%', marginBottom: "10px" }} 
                                 />
                                 }
                             </div>
 
                             <div className={styles.scanButton}>
                                 {
-                                    slipID === "" && <div className="posRelative">
+                                    slipID === "" && !fetchSlipErrorMessage  && <div className="posRelative">
                                     <div className={styles.buttonOverlay}></div>
                                     <Button disabled={true} label={"Scanning"} theme={"solid"} leftIcon={iconsSVGs.qrCodeWhite} />
                                     </div>
@@ -422,6 +501,7 @@ const PickUpSlip = () => {
                                     <React.Fragment>
 
                                         <div>
+                                            <p className={styles.foundLabel}>{foundLabel}</p>
                                         <p className={styles.slipID}>{slipID}</p>
 
                                         <div className={['displayFlex', styles.actionButtons].join(" ")}>
@@ -454,6 +534,35 @@ const PickUpSlip = () => {
                                             label={"View Details"} 
                                             theme={"solid"} 
                                         />
+
+                                        </div>
+                                        </div>
+                                        
+                                    </React.Fragment>
+                                }
+
+
+
+{
+                                    fetchSlipErrorMessage !== "" && 
+                                    <React.Fragment>
+
+                                        <div>
+                                        <p className={styles.slipID}>{slipID}</p>
+
+                                        <div className={['displayFlex', styles.actionButtons].join(" ")}>
+                                        <div className={styles.rescanButton}>
+                                            <Button disabled={false} 
+                                                onButtonClick={()=> {
+                                                    setSlipID("")
+                                                    setFetchSlipErrorMessage("")
+                                                }} label={"Scan Again"} 
+                                                theme={"outline"} 
+                                                leftIcon={iconsSVGs.qrCodePrimary} 
+                                            />
+                                        </div>
+
+
 
                                         </div>
                                         </div>
@@ -585,34 +694,49 @@ const PickUpSlip = () => {
             </header>
 
             <div className={[styles.searchDiv, 'displayFlex jcEnd pt20 pb20'].join(" ")}>
-                <div className={[styles.search, "displayFlex alignCenter mr10"].join(" ")}>
-                    <input placeholder='Search' />
-                    {iconsSVGs.searchIconGrey}
-                </div>
+                <form className={styles.searchSlipsForm} onSubmit={event => submitSearch(event)} onChange={event => updateSearchQuery(event)}>
+                    <div className={[styles.search, "displayFlex alignCenter mr10"].join(" ")}>
+                        <input placeholder='Search' name='queryString' />
+                        <select name='searchBy'>
+                            <option value={"all"}>All</option>
+                            <option value={"id"}>Slip ID</option>
+                            <option value={"code"}>Redemption Code</option>
+                            <option value={"name"}>Customer Name</option>
+                        </select>
 
-                <div className={[styles.sort, "displayFlex alignCenter mr10"].join(" ")}>
-                    <p>Sort by: Recent</p>
-                    {iconsSVGs.sortIconGrey}
-                </div>
+                        {iconsSVGs.searchIconGrey}
+                    </div>
 
-                <div className={[styles.filter, "displayFlex alignCenter"].join(" ")}>
-                    <p>Filter by</p>
-                    {iconsSVGs.filterIconGrey}
-                </div>
+                    <div className={[styles.sort, "displayFlex alignCenter mr10"].join(" ")}>
+                        <p>Sort by:</p>
+                        <select name='sortBy'>
+                            <option value={"recent"}>Recent</option>
+                            <option value={"oldest"}>Oldest</option>
+                        </select>
+                        {iconsSVGs.sortIconGrey}
+                    </div>
 
-                <Button label={"Scan Code"} onButtonClick={() => {
-                    console.log("scanning");
-                    setScanning(true)
-                    // setScannedSlipDetails({})
-                }} theme={"solid"} leftIcon={iconsSVGs.qrCodeWhite} />
+                    {/* <div className={[styles.filter, "displayFlex alignCenter"].join(" ")}>
+                        <p>Filter by</p>
+                        {iconsSVGs.filterIconGrey}
+                    </div> */}
+
+                    <Button label={"Search"} theme={"solid"} leftIcon={iconsSVGs.searchIconWhite} />
+
+                    <Button label={"Scan Code"} onButtonClick={() => {
+                        console.log("scanning");
+                        setScanning(true)
+                        // setScannedSlipDetails({})
+                    }} theme={"solid"} leftIcon={iconsSVGs.qrCodeWhite} />
+                </form>
             </div>
 
             <div className={[styles.productsTable]}>
                 <table>
                     <tbody>
                         <tr className={styles.tableHeader}>
-                            <td>REF</td>
-                            {/* <td>ITEM NAME</td> */}
+                            <td>SLIP ID</td>
+                            <td>REDEMPTION CODE</td>
                             <td>CUSTOMER</td>
                             <td>DATE GENERATED</td>
                             <td>STATUS</td>
@@ -629,6 +753,10 @@ const PickUpSlip = () => {
                     </tbody>
                 </table>
             </div>
+
+            {
+                fetchingSlips && <TransparentLoader />
+            }
 
         </div>
     )
@@ -648,6 +776,10 @@ const OrderTableItem = ({ slip, setSelectedSlip }) => {
         <tr className={styles.orderTableItem}>
             <td className={styles.image}>
                 <p>{slip?._id}</p>
+            </td>
+
+            <td>
+                <p>{slip.redemptionCode}</p>
             </td>
 
             <td>

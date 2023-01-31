@@ -490,9 +490,10 @@ export default function Home() {
           </header>
 
           <main>
-            {
+            {/* {
               sampleData.map((item, index) => getActivityItem(item))
-            }
+            } */}
+            <p>You have no recent activities</p>
           </main>
         </div>
       </div>

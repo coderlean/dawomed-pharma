@@ -271,4 +271,12 @@
 .notification svg {
   margin-right: 0px;
 }
+
+.profile {
+  width: 30px !important;
+  height: 30px !important;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 15px;
+}
 /*# sourceMappingURL=styles.module.css.map */

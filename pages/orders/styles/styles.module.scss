@@ -64,6 +64,20 @@
     box-sizing: border-box;
     min-height: 100vh;
 
+    .searchForm {
+        select {
+            border-style: none;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px;
+        }
+    }
+
+    
+
     
     .status {
         padding-left: 15px;
@@ -535,3 +549,4 @@
         }
     }
 }
+

@@ -24,6 +24,7 @@
   font-weight: 600;
   color: #1D1272;
   font-size: 20px;
+  margin-top: 10px;
 }
 
 .orders {
@@ -672,5 +673,23 @@
   margin: 0px;
   margin-right: 5px;
   display: block;
+}
+
+.searchSlipsForm {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.searchSlipsForm input, .searchSlipsForm select {
+  border-style: none;
+}
+
+.foundLabel {
+  text-align: center;
+  margin-top: 0px;
+  color: #767676;
+  margin-bottom: 0px;
+  font-weight: bold;
 }
 /*# sourceMappingURL=styles.module.css.map */

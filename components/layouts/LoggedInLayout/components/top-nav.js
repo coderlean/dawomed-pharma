@@ -1,17 +1,20 @@
 import Link from 'next/link';
 import React from 'react';
 import loggedInLayoutStyles from '../styles/styles.module.css';
-import searchIcon from "../../../../assets/images/search.svg";
+import profileIcon from "../../../../assets/images/profile.png"
 import { useRouter } from 'next/router';
 import {useCookies} from "react-cookie"
+import Image from 'next/image';
+import { useClickedOutside } from '../../../../helpers/hooks';
 
-const TopNav = ({toggleShowNotifications, newActivityCount}) => {
+const TopNav = ({toggleShowNotifications, newActivityCount, resetNotificationsCount}) => {
     var location = useRouter().pathname;
     location = location.split("/")[1];
     const [showUserMenu, setShowUserMenu] = React.useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(["user"])
     const router = useRouter()
     const user = JSON.parse(localStorage.getItem("user"))
+    const userMenu = useClickedOutside(() => setShowUserMenu(false))
 
     const toggleUserMenu = () => {
         if (showUserMenu){
@@ -20,6 +23,8 @@ const TopNav = ({toggleShowNotifications, newActivityCount}) => {
             setShowUserMenu(true)
         }
     }
+
+    console.log({user});
 
     const signUserOut = () => {
         removeCookie(['Token'],{path:'/'})
@@ -88,8 +93,8 @@ const TopNav = ({toggleShowNotifications, newActivityCount}) => {
             </div>
 
             <div className='displayFlex, alignCenter'>
-                <Link href={"/"}><label className={location === "pick-up-slip" ? [loggedInLayoutStyles.activeNavItem, loggedInLayoutStyles.mr50].join(" ") : [loggedInLayoutStyles.inactiveNavItem, loggedInLayoutStyles.mr50].join(" ")}>Dashboard</label></Link>
-                <Link href={"/products"}><span><label className={location === "pick-up-slip" ? [loggedInLayoutStyles.activeNavItem, loggedInLayoutStyles.mr50].join(" ") : [loggedInLayoutStyles.inactiveNavItem, loggedInLayoutStyles.mr50].join(" ")}>Products</label></span></Link>
+                <Link href={"/"}><label className={location === "" ? [loggedInLayoutStyles.activeNavItem, loggedInLayoutStyles.mr50].join(" ") : [loggedInLayoutStyles.inactiveNavItem, loggedInLayoutStyles.mr50].join(" ")}>Dashboard</label></Link>
+                <Link href={"/products"}><span><label className={location === "products" ? [loggedInLayoutStyles.activeNavItem, loggedInLayoutStyles.mr50].join(" ") : [loggedInLayoutStyles.inactiveNavItem, loggedInLayoutStyles.mr50].join(" ")}>Products</label></span></Link>
                 <Link href={"/orders"}>
                     <span>
                     <label className={location === "orders" ? loggedInLayoutStyles.activeNavItem : loggedInLayoutStyles.inactiveNavItem}>Orders</label>
@@ -110,7 +115,7 @@ const TopNav = ({toggleShowNotifications, newActivityCount}) => {
                     </div>
                     </span>
                 </Link>
-                <Link href={"/payment"}><label className={location === "pick-up-slip" ? [loggedInLayoutStyles.activeNavItem, loggedInLayoutStyles.mr50].join(" ") : [loggedInLayoutStyles.inactiveNavItem, loggedInLayoutStyles.mr50].join(" ")}>Payment</label></Link>
+                <Link href={"/payment"}><label className={location === "payment" ? [loggedInLayoutStyles.activeNavItem, loggedInLayoutStyles.mr50].join(" ") : [loggedInLayoutStyles.inactiveNavItem, loggedInLayoutStyles.mr50].join(" ")}>Payment</label></Link>
                 <Link href={"/report"}><label className={location === "report" ? loggedInLayoutStyles.activeNavItem : loggedInLayoutStyles.inactiveNavItem}>Report</label></Link>
             </div>
         </div>
@@ -128,14 +133,16 @@ const TopNav = ({toggleShowNotifications, newActivityCount}) => {
             </svg>
 
 
-            <div className='displayFlex alignCenter cursorPointer' onClick={() => toggleUserMenu()}>
+            <div className='displayFlex alignCenter cursorPointer' onClick={() => toggleUserMenu()} ref={userMenu}>
                 <div className={loggedInLayoutStyles.notification}>
                 <img />
                 {
                     newActivityCount.newNotificationsCount > 0 && <label>{newActivityCount.newNotificationsCount}</label>
                 }
                 </div>
-                <p className='font14 mr10'>{user.pharmacyName}</p>
+
+                <Image src={user.logo ? user.logo : profileIcon} alt="profile" className={loggedInLayoutStyles.profile} width="30" height={"30"} />
+                <p className='font14 mr10 ml10'>{user.pharmacyName}</p>
                 
                 <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1.75744 0.817871L0.696777 1.87853L6.00006 7.18185L11.3034 1.87855L10.2427 0.817893L6.00008 5.06052L1.75744 0.817871Z" fill="white"/>

@@ -1,4 +1,13 @@
 .account {
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      margin-left: 10px;
+    }
+  }
   nav {
     display: flex;
     padding-left: 40px;
@@ -167,39 +176,44 @@
         flex-direction: column;
         align-items: center;
 
-        p:nth-child(2) {
-          font-family: "Overpass";
-          font-style: normal;
-          font-weight: 700;
-          font-size: 16px;
-          line-height: 24px;
-
-          /* or 150% */
-
-          text-align: center;
-          cursor: pointer;
-
-          /* Geist theme/Gray/accent 7 */
-
-          color: #333333;
-          margin-bottom: 0px;
+        div {
+          p:nth-child(1) {
+            font-family: "Overpass";
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 24px;
+  
+            /* or 150% */
+  
+            text-align: center;
+            cursor: pointer;
+  
+            /* Geist theme/Gray/accent 7 */
+  
+            color: #333333;
+            margin-bottom: 0px;
+          }
+  
+          p:nth-child(2) {
+            font-family: "Inter";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            /* identical to box height, or 143% */
+  
+            text-align: center;
+  
+            /* Geist theme/Gray/accent 4 */
+  
+            color: #888888;
+            margin: 0px;
+          }
         }
+        
 
-        p:nth-child(3) {
-          font-family: "Inter";
-          font-style: normal;
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 20px;
-          /* identical to box height, or 143% */
-
-          text-align: center;
-
-          /* Geist theme/Gray/accent 4 */
-
-          color: #888888;
-          margin: 0px;
-        }
+        
       }
     }
   }
@@ -275,3 +289,40 @@ text-align: justify;
 color: #666666;
   }
 }
+
+.floating {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  max-width: 20vw;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+
+  p {
+    margin: 0px;
+  }
+}
+
+.error {
+  background-color: rgb(129, 23, 23);
+}
+
+.success {
+  background-color: rgb(90, 146, 0);
+}
+
+.newLogo {
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+}
+
+.expiryDateInput {
+  padding: 12px;
+  border-style: none;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #eeeeee;
+}
+

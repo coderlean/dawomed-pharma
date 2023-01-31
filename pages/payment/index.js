@@ -493,7 +493,7 @@ const Payment = () => {
                     }
 
                     {
-                        activeTab === "orders overview" && <OrdersOverview orders={orders} />
+                        activeTab === "orders overview" && <OrdersOverview allOrders={orders} />
                     }
 
                     {

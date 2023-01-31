@@ -5,6 +5,12 @@
   min-height: 100vh;
 }
 
+.orders select {
+  border-style: none;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .orders .status {
   padding-left: 15px;
   padding-right: 15px;

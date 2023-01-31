@@ -1,16 +1,22 @@
 import Head from 'next/head';
 import React, { useEffect, useRef, useState } from 'react';
 import { iconsSVGs } from '../../assets/images/icons';
+import ButtonLoader from '../../components/atoms/ButtonLoader';
 import LoggedInLayout from '../../components/layouts/LoggedInLayout/loggedinLayout';
 import Accordion from '../../components/molecules/Accordion';
 import { stateLGAs, states } from '../../constants';
 import { getProtected } from '../../requests/getProtected';
+import { postProtected } from '../../requests/postProtected';
+import { postProtectedMultiPart } from '../../requests/postProtectedMultiPart';
+import { putProtected } from '../../requests/putProtected';
 import styles from "./styles/styles.module.css"
 
 const Account = () => {
     const [activeTab, setActiveTab] = useState("general")
     const [pharmacyInformation, setPharmacyInformation] = useState({})
     const [banks, setBanks] = useState([])
+    const [successMessage, setSuccessMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
 
     useEffect(() => {
         fetchPharmacyInformation()
@@ -50,9 +56,37 @@ const Account = () => {
         }
     }
 
+    const showErrorMessage = message => {
+        setErrorMessage(message)
+
+        setTimeout(() => {
+            setErrorMessage("")
+        }, 5000)
+    }
+
+    const showSuccessMessage = message => {
+        setSuccessMessage(message)
+
+        setTimeout(() => {
+            setSuccessMessage("")
+        }, 5000)
+    }
+
 
     return (
         <div className={styles.account}>
+            {
+                errorMessage && <div className={[styles.floating, styles.error].join(" ")}>
+                <p>{errorMessage}</p>
+            </div>
+            }
+
+            {
+                successMessage && <div className={[styles.floating, styles.success].join(" ")}>
+                <p>{successMessage}</p>
+            </div>
+            }
+
             <nav>
                 <div className={activeTab === "general" && styles.active} onClick={() => changeActiveTab("general")}>
                     General
@@ -72,7 +106,7 @@ const Account = () => {
             </div>
 
             {
-                activeTab === "general" && <General banks={banks} pharmacy={pharmacyInformation} />
+                activeTab === "general" && <General banks={banks} pharmacy={pharmacyInformation} showSuccessMessage={(message) => showSuccessMessage(message)} showErrorMessage={message => showErrorMessage(message)} />
             }
 
             {
@@ -97,17 +131,57 @@ Account.getLayout = function getLayout (page) {
     </LoggedInLayout>
 }
 
-const General = ({banks, pharmacy}) => {
+const General = ({banks, pharmacy, showErrorMessage, showSuccessMessage}) => {
     const [accountDetails, setAccountDetails] = useState({})
     const [pharmacyDetails, setPharmacyDetails] = useState({
     })
+    const [pharmDetails, setPharmDetails] = useState({})
     const [bankDetails, setBankDetails] = useState({})
-    const [storeLogo, setStoreLogo] = useState({})
     const [documentation, setDocumentation] = useState({})
     const [password, setPasswords] = useState({})
     const storeLogoInputRef = useRef(null)
     const doc1InputRef = useRef(null)
     const doc2InputRef = useRef(null)
+    const [newLogoFile, setNewLogoFile] = useState(null)
+    const [newLogo, setNewLogo] = useState("")
+    const currentDate = new Date()
+    const [updating, setUpdating] = useState(false)
+    
+
+    useEffect(() => {
+        fetchPharmDetails()
+    }, [])
+
+    const fetchPharmDetails = async () => {
+        try {
+            const fetchPharmDetailsRequest = await getProtected("pharmacies/current")
+            
+            if (fetchPharmDetailsRequest && fetchPharmDetailsRequest.status === "OK") {
+
+                let temp = {...pharmDetails}
+                temp = fetchPharmDetailsRequest.data
+                setPharmDetails(temp)
+
+                temp = {...accountDetails}
+                temp["email"] = fetchPharmDetailsRequest.data.email
+                temp["contact_number"] = fetchPharmDetailsRequest.data.contact_number
+                temp["contact_number_2"] = fetchPharmDetailsRequest.data.contact_number_2
+                temp["regPharmacistName"] = fetchPharmDetailsRequest.data.regPharmacistName
+                setAccountDetails(temp)
+
+                temp = {...bankDetails}
+                temp["bank"] = fetchPharmDetailsRequest?.data?.bankDetails?.bank ? fetchPharmDetailsRequest?.data?.bankDetails?.bank : {}
+                temp["account_name"] = fetchPharmDetailsRequest?.data?.bankDetails?.account_name
+                temp["accountNumber"] = fetchPharmDetailsRequest?.data?.bankDetails?.accountNumber
+                setBankDetails(temp)
+            }
+
+            
+
+        } catch (error) {
+            console.log({error});
+        }
+    }
 
     const verifyAccountDetails = async (event) => {
         const field = event.target.name
@@ -131,13 +205,248 @@ const General = ({banks, pharmacy}) => {
         }
     }, [pharmacy])
 
-    console.log({pharmacyDetails});
+ 
+
+    const saveNewPharmacyDetails = async (event, type, payload) => {
+        event.preventDefault()
+        setUpdating(true)
+        try {
+            const saveNewPharmacyDetailsRequest = await putProtected("pharmacies/update", {type, payload})
+
+            setUpdating(false)
+
+            if (saveNewPharmacyDetailsRequest && saveNewPharmacyDetailsRequest.status === "OK") {
+                showSuccessMessage(`${type} has been updated successfully`)
+            } else {
+                showErrorMessage("An error occured while updating pharmacy details")
+            }
+
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const updatePharmacyInformation = event => {
+        let field = event.target.name
+        let value = event.target.value
+
+        console.log({field, value});
+
+         let temp = {...pharmacyDetails}
+            temp[field] = value
+            setPharmacyDetails(temp)
+    }
+
+    const updateBankDetails = async event => {
+        let field = event.target.name
+        let value
+
+        if (field === "bank") {
+            value = JSON.parse(event.target.value)
+        } else {
+            value = event.target.value
+        }
+
+        setUpdating(true)
+
+        let temp = {...pharmDetails}
+        temp.bankDetails.account_name = ""
+        setPharmDetails(temp)
+
+        if (field === "bank" && bankDetails.accountNumber.length === 10) {
+            const confirmBankDetails = await postProtected("verifyBankAccountDetails", {bank: value, accountNumber: bankDetails.accountNumber})
+
+
+            setUpdating(false)
+            if (confirmBankDetails && confirmBankDetails.status === "OK") {
+                temp = {...bankDetails}
+            temp["account_name"] = confirmBankDetails.data.account_name
+            setBankDetails(temp)
+
+            temp = {...pharmDetails}
+            temp.bankDetails.account_name = confirmBankDetails.data.account_name
+            setPharmDetails(temp)
+            }
+        
+        } else if (field === "accountNumber" && value.length === 10 && bankDetails.bank && Object.values(bankDetails.bank).length > 0) {
+            const confirmBankDetails = await postProtected("verifyBankAccountDetails", {bank: bankDetails.bank, accountNumber: value})
+            setUpdating(false)
+            if (confirmBankDetails && confirmBankDetails.status === "OK") {
+                temp = {...bankDetails}
+            temp["account_name"] = confirmBankDetails.data.account_name
+            setBankDetails(temp)
+
+            temp = {...pharmDetails}
+            temp.bankDetails.account_name = confirmBankDetails.data.account_name
+            setPharmDetails(temp)
+            }
+        }
+
+        temp = {...bankDetails}
+        temp[field] = value
+        setBankDetails(temp)
+    }
+
+    const updatePasswords = event => {
+        let field = event.target.name
+        let value = event.target.value
+
+        let temp = {...password}
+        temp[field] = value
+        setPasswords(temp)
+    }
+
+    const validatePasswords = () => {
+        if (!password.newPassword || !password.confirmPassword) {
+            showErrorMessage("Please fill in all password fields")
+            return false
+        } else if (password.newPassword !== password.confirmPassword) {
+            showErrorMessage("Passwords do not match")
+            return false
+        } else {
+            return true
+        }
+    }
+
+    const setNewPassword = async event => {
+        event.preventDefault()
+
+        setUpdating(true)
+
+        if (validatePasswords()) {
+            try {
+                const setNewPasswordRequest = await postProtected("auth/updatePassword", password)
+
+                setUpdating(false)
+
+                if (setNewPasswordRequest && setNewPasswordRequest.status === "OK") {
+                    showSuccessMessage("Password updated successfully")
+                } else {
+                    showErrorMessage(setNewPasswordRequest.error.message)
+                }
+            } catch (error) {
+                console.log({error});
+            }
+        }
+    }
+
+    var loadFile = function(event) {
+
+        setNewLogo(URL.createObjectURL(event.target.files[0]))
+
+        const form = new FormData()
+        form.append("logo", event.target.files[0])
+        setNewLogoFile(form)
+        // output.onload = function() {
+        //   URL.revokeObjectURL(output.src) // free memory
+        // }
+    }
+
+    const uploadNewLogo = async () => {
+        try {
+            setUpdating(true)
+            const uploadNewLogoRequest = await postProtectedMultiPart("pharmacies/uploadLogo", newLogoFile)
+            setUpdating(false)
+            
+            if (uploadNewLogoRequest && uploadNewLogoRequest.status === "OK") {
+                showSuccessMessage("Store logo updated successfully")
+            } else {
+                showErrorMessage("An error occured while uploading new logo")
+            }
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const validateDocuments = (event) => {
+        event.preventDefault()
+        if (documentation.premise_license_expiry_date && !documentation.premise_license) {
+            showErrorMessage("Please add a premise license")
+        } else if (documentation.premise_license && !documentation.premise_license_expiry_date) {
+            showErrorMessage("Please set premise license expiry date")
+        } else if (getDateTime(documentation.premise_license_expiry_date) < currentDate.getTime()) {
+            showErrorMessage("Premise license expiry date cannot be in the past")
+        } else if (documentation?.pharmacist_license_expiry_date && !documentation.pharmacist_license) {
+            showErrorMessage("Please add a pharmacy license")
+        } else if (documentation.pharmacist_license && !documentation.pharmacist_license_expiry_date) {
+            showErrorMessage("Please set pharmacist license expiry date")
+        }   else if (getDateTime(documentation.pharmacist_license_expiry_date) < currentDate.getTime()) {
+            showErrorMessage("Pharmacist license expiry date cannot be in the past")
+        } else {
+            handleDocumentSubmit()
+        }
+    }
+
+    const handleDocumentSubmit = async () => {
+
+        const form = new FormData()
+
+        if (documentation.premise_license) {
+            form.append("premise_license", documentation.premise_license)
+            form.append("premise_license_expiry_date", documentation.premise_license_expiry_date)
+        }
+
+        if (documentation.pharmacist_license) {
+            form.append("pharmacist_license", documentation.pharmacist_license)
+            form.append("pharmacist_license_expiry_date", documentation.pharmacist_license_expiry_date)
+        }
+
+        console.log({form});
+
+
+        
+        try {
+            setUpdating(true)
+            const uploadNewDucumentation = await postProtectedMultiPart("pharmacies/updateDocumentation", form)
+            setUpdating(false)
+            
+            if (uploadNewDucumentation && uploadNewDucumentation.status === "OK") {
+                showSuccessMessage("Updated documentation successfully")
+
+                let temp = {...pharmDetails}
+                temp.documentation = uploadNewDucumentation.data
+                setPharmDetails(temp)
+            } else {
+                showErrorMessage("An error occured while uploading new logo")
+            }
+        } catch (error) {
+            console.log({error});
+        }
+
+    }
+
+    const getDateTime = date => {
+        const theDate = new Date(date)
+        return theDate.getTime()
+    }
+
+    const updateDocumentation = event => {
+        let field = event.target.name
+
+        let value
+
+        if (field === "premise_license" || field === "pharmacist_license") {
+            value = event.target.files[0]
+        } else {
+            value = event.target.value
+        }
+
+        let temp = {...documentation}
+        temp[field] = value
+        setDocumentation(temp)
+    }
+
+
+
+
+    
+
 
     return (
         <div className={styles.general}>
         <Accordion title={"Account Information"} >
             <div className={styles.forms}>
-                <form onChange={event => updateAccountInformation(event)}>
+                <form onChange={event => updateAccountInformation(event)} onSubmit={(event) => saveNewPharmacyDetails(event,"Account information", accountDetails)}>
                     <table>
                         <tbody>
                             {/* <tr>
@@ -169,7 +478,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <input placeholder='Email Address' name="email" />
+                                    <input placeholder='Email Address' name="email" defaultValue={pharmDetails.email} />
                                 </td>
                             </tr>
 
@@ -181,7 +490,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <input placeholder='Contact Number 1' name="contact_number_1" />
+                                    <input placeholder='Contact Number 1' name="contact_number_1" defaultValue={pharmDetails.contact_number} />
                                 </td>
                             </tr>
 
@@ -205,7 +514,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <input placeholder='Pharmacist Name' name='pharmacist_name' />
+                                    <input placeholder='Pharmacist Name' name='regPharmacistName' defaultValue={pharmDetails.regPharmacistName} />
                                 </td>
                             </tr>
 
@@ -215,7 +524,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <button>Submit</button>
+                                    <button disabled={updating}>Submit {updating && <ButtonLoader />}</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -229,19 +538,29 @@ const General = ({banks, pharmacy}) => {
         <Accordion title={"Store Logo"} >
             <div className={styles.storeLogo}>
                 <div>
-                    {iconsSVGs.pharmImage}
+                    {!newLogo && iconsSVGs.pharmImage}
+
+                    {
+                        newLogo && <img src={newLogo} className={styles.newLogo} />
+                    }
                 </div>
 
-                <div className={"cursorPointer"} onClick={() => storeLogoInputRef.current.click()}>
+                <div className={"cursorPointer"} >
                     <div>
                         {
                             iconsSVGs.placeholderImage
                         }
 
+                        <div className={styles.selectLogoDiv} onClick={() => storeLogoInputRef.current.click()}>
                         <p>Click to replace</p>
                         <p>SVG, PNG, JPG or GIF (max 1000 x 1000px)</p>
+                        </div>
 
-                        <input type={"file"} ref={storeLogoInputRef} style={{display: "none"}}  />
+                        
+
+                        <input type={"file"} ref={storeLogoInputRef} style={{display: "none"}} onChange={event => loadFile(event)}  />
+
+                        <button disabled={updating} style={{marginTop: "10px"}} onClick={() => uploadNewLogo()}>Upload new logo {updating && <ButtonLoader />}</button>
                     </div>
                 </div>
             </div>
@@ -251,7 +570,7 @@ const General = ({banks, pharmacy}) => {
 
         <Accordion title={"Pharmacy Information"} >
             <div className={styles.forms}>
-                <form>
+                <form onChange={event => updatePharmacyInformation(event)} onSubmit={(event) => saveNewPharmacyDetails(event,"Pharmacy information", {pharmacyInformation: pharmacyDetails})}>
                     <table>
                         <tbody>
                             {/* <tr>
@@ -283,7 +602,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <input placeholder='Address 1' name="address_1" />
+                                    <input placeholder='Address 1' name="first_address" defaultValue={pharmDetails?.pharmacyInformation?.first_address} />
                                 </td>
                             </tr>
 
@@ -295,7 +614,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <input placeholder='Address 2' name="address_2" />
+                                    <input placeholder='Address 2' name="second_address" defaultValue={pharmDetails?.pharmacyInformation?.second_address} />
                                 </td>
                             </tr>
 
@@ -307,7 +626,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <select defaultChecked={pharmacyDetails.state ? pharmacyDetails.state : "Abia"} defaultValue={pharmacyDetails.state ? pharmacyDetails.state : "Abia"}>
+                                    <select name='state' defaultChecked={pharmacyDetails.state ? pharmacyDetails.state : "Abia"} defaultValue={pharmacyDetails.state ? pharmacyDetails.state : "Abia"}>
                                         {
                                             states.map((item, index) => <option key={index}>{item}</option>)
                                         }
@@ -323,7 +642,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <select>
+                                    <select name='lga' defaultChecked={pharmacyDetails.lga} defaultValue={pharmacyDetails.lga}>
                                     {
                                             stateLGAs[String(pharmacyDetails?.state).toLowerCase().split(" ").join("")]?.lgas.map((item, index) => <option key={index}>{item}</option>)
                                         }
@@ -360,7 +679,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <button>Update Pharmacy Information</button>
+                                    <button disabled={updating}>Update Pharmacy Information {updating && <ButtonLoader />}</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -372,7 +691,7 @@ const General = ({banks, pharmacy}) => {
         <hr />
 
         <Accordion title={"Documentation"} >
-            <div className={styles.documentation}>
+            <form className={styles.documentation} onSubmit={event => validateDocuments(event)} onChange={event => updateDocumentation(event)}>
                 <table>
                     <tbody>
                         <tr>
@@ -385,16 +704,24 @@ const General = ({banks, pharmacy}) => {
                             </td>
 
                             <td>
-                                {/* <p>Expired</p> */}
+                                {
+                                    getDateTime(pharmDetails?.documentation?.pharmacist_license_expiry_date) < currentDate.getTime() && <p>Expired</p>
+                                }
                             </td>
 
                             <td>
-                                {/* <p>File name.jpg</p> */}
+                                {
+                                    documentation.pharmacist_license && <p>{documentation?.pharmacist_license?.name}</p>
+                                }
                             </td>
 
                             <td>
-                                <button onClick={() => doc1InputRef.current.click()}>Update Document</button>
-                                <input type={"file"} ref={doc1InputRef} style={{display : "none"}} />
+                                <input placeholder='Expiry date' type={"date"} className={styles.expiryDateInput} defaultValue={pharmDetails?.documentation?.pharmacist_license_expiry_date} name="pharmacist_license_expiry_date"  />
+                            </td>
+
+                            <td>
+                                <button onClick={() => doc1InputRef.current.click()} type="button">Select Document</button>
+                                <input type={"file"} ref={doc1InputRef} style={{display : "none"}} name="pharmacist_license" />
                             </td>
                         </tr>
 
@@ -410,15 +737,24 @@ const General = ({banks, pharmacy}) => {
 
                             <td>
                                 {/* <p>Expired</p> */}
+                                {
+                                    getDateTime(pharmDetails?.documentation?.premise_license_expiry_date) < currentDate.getTime() && <p>Expired</p>
+                                }
                             </td>
 
                             <td>
-                                {/* <p>File name.jpg</p> */}
+                            {
+                                    documentation.premise_license && <p>{documentation?.premise_license?.name}</p>
+                                }
                             </td>
 
                             <td>
-                                <button onClick={() => doc2InputRef.current.click()}>Update Document</button>
-                                <input type={"file"} ref={doc2InputRef} style={{display : "none"}} />
+                                <input placeholder='Expiry date' type={"date"} className={styles.expiryDateInput} defaultValue={pharmDetails?.documentation?.premise_license_expiry_date} name="premise_license_expiry_date"  />
+                            </td>
+
+                            <td>
+                                <button onClick={() => doc2InputRef.current.click()} type="button">Select Document</button>
+                                <input type={"file"} ref={doc2InputRef} style={{display : "none"}} name="premise_license" />
                             </td>
                         </tr>
 
@@ -433,8 +769,10 @@ const General = ({banks, pharmacy}) => {
 
                             </td>
 
+                            <td></td>
+
                             <td>
-                                <button className={styles.button}>Update Documentation</button>
+                                <button disabled={updating} className={styles.button}>Update Documentation {updating && <ButtonLoader />}</button>
                             </td>
                         </tr>
                     </tbody>
@@ -449,14 +787,14 @@ const General = ({banks, pharmacy}) => {
                     
                 </div>
 
-            </div>
+            </form>
         </Accordion>
 
         <hr />
 
         <Accordion title={"Bank Details"} >
         <div className={styles.forms}>
-                <form onChange={event => verifyAccountDetails(event)}>
+                <form onChange={event => updateBankDetails(event)} onSubmit={(event) => saveNewPharmacyDetails(event,"Bank details", {bankDetails: bankDetails})}>
                     <table>
                         <tbody>
                             <tr>
@@ -468,7 +806,7 @@ const General = ({banks, pharmacy}) => {
                                     <select name='bank'>
                                         <option selected disabled>Select bank</option>
                                         {
-                                            banks.map((item, key) => <option key={item.id}>{item.name}</option>)
+                                            banks.map((item, key) => <option key={item.id} value={JSON.stringify(item)}>{item.name}</option>)
                                         }
                                     </select>
                                 </td>
@@ -481,7 +819,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <input placeholder='Account Number' name='account_number' defaultValue={pharmacy?.bankDetails?.accountNumber} />
+                                    <input placeholder='Account Number' name='accountNumber' defaultValue={pharmDetails?.bankDetails?.accountNumber} />
                                 </td>
                             </tr>
 
@@ -493,7 +831,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <input disabled placeholder='Account Name' defaultValue={pharmacy?.bankDetails?.account_name} />
+                                    <input disabled placeholder='Account Name' value={pharmDetails?.bankDetails?.account_name} />
                                 </td>
                             </tr>
 
@@ -503,7 +841,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <button>Update Bank Details</button>
+                                    <button>Update Bank Details {updating && <ButtonLoader />}</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -516,7 +854,7 @@ const General = ({banks, pharmacy}) => {
 
         <Accordion title={"Security/Authentication"} >
         <div className={styles.forms}>
-                <form>
+                <form disabled={updating} onChange={event => updatePasswords(event)} onSubmit={event =>  setNewPassword(event)} >
                     <table>
                         <tbody>
                             <tr>
@@ -525,7 +863,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                <input placeholder='Current Password' />
+                                <input placeholder='Current Password' name='currentPassword' />
                                 </td>
                             </tr>
 
@@ -536,7 +874,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <input placeholder='New Password' />
+                                    <input placeholder='New Password' name='newPassword' />
                                 </td>
                             </tr>
 
@@ -548,7 +886,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <input placeholder='Confirm Password' />
+                                    <input placeholder='Confirm Password' name='confirmPassword' />
                                 </td>
                             </tr>
 
@@ -558,7 +896,7 @@ const General = ({banks, pharmacy}) => {
                                 </td>
 
                                 <td>
-                                    <button>Update Password</button>
+                                    <button disabled={updating} >Update Password {updating && <ButtonLoader />}</button>
                                 </td>
                             </tr>
                         </tbody>

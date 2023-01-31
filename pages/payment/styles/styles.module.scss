@@ -56,6 +56,11 @@
 
     box-sizing: border-box;
     min-height: 100vh;
+    select {
+        border-style: none;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 
     .status {
         padding-left: 15px;
