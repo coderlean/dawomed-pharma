@@ -46,7 +46,8 @@ const BankDetails = ({currentPharmacyDetails, updatePharmacyDetails}) => {
     const fetchBanksList = async () => {
         try {
 
-            const banksList = getPlain("getAllBanks")
+            const banksList = await getPlain("getAllBanks")
+            console.log({banksList});
             setBanksDetails(banksList.data)
 
             const tempBanks = banksList.data.map((item => item.name))

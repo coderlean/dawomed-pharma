@@ -6,7 +6,6 @@ import Button from '../../../components/atoms/Button';
 import Accordion from '../../../components/molecules/Accordion';
 import caStyles from "./styles/styles.module.css"
 import { iconsSVGs } from '../../../assets/images/icons';
-import { postProtected } from '../../../requests/postProtected';
 import { postPlain } from '../../../requests/postPlain';
 
 const Summary = ({currentPharmacyDetails}) => {

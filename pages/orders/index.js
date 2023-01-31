@@ -199,9 +199,9 @@ const Products = () => {
         setNewStatus(e.target.value)
     }
 
-    const saveNewStatus = e => {
+    const saveNewStatus = async e => {
         try {
-            const saveNewStatusRequest = postProtected("")
+            const saveNewStatusRequest = await postProtected("")
         } catch (error) {
             console.log({error});
         }

@@ -230,7 +230,7 @@ const Products = () => {
         try {
             const token = localStorage.getItem("userToken")
 
-            const createCouponResponse = postProtected("coupon/new", {...coupon, status: status})
+            const createCouponResponse = await postProtected("coupon/new", {...coupon, status: status})
             
             // await fetch("http://localhost:5000/coupon/new", {
             //     method: "POST",

@@ -160,7 +160,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
     const updateProduct = async (productData) => {
         const token = localStorage.getItem("userToken")
 
-            const createProductResponse = postProtectedMultiPart(`product/${currentDrug._id}`, productData)
+            const createProductResponse = await postProtectedMultiPart(`product/${currentDrug._id}`, productData)
             
             // await fetch(`http://localhost:5000/product/${currentDrug._id}`, {
             //     method : "PUT",
@@ -185,7 +185,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
         const productData = generateProductData()
         const token = localStorage.getItem("userToken")
 
-            const createProductResponse = postProtectedMultiPart(`product/draft/${currentDrug._id}`, productData)
+            const createProductResponse = await postProtectedMultiPart(`product/draft/${currentDrug._id}`, productData)
             
             // await fetch(`http://localhost:5000/product/draft/${currentDrug._id}`, {
             //     method : "PUT",
@@ -239,7 +239,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
         const token = localStorage.getItem("userToken")
 
         try {
-            const createDraftResponse = postProtectedMultiPart("product/draft/new", productData)
+            const createDraftResponse = await postProtectedMultiPart("product/draft/new", productData)
             
             // await fetch("http://localhost:5000/product/draft/new", {
             //     method : "POST",
@@ -362,7 +362,7 @@ const ProductInfo = ({currentDrug, mode, setCurrentDrug, updateCurrentDrug}) => 
     const findDrugs = async (drug_name) => {
         setQuery(drug_name)
         try {
-            const searchDrugsListResponse = postProtected("product/drugs/search", {query: drug_name})
+            const searchDrugsListResponse = await postProtected("product/drugs/search", {query: drug_name})
             
             // await fetch("http://localhost:5000/product/drugs/search", {
             //     method: "POST",

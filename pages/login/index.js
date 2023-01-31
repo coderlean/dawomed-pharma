@@ -48,7 +48,7 @@ const Login = () => {
     setErrorMessage("")
     const userLoginDetails = {type: "pharmacy", ...loginDetails}
     try {
-      const loginResponse = postPlain("auth/signin", userLoginDetails)
+      const loginResponse = await postPlain("auth/signin", userLoginDetails)
       
       // await fetch("http://localhost:5000/auth/signin", {
       //   method: "POST",
