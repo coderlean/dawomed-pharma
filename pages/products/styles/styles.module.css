@@ -577,7 +577,48 @@
   color: gray;
 }
 
+.infoText {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 20px;
+  font-size: 16px !important;
+  margin: 0px;
+}
+
+.infoText svg {
+  margin-right: 10px;
+}
+
+.infoText a {
+  color: #1D1272;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
 .addProductsButtonsContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.addProductsButtonsContainer button {
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 10px;
+  cursor: pointer;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -589,10 +630,26 @@
           align-items: center;
 }
 
-.addProductsButtonsContainer button {
-  margin-left: 20px;
-  margin-right: 20px;
-  padding: 10px;
+.addProductsButtonsContainer button svg {
+  margin-right: 10px;
+}
+
+.addProductsButtonsContainer button:nth-child(1) {
+  background-color: rgba(0, 0, 0, 0);
+  border-style: none;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #1D1272;
+  color: #1D1272;
+}
+
+.addProductsButtonsContainer button:nth-child(2) {
+  background-color: #1D1272;
+  border-style: none;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #1D1272;
+  color: white;
 }
 
 .deleteProductContainer {

@@ -64,6 +64,8 @@ const Payment = () => {
         fetchPharmacyOrders()
       }, [])
 
+      console.log({financial_data});
+
 
       const fetchPharmacyData = async () => {
         try {

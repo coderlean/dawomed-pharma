@@ -166,7 +166,34 @@ export  const iconsSVGs = {
     <path opacity="0.5" d="M37.3332 33.333H26.6665" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M37.3332 38.667H26.6665" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M29.3332 28H27.9998H26.6665" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>,
+
+    blueUpload: <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14.5 10V12.6667C14.5 13.0203 14.3595 13.3594 14.1095 13.6095C13.8594 13.8595 13.5203 14 13.1667 14H3.83333C3.47971 14 3.14057 13.8595 2.89052 13.6095C2.64048 13.3594 2.5 13.0203 2.5 12.6667V10" stroke="#1D1272" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M11.8333 5.33333L8.49996 2L5.16663 5.33333" stroke="#1D1272" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8.5 2V10" stroke="#1D1272" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>,
+
+    infoIcon: <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clipPath="url(#clip0_910_27424)">
+    <path d="M12.5 22C18.0228 22 22.5 17.5228 22.5 12C22.5 6.47715 18.0228 2 12.5 2C6.97715 2 2.5 6.47715 2.5 12C2.5 17.5228 6.97715 22 12.5 22Z" stroke="#191306" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12.5 16V12" stroke="#191306" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12.5 8H12.51" stroke="#191306" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </g>
+    <defs>
+    <clipPath id="clip0_910_27424">
+    <rect width="24" height="24" fill="white" transform="translate(0.5)"/>
+    </clipPath>
+    </defs>
+    </svg>,
+
+    whiteCross: <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8.5 3.33301V12.6663" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M3.83337 8H13.1667" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
+    
+    
+    
     
     
 

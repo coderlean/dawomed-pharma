@@ -107,6 +107,8 @@ const Products = () => {
             temp = fetchProductsResponse.products
             setProducts(temp)
 
+            setFetchedProducts(true)
+
             temp = {...stock}
 
             fetchProductsResponse.products.forEach(product => {
@@ -732,24 +734,29 @@ const Products = () => {
                 
 
                 {
-                    (fetchedProducts && products.length === 0) && <div className={styles.noProductsDiv}>
+                    (fetchedProducts && products.length === 0 && activeTab !== "coupons") && <div className={styles.noProductsDiv}>
                         <div>
                             <svg style={{width: "200px", fill: "gray"}} viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><title/><g id="Shipping"><path d="M79.75,35.54,71,33.17l8.8-2.36a.5.5,0,0,0,0-1L58.67,24.19a.57.57,0,0,0-.26,0L48,27,37.6,24.18a.46.46,0,0,0-.26,0L16.25,29.79a.5.5,0,0,0,0,1l8.8,2.37-8.81,2.36a.5.5,0,0,0,0,1l10.18,2.72V65.65a.49.49,0,0,0,.37.48l21.08,5.65.13,0,.13,0,21.09-5.65a.5.5,0,0,0,.37-.48V39.21l10.16-2.7a.5.5,0,0,0,0-1ZM48,38.28,28.85,33.15l17.7-4.75L48,28l19.15,5.13L49.12,38ZM58.54,25.19l19.15,5.14-8.61,2.3L50.65,27.69l-.72-.19Zm-21.07,0,8.61,2.32L26.92,32.6l-8.61-2.32ZM26.92,33.67l.14,0,19,5.09-8.61,2.31L27.05,38.32h0L18.31,36Zm10.41,8.44h.26l9.91-2.66V63L27.42,57.62V39.45ZM27.42,58.65,47.5,64v6.62L27.42,65.27Zm21.08,12V64l20.09-5.38v6.62Zm20.09-13L48.5,63V39.46l9.9,2.66a.27.27,0,0,0,.13,0h.13l9.93-2.65Zm.5-19.31a.29.29,0,0,0-.13,0L58.54,41.11,49.93,38.8l19.15-5.1L77.69,36Z"/></g></svg>
                         </div>
                         <h4>There are no products here</h4>
                         <p>Use the button below to add products and start selling</p>
+
+                        <div className={styles.addProductsButtonsContainer}>
+                        <button onClick={() =>  setBatchCreating(true)}>{iconsSVGs.blueUpload}Upload your product list</button>
+
+                        <button onClick={() => setShowNewProductModal(true)}>{iconsSVGs.whiteCross}Add New Product</button>
+                    </div>
+
+                    <p className={styles.infoText}>{iconsSVGs.infoIcon}You can download our product list template in (Excel Sheet) and enter your prices manually by <Link href='/template.xlsx'>clicking here.</Link></p>
                     </div>
                 }
 
-                {
-                    showUploadProductsButtons && <div className={styles.addProductsButtonsContainer}>
-                        <Button label={"Upload your product list"} theme="outline" />
-                        <Button label="Add new product" />
-                    </div>
-                }
+                {/* {
+                    showUploadProductsButtons && 
+                } */}
 
                 {
-                    activeTab !== "coupons" && <table>
+                    activeTab !== "coupons" && (fetchedProducts && products.length !== 0) &&  <table>
                         <thead>
                             <tr className={styles.tableHeader}>
                                 <td>Product Image</td>
@@ -815,6 +822,20 @@ const Products = () => {
                 {
                     loading && <div className={styles.loaderContainer}>
                     <TransparentLoader />
+                    </div>
+                }
+
+{
+                    (fetchedProducts && coupons.length === 0 && activeTab === "coupons") && <div className={styles.noProductsDiv}>
+
+                        <h4 style={{marginTop: "40px"}}>No coupons created yet.</h4>
+                        <p>Use the button below to create coupons. Coupons you create would be listed here.</p>
+
+                        <div className={styles.addProductsButtonsContainer}>
+                        <button onClick={() =>  setCreatingCoupon(true)}>{iconsSVGs.blueUpload}Create a coupon</button>
+                    </div>
+
+        
                     </div>
                 }
             </div>

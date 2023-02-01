@@ -76,6 +76,7 @@ const Products = () => {
     const [sidebar_error, set_sidebar_error] = useState("")
     const [sidebar_success, set_sidebar_success] = useState("")
     const [updating_status, set_updating_status] = useState(false)
+    const [fetchedOrders, setFetchedOrders ] = useState(false)
     const [searchQuery, setSearchQuery] = useState({
         query: "",
         searchBy: "",
@@ -135,9 +136,9 @@ const Products = () => {
         try {
             const ordersList = await getProtected(`orders/pharmacy/all/${pharmacy._id}`)
 
-            setFetchingOrders(false)
+            setFetchedOrders(true)
 
-            console.log({ordersList});
+            setFetchingOrders(false)
 
             setOrders(ordersList.data)
             setAllOrders(ordersList.data)
@@ -559,6 +560,20 @@ const Products = () => {
                     fetchingOrders && <div>
                     <TransparentLoader />
                 </div>
+                }
+
+{
+                    (fetchedOrders && orders.length === 0) && <div className={styles.noProductsDiv}>
+
+                        <h4 style={{marginTop: "40px"}}>No orders yet.</h4>
+                        <p>Orders from your customers would be listed here.</p>
+
+                        <div className={styles.addProductsButtonsContainer}>
+
+                    </div>
+
+        
+                    </div>
                 }
             </div>
 

@@ -51,6 +51,7 @@ const PickUpSlip = () => {
     const [fetchSlipErrorMessage, setFetchSlipErrorMessage] = useState("")
     const [foundLabel, setFoundLabel] = useState("Order found!")
     const [fetchingSlips, setFetchingSlips] = useState(true)
+    const [fetchedSlips, setFetchedSlips] = useState(false)
 
     useEffect(() => {
         fetchPickupSlips()
@@ -127,6 +128,7 @@ const PickUpSlip = () => {
             setFetchingSlips(true)
             const pharmacyPickupSlips = await postProtected("pickup-slips/pharmacy")
             setFetchingSlips(false)
+            setFetchedSlips(true)
 
             if (pharmacyPickupSlips && pharmacyPickupSlips.status && pharmacyPickupSlips.status === "OK") {
                 const temp = [...slips]
@@ -757,6 +759,20 @@ const PickUpSlip = () => {
             {
                 fetchingSlips && <TransparentLoader />
             }
+
+{
+                    (fetchedSlips && slips.length === 0) && <div className={styles.noProductsDiv}>
+
+                        <h4 style={{marginTop: "40px"}}>No Pickup Slips Yet.</h4>
+                        <p>Pickup slips for created orders would be listed here.</p>
+
+                        <div className={styles.addProductsButtonsContainer}>
+
+                    </div>
+
+        
+                    </div>
+                }
 
         </div>
     )
