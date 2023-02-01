@@ -25,7 +25,7 @@ const FileSelector = ({name, defaultFileName}) => {
 
         <button type="button">SELECT FILE</button>
 
-        <input name={name} type="file" id="file-selector" ref={inputRef} onChange={event => {
+        <input name={name} type="file" id="file-selector" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" ref={inputRef} onChange={event => {
             if (event.target.files[0]) {
                 console.log(event.target.files[0].name);
             setFileName(event.target.files[0].name)

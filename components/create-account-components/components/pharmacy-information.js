@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import Button from '../../../components/atoms/Button';
 import DropDown from '../../../components/atoms/DropDown';
@@ -15,6 +15,12 @@ const PharmacyInformation = ({currentPharmacyDetails, updatePharmacyDetails}) =>
     const [errorMessage, setErrorMessage] = useState("")
     const [locations, setLocations] = useState([])
     const pharmacyFormRef = useRef(null)
+
+    // useEffect(() => {
+    //     if (!currentPharmacyDetails.email){
+    //         router.push("/create-account");
+    //     }
+    // }, [])
 
     const validatePharmacyData = submitEvent => {
         submitEvent.preventDefault()
@@ -119,7 +125,7 @@ const PharmacyInformation = ({currentPharmacyDetails, updatePharmacyDetails}) =>
                         <td className={caStyles.address}>
                                 <LabeledTextInput label={"Address (Required)"}>
                                     <div className='displayFlex'>
-                                    <TextInput placeholder={"Enter your address to select your location. Required for delivery."} value={currentPharmacyDetails?.pharmacyInformation?.superintendent_last_name} name="address" />
+                                    <TextInput placeholder={"Enter your address to select your location. Required for delivery."} value={currentPharmacyDetails?.pharmacyInformation?.address} name="address" />
 
                                     <TextInput  value={currentPharmacyDetails?.pharmacyInformation?.first_address} disabled={true}/>
                                     </div>

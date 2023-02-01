@@ -3,11 +3,6 @@
   width: 25%;
 }
 
-.caSideBar .timeline {
-  width: 2px;
-  background-color: #1D1272;
-}
-
 .caSideBar .option {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -17,7 +12,7 @@
           align-items: center;
   position: relative;
   right: 13px;
-  margin-bottom: 30px;
+  margin-top: 30px;
 }
 
 .caSideBar .option label {
@@ -222,5 +217,29 @@
 .locationResults p:hover {
   background-color: #1D1272;
   color: white;
+}
+
+.loader {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.loader p {
+  font-size: 20px;
+  color: #1D1272;
+  font-weight: bold;
 }
 /*# sourceMappingURL=styles.module.css.map */

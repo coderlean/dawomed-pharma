@@ -20,6 +20,12 @@ const BankDetails = ({currentPharmacyDetails, updatePharmacyDetails}) => {
     const [verified, setVerified] = useState(false)
     const [selectedBankDetails, setSelectedBankDetails] = useState({})
 
+    useEffect(() => {
+        if (Object.values(currentPharmacyDetails.documentation).length === 0){
+            router.push("/create-account");
+        }
+    }, [])
+
     const validateBankDetails = submissionEvent => {
         submissionEvent.preventDefault()
 

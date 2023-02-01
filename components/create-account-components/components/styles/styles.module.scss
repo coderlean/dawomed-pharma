@@ -4,18 +4,18 @@
     background-color: white;
     width: 25%;
 
-    .timeline {
-        width: 2px;
-        background-color: $primary;
+    // .timeline {
+    //     width: 2px;
+    //     background-color: $primary;
         
-    }
+    // }
 
     .option {
         display: flex;
         align-items: center;
         position: relative;
         right: 13px;
-        margin-bottom: 30px;
+        margin-top: 30px;
 
         label {
             margin-left: 10px;
@@ -242,5 +242,23 @@
             background-color: $primary;
             color: white;
         }
+    }
+}
+
+.loader {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p {
+        font-size: 20px;
+        color: $primary;
+        font-weight: bold;
     }
 }

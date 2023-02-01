@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 
 import Button from '../../../components/atoms/Button';
@@ -12,6 +12,13 @@ import { iconsSVGs } from '../../../assets/images/icons';
 const Documentation = ({currentPharmacyDetails, updatePharmacyDetails}) => {
     const router = useRouter()
     const [errorMessage, setErrorMessage] = useState("")
+
+    useEffect(() => {
+        if (!currentPharmacyDetails.pharmacyInformation.registration_number){
+            router.push("/create-account");
+        }
+    }, [])
+    console.log(currentPharmacyDetails.pharmacyInformation.registration_number);
 
     const onChange = updateDocumentationEvent => {
         updateDocumentationEvent.preventDefault()
