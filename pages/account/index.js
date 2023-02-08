@@ -863,7 +863,7 @@ const General = ({banks, pharmacy, showErrorMessage, showSuccessMessage}) => {
                                 </td>
 
                                 <td>
-                                <input placeholder='Current Password' name='currentPassword' />
+                                <input placeholder='Current Password' name='currentPassword' type={"password"} />
                                 </td>
                             </tr>
 
@@ -874,7 +874,7 @@ const General = ({banks, pharmacy, showErrorMessage, showSuccessMessage}) => {
                                 </td>
 
                                 <td>
-                                    <input placeholder='New Password' name='newPassword' />
+                                    <input placeholder='New Password' name='newPassword' type={"password"} />
                                 </td>
                             </tr>
 
@@ -886,7 +886,7 @@ const General = ({banks, pharmacy, showErrorMessage, showSuccessMessage}) => {
                                 </td>
 
                                 <td>
-                                    <input placeholder='Confirm Password' name='confirmPassword' />
+                                    <input placeholder='Confirm Password' name='confirmPassword' type={"password"} />
                                 </td>
                             </tr>
 
