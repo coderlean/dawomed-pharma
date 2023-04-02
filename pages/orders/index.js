@@ -371,6 +371,20 @@ const Products = () => {
                                 </td>
                             </tr>
 
+                            {
+                               selectedOrder.prescriptionData && <tr>
+                                <td className={styles.leftCell}>Prescriptions:</td>
+                                <td className={styles.rightCell}>
+                                    {
+                                        selectedOrder.prescriptionData.map((item, index) => <a href={item.url} key={index}>
+                                            {item.productName}
+                                        </a>)
+                                    }
+                                </td>
+
+                               </tr> 
+                            }
+
                             {/* {
                                 selectedOrder.deliveryMethod !== "Pick Up" && <>
                                 <tr>
