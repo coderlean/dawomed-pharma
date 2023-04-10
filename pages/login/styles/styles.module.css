@@ -1,76 +1,137 @@
-.login {
-  padding: 30px;
+@media (max-width: 991.98px) {
+  .login {
+    padding: 30px;
+  }
+  .login nav {
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 100px;
+  }
+  .login nav > button {
+    border-style: none;
+  }
+  .login main {
+    width: 100%;
+  }
+  .login main button {
+    width: 100%;
+  }
+  .login main h1 {
+    margin: 0px;
+    margin-top: 24px;
+    color: #1D1272;
+    font-size: 31px;
+    font-weight: 600;
+  }
+  .login main p {
+    margin-top: 0px;
+    color: #444444;
+  }
+  .login main button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .login main a {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .login main form {
+    width: 100%;
+  }
+  .login main form fieldset {
+    border-style: none;
+  }
+  .continueButton {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    background-color: #1D1272;
+    color: white;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 20px;
+    border-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .continueButton svg {
+    margin-left: 20px;
+  }
 }
 
-.login nav {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  width: 100%;
-}
-
-.login main {
-  width: 30%;
-}
-
-.login main button {
-  width: 100%;
-}
-
-.login main h1 {
-  margin: 0px;
-  margin-top: 24px;
-  color: #1D1272;
-  font-size: 31px;
-  font-weight: 600;
-}
-
-.login main p {
-  margin-top: 0px;
-  color: #444444;
-}
-
-.login main button {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.login main a {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.login main form {
-  width: 100%;
-}
-
-.login main form fieldset {
-  border-style: none;
-}
-
-.continueButton {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  background-color: #1D1272;
-  color: white;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 20px;
-  border-style: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.continueButton svg {
-  margin-left: 20px;
+@media (min-width: 991px) {
+  .login {
+    padding: 30px;
+  }
+  .login nav {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    width: 100%;
+  }
+  .login main {
+    width: 30%;
+  }
+  .login main button {
+    width: 100%;
+  }
+  .login main h1 {
+    margin: 0px;
+    margin-top: 24px;
+    color: #1D1272;
+    font-size: 31px;
+    font-weight: 600;
+  }
+  .login main p {
+    margin-top: 0px;
+    color: #444444;
+  }
+  .login main button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .login main a {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .login main form {
+    width: 100%;
+  }
+  .login main form fieldset {
+    border-style: none;
+  }
+  .continueButton {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    background-color: #1D1272;
+    color: white;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 20px;
+    border-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .continueButton svg {
+    margin-left: 20px;
+  }
 }
 
 @-webkit-keyframes ldio-ao9ht6w8q29-1 {
