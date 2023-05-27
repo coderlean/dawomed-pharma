@@ -373,7 +373,7 @@ const Products = () => {
     return (
         <div className={styles.products}>
             <Head>
-                <title>Products | Dawomed</title>
+                <title>Products | MedUp</title>
             </Head>
 
             {
@@ -825,7 +825,7 @@ const Products = () => {
                     </div>
                 }
 
-{
+                {
                     (fetchedProducts && coupons.length === 0 && activeTab === "coupons") && <div className={styles.noProductsDiv}>
 
                         <h4 style={{marginTop: "40px"}}>No coupons created yet.</h4>

@@ -10,6 +10,7 @@ body {
 
 a {
   text-decoration: none;
+  cursor: pointer;
 }
 
 * {
@@ -47,4 +48,4 @@ input:-webkit-autofill:active {
 
 *:focus {
   outline: none;
-}
+} 

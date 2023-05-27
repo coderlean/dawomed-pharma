@@ -122,8 +122,8 @@ export default function Home() {
       productID: "4",
       orderID: "4",
       statusType: "update",
-      title: "We would like to announce a new version of Dawomed for Pharmacies",
-      body: "We would like to announce a new version of Dawomed for Pharmacies. This is a very important update that will help you to get the most out of Dawomed. We are very excited to announce this update and we hope you will enjoy Dawomed as much as we enjoyed making it."
+      title: "We would like to announce a new version of MedUp for Pharmacies",
+      body: "We would like to announce a new version of MedUp for Pharmacies. This is a very important update that will help you to get the most out of MedUp. We are very excited to announce this update and we hope you will enjoy MedUp as much as we enjoyed making it."
     }
   ]
 
@@ -256,7 +256,7 @@ export default function Home() {
   if (checkedLoggedIn){ return (
     <div className={styles.container}>
       <Head>
-        <title>Dashboard | Dawomed</title>
+        <title>Dashboard | MedUp</title>
 
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"></link>
       </Head>
@@ -443,6 +443,7 @@ export default function Home() {
         }
         data={pharmacyData.escrow + " NGN"}
         label="In Escrow"
+        url={"/payment"}
         />
 
         <DashboardItem
@@ -456,8 +457,10 @@ export default function Home() {
         }
         data={pharmacyData.sales}
         label="Total Sales"
+        url={"/payment"}
         />
 
+        <Link href={"/products"} passHref={true}>
         <DashboardItem
         icon={
           <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -469,7 +472,9 @@ export default function Home() {
         }
         data={pharmacyData.returns}
         label="Return Requests"
+        url={"/payment"}
         />
+        </Link>
       </div>
 
 
@@ -501,9 +506,10 @@ export default function Home() {
   )}
 }
 
-const DashboardItem = ({icon, label, data}) => {
+const DashboardItem = ({icon, label, data, url}) => {
   return (
-    <div className={[styles.dashboardItem, styles.box].join(" ")}>
+    <Link href={url} passHref>
+      <div className={[styles.dashboardItem, styles.box].join(" ")}>
       <div>
         <h4>{label}</h4>
 
@@ -516,6 +522,7 @@ const DashboardItem = ({icon, label, data}) => {
         </div>
       </div>
     </div>
+    </Link>
   )
 }
 

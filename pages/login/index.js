@@ -145,7 +145,7 @@ const Login = () => {
           </defs>
         </svg>
 
-        <h1>Log In To Dawomed</h1>
+        <h1>Log In To MedUp</h1>
         <p>Pharmacy Center</p>
 
         {
@@ -155,7 +155,7 @@ const Login = () => {
         <form onChange={event => updateLoginDetails(event)} onSubmit={event => validateDetails(event)} >
             <fieldset disabled={loggingIn}>
             <LabeledTextInput label="Email">
-                <TextInput name="email" placeholder="care@dawomed.com" type="email" />
+                <TextInput name="email" placeholder="care@MedUp.com" type="email" />
             </LabeledTextInput>
 
             <div className="mt20"></div>

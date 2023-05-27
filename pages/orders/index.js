@@ -481,7 +481,7 @@ const Products = () => {
             }
 
             <Head>
-                <title>Products | Dawomed</title>
+                <title>Products | MedUp</title>
             </Head>
 
 

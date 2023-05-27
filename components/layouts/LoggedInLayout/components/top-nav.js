@@ -87,7 +87,7 @@ const TopNav = ({toggleShowNotifications, newActivityCount, resetNotificationsCo
                     </defs>
                 </svg>
                 <div>
-                    <h4>Dawomed</h4>
+                    <h4>MedUp</h4>
                     <p>Pharmacy Center</p>
                 </div>
             </div>

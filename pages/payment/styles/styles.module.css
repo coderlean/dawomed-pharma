@@ -730,6 +730,7 @@
   border-radius: 5px;
   border-color: #dadada;
   padding: 20px;
+  cursor: pointer;
 }
 
 .accountStatement main .dashboardBoxContainer .availableBalance {

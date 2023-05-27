@@ -122,7 +122,7 @@ const ForgotPassword = () => {
 
         <form onSubmit={(event) => {validateEmail(event)}}>
             <LabeledTextInput label="Email">
-                <TextInput placeholder="care@dawomed.com" type="email" />
+                <TextInput placeholder="care@MedUp.com" type="email" />
             </LabeledTextInput>
 
             <div className="mt20"></div>

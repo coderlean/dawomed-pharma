@@ -689,6 +689,7 @@
                 height: 200px;
                 @include greyBorder();
                 padding: 20px;
+                cursor: pointer;
             }
 
             .availableBalance {

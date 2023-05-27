@@ -106,7 +106,7 @@ const CreateAccount = () => {
                         <div className='separator20'></div>
 
                         <LabeledTextInput label="Email">
-                            <TextInput placeholder={`user@dawomed.com`} />
+                            <TextInput placeholder={`user@MedUp.com`} />
                         </LabeledTextInput>
 
                         <div className='separator20'></div>
