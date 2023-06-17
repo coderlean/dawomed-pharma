@@ -297,7 +297,7 @@ const PickUpSlip = () => {
                             <tr>
                                 <td className={styles.leftCell}>Phone:</td>
 
-                                <td className={styles.rightCell}>{selectedSlip?.orderId?.customerDetails?.contact_details?.contact_number}</td>
+                                <td className={styles.rightCell}>{selectedSlip?.customerID?.phone_number}</td>
                             </tr>
 
                             {/* <tr>
@@ -738,7 +738,7 @@ const PickUpSlip = () => {
                     <tbody>
                         <tr className={styles.tableHeader}>
                             <td>SLIP ID</td>
-                            <td>REDEMPTION CODE</td>
+                            
                             <td>CUSTOMER</td>
                             <td>DATE GENERATED</td>
                             <td>STATUS</td>
@@ -792,10 +792,6 @@ const OrderTableItem = ({ slip, setSelectedSlip }) => {
         <tr className={styles.orderTableItem}>
             <td className={styles.image}>
                 <p>{slip?._id}</p>
-            </td>
-
-            <td>
-                <p>{slip.redemptionCode}</p>
             </td>
 
             <td>

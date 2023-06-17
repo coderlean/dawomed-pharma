@@ -300,7 +300,7 @@ const Products = () => {
                             <tr>
                                 <td className={styles.leftCell}>Phone:</td>
 
-                                <td className={styles.rightCell}>{selectedOrder.customerDetails?.contact_details?.phoneNumber}</td>
+                                <td className={styles.rightCell}>{selectedOrder.customerID?.phone_number}</td>
                             </tr>
 
                             {/* <tr>
