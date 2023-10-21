@@ -428,7 +428,7 @@ const Products = () => {
                         <p className={styles.timeLeft}>{getTimeLeft()}</p>
 
                         {
-                            fetchedSelectedOrder.status === 0 && <p className={styles.timeoutNotice}>If you don't move this order to confirmed and being processed before it times out, the order would automatically be canceled and the customer refunded.</p>
+                            fetchedSelectedOrder.status === 0 && <p className={styles.timeoutNotice}>If you don&apos;t move this order to confirmed and being processed before it times out, the order would automatically be canceled and the customer refunded.</p>
                         }
                     </div>
                     }
