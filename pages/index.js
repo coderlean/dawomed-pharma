@@ -27,6 +27,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { format } from 'date-fns'
 
 export default function Home() {
   const [news, setNews] = useState("")
@@ -65,6 +66,22 @@ export default function Home() {
       text: 'Chart.js Line Chart',
     },
   },
+  }
+
+  useEffect(() => {
+    fetchPharmacyNotifications()
+  }, [])
+
+  const fetchPharmacyNotifications = async () => {
+    try {
+      const notificationsList = await getProtected(`pharmacies/notifications`)
+
+      let temp = [...notifications]
+      temp = notificationsList.data
+      setNotifications(temp)
+    } catch (error) {
+      console.log({error});
+    }
   }
 
   const labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September" , "October", "November", "December"]
@@ -139,6 +156,40 @@ export default function Home() {
     }
     setCheckedLoggedIn(true)
   }
+
+  const getNotificationData = item => {
+    switch (item.activity) {
+        case "New Order":
+            return {
+                icon: iconsSVGs.shoppingCart,
+                title: "New Order!",
+                text: `You have received a new order. Move the order to confirmed before it times out. `,
+                date: item.date,
+                id: item.orderID._id,
+                type: "New Order"
+            }
+        case "return":
+            return {
+                icon: iconsSVGs.alertTriangle,
+                title: "Return!",
+                text: `Return for item ${item.productName} on ${item.date}`
+            }
+        case "delivery":
+            return {
+                icon: iconsSVGs.deliveryBox,
+                title: "Delivery!",
+                text: `Delivery for item ${item.productName} on ${item.date}`
+            }
+            case "out of stock":
+                return {
+                    icon: iconsSVGs.alertTriangle,
+                    title: "Item out of stock!",
+                    text: `Item ${item.productName} is out of stock`
+                }
+            default : {
+                return {}
+            }}
+}
 
   const fetchPharmacyData = async () => {
     try {
@@ -498,12 +549,62 @@ export default function Home() {
             {/* {
               sampleData.map((item, index) => getActivityItem(item))
             } */}
-            <p>You have no recent activities</p>
+            {
+              notifications.length === 0 && <p>You have no recent activities</p>
+            }
+
+            {
+                        notifications.slice(0,4).map((item, index) => <NotificationItem key={index} data={getNotificationData(item)} />)
+                    }
+
+            
           </main>
         </div>
       </div>
     </div>
   )}
+}
+
+const NotificationItem = ({data}) => {
+
+  const [date, setDate] = useState("")
+  const router = useRouter()
+
+  useEffect(() => {
+      setNotificationDate()
+  }, [])
+
+  const setNotificationDate = () => {
+      const notificationDate = new Date(data.date)
+      setDate(format(notificationDate, "PPP"))
+  }
+
+  const handleClick = () => {
+      switch (data.type) {
+          case "New Order": 
+              router.push(`/orders?id=${data.id}`)
+      }
+  }
+  
+  
+  if (Object.entries(data).length === 0) {
+      return <></>
+  } else {
+      return <div onClick={() => handleClick()} className={[styles.notificationBarItem, "displayFlex alignCenter"].join(" ")}>
+      <div className={styles.icon}>
+          {data.icon}
+      </div>
+      <div>
+          <h4>{data.title}</h4>
+          <p>{data.text}</p>
+          <p className={styles.notificationDate}>{date}</p>
+      </div>
+
+      <label>View Details</label>
+  </div>
+  }
+
+  
 }
 
 const DashboardItem = ({icon, label, data, url}) => {

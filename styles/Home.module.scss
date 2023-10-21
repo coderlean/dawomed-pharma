@@ -5,6 +5,54 @@
   border-color: #e6e6e6;
 }
 
+.notificationBarItem {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+
+  &:hover {
+      background-color: rgba(243, 243, 243, 0.6);
+  }
+
+  .icon {
+      padding: 10px;
+      margin-right: 20px;
+      background-color: #FAFAFA;
+      margin-top: auto;
+      margin-bottom: auto;
+      border-style: none;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #EAEAEA;
+  }
+
+  label {
+      margin-left: auto;
+      font-size: 14px;
+      color: rgba(29, 18, 114, 1);
+      cursor: pointer;
+       &:hover {
+           text-decoration: underline;
+       }
+  }
+
+  h4 {
+      margin: 0px;
+      font-size: 14px;
+      font-weight: 600;
+  }
+
+  p {
+      font-size: 14px;
+      color: rgba(153, 153, 153, 1);
+      margin-top: 5px;
+      font-weight: 400;
+      margin-bottom: 0px;
+  }
+}
+
 
 
 .container {

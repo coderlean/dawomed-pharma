@@ -34,7 +34,7 @@ const NotificationsSideBar = ({toggleShowNotifications, resetNotificationsCount}
                 return {
                     icon: iconsSVGs.shoppingCart,
                     title: "New Order!",
-                    text: `You have received a new order. `,
+                    text: `You have received a new order. Move the order to confirmed before it times out. `,
                     date: item.date,
                     id: item.orderID._id,
                     type: "New Order"

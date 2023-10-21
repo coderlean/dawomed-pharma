@@ -2,19 +2,13 @@
   background-color: white;
   width: 25%;
 }
-
 .caSideBar .option {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   position: relative;
   right: 13px;
   margin-top: 30px;
 }
-
 .caSideBar .option label {
   margin-left: 10px;
 }
@@ -22,7 +16,6 @@
 .post_sign_up {
   text-align: center;
 }
-
 .post_sign_up h1 {
   color: #1D1272;
 }
@@ -30,22 +23,18 @@
 .pharmacyInformation main {
   width: 80%;
 }
-
 .pharmacyInformation main table {
   width: 100%;
 }
-
 .pharmacyInformation main table tr td {
   width: 50%;
   height: 100%;
   padding-top: 20px;
   padding-right: 20px;
 }
-
 .pharmacyInformation main .brokenDivider {
   padding-top: 20px;
 }
-
 .pharmacyInformation main button {
   width: 100%;
   padding: 18px;
@@ -54,7 +43,6 @@
   border-color: #1D1272;
   border-width: 2px;
 }
-
 .pharmacyInformation main h2 {
   color: #1D1272;
 }
@@ -62,30 +50,24 @@
 .documentation main {
   width: 80%;
 }
-
 .documentation main table tr td {
   width: 50%;
   height: 100%;
   padding-top: 20px;
   padding-right: 20px;
 }
-
 .documentation main .brokenDivider {
   padding-top: 20px;
 }
-
 .documentation main .styles_fileSelector__QM7r7 {
   padding: 6px;
 }
-
 .documentation main footer {
   width: 100%;
 }
-
 .documentation main footer table {
   width: 100%;
 }
-
 .documentation main footer table button {
   width: 100%;
   padding: 18px;
@@ -94,7 +76,6 @@
   border-color: #1D1272;
   border-width: 2px;
 }
-
 .documentation main h2 {
   color: #1D1272;
 }
@@ -102,22 +83,18 @@
 .bankDetails main {
   width: 80%;
 }
-
 .bankDetails main table {
   width: 100%;
 }
-
 .bankDetails main table tr td {
   width: 50%;
   height: 100%;
   padding-top: 20px;
   padding-right: 20px;
 }
-
 .bankDetails main .brokenDivider {
   padding-top: 20px;
 }
-
 .bankDetails main button {
   width: 100%;
   padding: 18px;
@@ -126,7 +103,6 @@
   border-color: #1D1272;
   border-width: 2px;
 }
-
 .bankDetails main h2 {
   color: #1D1272;
 }
@@ -134,27 +110,22 @@
 .summary main {
   width: 60%;
 }
-
 .summary main hr {
   width: 100%;
-  color: #1D127226;
+  color: rgba(29, 18, 114, 0.1490196078);
 }
-
 .summary main table {
   width: 100%;
 }
-
 .summary main table tr td {
   width: 50%;
   height: 100%;
   padding-top: 20px;
   padding-right: 20px;
 }
-
 .summary main .brokenDivider {
   padding-top: 20px;
 }
-
 .summary main button {
   width: 100%;
   padding: 18px;
@@ -163,7 +134,6 @@
   border-color: #1D1272;
   border-width: 2px;
 }
-
 .summary main h2 {
   color: #1D1272;
 }
@@ -172,15 +142,13 @@
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 20px;
-  background-color: #811717;
+  background-color: rgb(129, 23, 23);
   color: white;
   font-size: 14px;
 }
-
 .errorMessage p {
   margin: 0px;
 }
-
 .errorMessage div {
   cursor: pointer;
 }
@@ -205,7 +173,6 @@
   width: 100%;
   z-index: 500;
 }
-
 .locationResults p {
   background-color: white;
   margin: 0px;
@@ -213,7 +180,6 @@
   padding: 15px;
   cursor: pointer;
 }
-
 .locationResults p:hover {
   background-color: #1D1272;
   color: white;
@@ -226,20 +192,12 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(255, 255, 255, 0.7);
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
 }
-
 .loader p {
   font-size: 20px;
   color: #1D1272;
   font-weight: bold;
-}
-/*# sourceMappingURL=styles.module.css.map */
+}/*# sourceMappingURL=styles.module.css.map */

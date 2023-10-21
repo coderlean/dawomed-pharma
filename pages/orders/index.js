@@ -7,13 +7,14 @@ import SideBar from '../../components/layouts/SideBar';
 import DropDown from '../../components/atoms/DropDown';
 import Button from '../../components/atoms/Button';
 import { getProtected } from '../../requests/getProtected';
-import {format} from "date-fns"
+import {differenceInMinutes, format} from "date-fns"
 import TransparentLoader from '../../components/atoms/TransparentLoader';
 import { postProtected } from '../../requests/postProtected';
 import { putProtected } from '../../requests/putProtected';
 import { useRouter } from 'next/router';
 import ErrorBox from '../../components/atoms/ErrorBox';
 import SuccessBox from '../../components/atoms/SuccessBox';
+import Modal from '../../components/layouts/Modal';
 
 const getStatusStyle = (status) => {
     switch (status){
@@ -24,6 +25,8 @@ const getStatusStyle = (status) => {
         case "Canceled":
             return styles.declined
         case "Returned":
+            return styles.returned
+        case "Timed Out":
             return styles.returned
         case "Ready":
             return styles.readyForDelivery
@@ -61,7 +64,9 @@ export const formatter = new Intl.NumberFormat('en-NG', {
     "Delivered",
     "Completed",
     'Canceled' ,
-    "Returned"]
+    "Returned",
+    "Timed Out"
+]
 
 
 const Products = () => {
@@ -77,11 +82,17 @@ const Products = () => {
     const [sidebar_success, set_sidebar_success] = useState("")
     const [updating_status, set_updating_status] = useState(false)
     const [fetchedOrders, setFetchedOrders ] = useState(false)
+    const [fetchedSelectedOrder, setFetchedSelectedOrder] = useState(null)
     const [searchQuery, setSearchQuery] = useState({
         query: "",
         searchBy: "",
         orderBy: "newest"
     })
+    const [returnCodeError, setReturnCodeError] = useState("")
+    const [returnDetails, setReturnDetails] = useState({})
+    const [showReturnDiv, setShowReturnDiv] = useState(false)
+    const [returnErrorMessage, setReturnErrorMessage] = useState("")
+    const [returnSuccessMessage, setReturnSuccessMessage] = useState("")
 
    
 
@@ -110,17 +121,45 @@ const Products = () => {
     }
 
 
-    const orderStatuses = ["pending", "processing", "completed", "ready", "cancelled", "declined", "returned"]
+    const orderStatuses = ["pending", "processing", "completed", "ready", "cancelled", "declined", "returned", "timed out"]
 
     useEffect(() => {
         fetchOrders()
     }, [])
+
+    useEffect(() => {
+        let fetchingSelectedOrder = setInterval(() => {
+            if (selectedOrder?._id) {
+                fetchSelectedOrder()
+            }
+        }, 30000)
+
+        if (selectedOrder?._id) {
+            fetchSelectedOrder()
+        } else {
+            clearInterval(fetchingSelectedOrder)
+        }
+        
+    }, [selectedOrder])
 
     const getFormattedDate = orderDate => {
 
         const date = new Date(orderDate)
 
         return format(date, "PP")
+    }
+
+    const fetchSelectedOrder = async () => {
+        try {
+            const getSelectedOrder = await getProtected(`orders/${selectedOrder._id}`)
+
+            if (getSelectedOrder && getSelectedOrder.status === "OK") {
+                setFetchedSelectedOrder(getSelectedOrder.data)
+            }
+            console.log({getSelectedOrder});
+        } catch (error) {
+            console.log({error});
+        }
     }
 
     const setCurrentTab = (currentTab) => {
@@ -226,6 +265,12 @@ const Products = () => {
             let temp = {...selectedOrder}
             selectedOrder.status = value
             setSelectedOrder(temp)
+
+            temp = {...fetchedSelectedOrder}
+            fetchedSelectedOrder.status = value
+            setFetchedSelectedOrder(temp)
+
+            fetchOrders()
         } else {
             set_sidebar_error(updateOrderStatusRequest.error.message)
         }
@@ -260,6 +305,103 @@ const Products = () => {
 
     console.log({selectedOrder});
 
+    const getTimeLeft = () => {
+        let currentDate = new Date()
+        let orderedDate = ""
+
+        if (selectedOrder.createdAt) {
+            orderedDate = new Date(selectedOrder.createdAt)
+        } else {
+            orderedDate = new Date(selectedOrder.orderDate)
+        }
+
+        const difference = differenceInMinutes(currentDate, orderedDate)
+
+        if (difference > 11) {
+            return "Order timed out"
+        } else {
+            return `${11 - difference} minutes`
+        }
+    }
+
+    const hasTimedOut = () => {
+        let currentDate = new Date()
+        let orderedDate = ""
+
+        if (selectedOrder.createdAt) {
+            orderedDate = new Date(selectedOrder.createdAt)
+        } else {
+            orderedDate = new Date(selectedOrder.orderDate)
+        }
+
+        const difference = differenceInMinutes(currentDate, orderedDate)
+
+        if (difference > 11) {
+            console.log("Timed out");
+            return true
+        } else {
+            console.log("not timed out");
+            return false
+        }
+    }
+
+    const validateReturnCode = event => {
+        event.preventDefault()
+
+        const code = event.target[0].value
+
+        if (!code || String(code).length === 0) {
+            setReturnCodeError("Return code is invalid. Please enter the return code you received via email.")
+        } else {
+            getItemsToReturn(code)
+        }
+    }
+
+    const getItemsToReturn = async (code) => {
+        try {
+            console.log({code});
+            const getItemsToReturnRequest = await postProtected("orders/validate", {code})
+
+            if (getItemsToReturnRequest.status === "OK") {
+                console.log({getItemsToReturnRequest});
+                let temp = {...returnDetails}
+                temp = getItemsToReturnRequest.data
+                setReturnDetails(temp)
+            }
+
+            console.log({getItemsToReturnRequest});
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const completeProductsReturn = async () => {
+        try {
+            const completeProductsReturnRequest = await postProtected("orders/returns/complete", {requestID: returnDetails?.request?.id})
+
+            console.log({completeProductsReturnRequest});
+
+            if (completeProductsReturnRequest.status === "OK") {
+                setReturnSuccessMessage("Return completed.")
+            } else {
+                setReturnErrorMessage(completeProductsReturnRequest.error.message)
+            }
+
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const closeReturnBox = () => {
+        let temp ={...returnDetails}
+        temp= {}
+        setReturnDetails(temp)
+        setReturnErrorMessage("")
+        setReturnSuccessMessage("")
+
+        setShowReturnDiv(false)
+    }
+
 
 
     return (
@@ -277,6 +419,20 @@ const Products = () => {
                 </div>
 
                 <div className={styles.sidebarContent}>
+                    {
+                        (fetchedSelectedOrder && (fetchedSelectedOrder.status === 0 || fetchedSelectedOrder.status === 8)) && <div className={styles.timeOutNotice}>
+                        {
+                            fetchedSelectedOrder.status === 0 && <p className={styles.timedOutTitle}>Order times out in:</p>
+                        }
+
+                        <p className={styles.timeLeft}>{getTimeLeft()}</p>
+
+                        {
+                            fetchedSelectedOrder.status === 0 && <p className={styles.timeoutNotice}>If you don't move this order to confirmed and being processed before it times out, the order would automatically be canceled and the customer refunded.</p>
+                        }
+                    </div>
+                    }
+
                     <table>
                         <tbody>
                             <tr>
@@ -441,47 +597,112 @@ const Products = () => {
                         }
                         
                     </div>
-                    <form disabled={updating_status} onSubmit={event => updateOrderStatus(event)}>
+                    
                     {
-                        (selectedOrder.status  < 3 || selectedOrder.status === 5) && <select disabled={updating_status}>
-                        {/* <option value={0} disabled selected>Pending</option> */}
-                        {
-                            selectedOrder.status === 0 && <option value={1} disabled={selectedOrder.status >= 1 || selectedOrder.status > 4}>Confirmed & Being Processed</option>
-                        }
-
-                        {
-                            selectedOrder.status < 4 && <option value={2} disabled={selectedOrder.status >= 2 || selectedOrder.status > 4}>Canceled</option>
-                        }
-                        {
-                            selectedOrder.status === 1 && <option value={2} disabled={selectedOrder.status >= 2 || selectedOrder.status > 4}>Ready</option>
-                        }
-
-
-                        {
-                            selectedOrder.status === 2 && <option value={3} disabled={selectedOrder.status >= 3 || selectedOrder.status > 4} >Picked Up</option>
-                        }
-                        {/* <option value={4} disabled={selectedOrder.status >= 4 || selectedOrder.status > 4}>Delivered</option> */}
-                        {/* <option value={5} disabled={selectedOrder.status > 4}>Completed</option> */}
-                        
-                        {
-                            selectedOrder.status === 5 && <option value={7} disabled={selectedOrder.status !== 5}>Returned</option>
-                        }
-                    </select>
+                        fetchedSelectedOrder && 
+                        <div>
+                            {
+                                !hasTimedOut() && <form disabled={updating_status} onSubmit={event => updateOrderStatus(event)}>
+                                {
+                                    (selectedOrder.status  < 3 || selectedOrder.status === 5) && <select disabled={updating_status}>
+                                    {/* <option value={0} disabled selected>Pending</option> */}
+                                    {
+                                        selectedOrder.status === 0 && <option value={1} disabled={selectedOrder.status >= 1 || selectedOrder.status > 4}>Confirmed & Being Processed</option>
+                                    }
+            
+                                    {
+                                        selectedOrder.status === 5 && <option value={2} disabled={selectedOrder.status >= 2 || selectedOrder.status > 4}>Canceled</option>
+                                    }
+                                    {
+                                        selectedOrder.status === 1 && <option value={2} disabled={selectedOrder.status >= 2 || selectedOrder.status > 4}>Ready</option>
+                                    }
+            
+            
+                                    {
+                                        selectedOrder.status === 2 && <option value={3} disabled={selectedOrder.status >= 3 || selectedOrder.status > 4} >Picked Up</option>
+                                    }
+                                    {/* <option value={4} disabled={selectedOrder.status >= 4 || selectedOrder.status > 4}>Delivered</option> */}
+                                    {/* <option value={5} disabled={selectedOrder.status > 4}>Completed</option> */}
+                                    
+                                    {
+                                        selectedOrder.status === 5 && <option value={7} disabled={selectedOrder.status !== 5}>Returned</option>
+                                    }
+                                </select>
+                                }
+                                    {/* <DropDown options={order_statuses} placeholder={order_statuses[selectedOrder.status].slice(0,1).toUpperCase() + order_statuses[selectedOrder.status].slice(1)} defaultValue={order_statuses[selectedOrder.status].slice(0,1).toUpperCase() + order_statuses[selectedOrder.status].slice(1)} onChange={(e) => handleStatusChange(e)} /> */}
+                                    
+                                    {
+                                        (selectedOrder.status  < 3 || selectedOrder.status === 5) && <Button label={"Submit"} theme={"solid"} />
+                                    }
+                                    
+                                    
+                                </form>
+                            }
+                        </div>
                     }
-                        {/* <DropDown options={order_statuses} placeholder={order_statuses[selectedOrder.status].slice(0,1).toUpperCase() + order_statuses[selectedOrder.status].slice(1)} defaultValue={order_statuses[selectedOrder.status].slice(0,1).toUpperCase() + order_statuses[selectedOrder.status].slice(1)} onChange={(e) => handleStatusChange(e)} /> */}
-                        
-                        {
-                            (selectedOrder.status  < 3 || selectedOrder.status === 5) && <Button label={"Submit"} theme={"solid"} />
-                        }
-                        
-                        
-                    </form>
                     </footer>
             </SideBar>
             }
 
+            {
+                showReturnDiv && <Modal>
+                <div className={styles.validateReturnCodeDiv}>
+                    <h3>Validate Return Code</h3>
+
+                    {
+                        returnErrorMessage && <ErrorBox errorMessage={returnErrorMessage} closeErrorBox={() => setReturnErrorMessage("")} />
+                    }
+
+                    {
+                        returnSuccessMessage && <SuccessBox successMessage={returnSuccessMessage} closeSuccessBox={() => setReturnSuccessMessage("")} />
+                    }
+
+                    <form onSubmit={event => validateReturnCode(event)}>
+                        <div className={styles.validateCodeDiv}>
+                            <input placeholder='Enter the return code' type='number' max={999999} maxLength={6} />
+                            <button>Validate Code</button>
+                        </div>
+                    </form>
+
+                    {
+                        Object.values(returnDetails).length > 0 && <div className={styles.returnDetailsDiv}>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Customer Name
+                                    </td>
+
+                                    <td>{returnDetails?.customer?.name}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Items to return</td>
+
+                                    <td>
+                                        {
+                                            returnDetails.request.itemsToReturn.map((item, index) => <p key={index}>{item?.product?.name}</p>)
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div className={styles.completeReturnButtonDiv}>
+                            <button onClick={() => completeProductsReturn()}>Complete Return</button>
+                        </div>
+                    </div>
+                    }
+
+                    <footer>
+                        <button onClick={() => closeReturnBox()}>Close</button>
+                    </footer>
+                </div>
+            </Modal>
+            }
+
             <Head>
-                <title>Products | MedUp</title>
+                <title>Orders | MedUp</title>
             </Head>
 
 
@@ -510,6 +731,8 @@ const Products = () => {
 
                     <p className={activeTab === "returned" ? styles.active : styles.inactive} onClick={() => setTab("returned")}>Returned</p>
                 </div>
+
+                <button className={styles.validateReturnCodeButton} onClick={() => setShowReturnDiv(true)}>Validate Return Code</button>
             </header>
 
             <form className={styles.searchForm} onChange={event => updateSearchDetails(event)} onSubmit={event => searchOrders(event)}>
@@ -550,7 +773,7 @@ const Products = () => {
                 <table>
                     <thead>
                     <tr className={styles.tableHeader}>
-                            <td>REF</td>
+                            <td>ORDER ID</td>
 
                             <td>CUSTOMER</td>
                             <td>DATE ORDERED</td>

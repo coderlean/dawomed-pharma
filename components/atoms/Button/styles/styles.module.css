@@ -1,13 +1,7 @@
 .outline {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   padding: 10px;
   border: 2px solid #1D1272;
   color: #1D1272;
@@ -15,31 +9,22 @@
   background-color: transparent;
   cursor: pointer;
 }
-
 .outline svg {
   margin-right: 20px;
   margin-left: 20px;
 }
-
 .outline:hover {
   background-color: #1D1272;
   color: white;
 }
-
 .outline:hover rect {
   fill: white;
 }
 
 .solid {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   padding: 18px;
   background-color: #1D1272;
   color: white;
@@ -47,18 +32,14 @@
   font-size: 14px;
   cursor: pointer;
 }
-
 .solid svg {
   margin-right: 20px;
   margin-left: 20px;
 }
-
 .solid:hover {
   background-color: #0E0A4F;
   color: white;
 }
-
 .solid rect {
   fill: white;
-}
-/*# sourceMappingURL=styles.module.css.map */
+}/*# sourceMappingURL=styles.module.css.map */

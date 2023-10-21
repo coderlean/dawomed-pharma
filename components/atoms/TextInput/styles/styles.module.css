@@ -4,11 +4,10 @@
   border-width: 1px;
   font-size: 14px;
   background-color: rgba(0, 0, 0, 0);
-  border-color: #888888;
+  border-color: rgb(136, 136, 136);
 }
-
 .textInputContainer:focus-within {
-  border-color: #1d1272;
+  border-color: rgb(29, 18, 114);
   border-width: 2px;
   outline: none;
   background-color: white !important;
@@ -21,23 +20,14 @@
   background-color: rgba(0, 0, 0, 0);
 }
 
-.textInput::-webkit-input-placeholder {
-  color: #888888;
-}
-
-.textInput:-ms-input-placeholder {
-  color: #888888;
-}
-
-.textInput::-ms-input-placeholder {
-  color: #888888;
+.textInput::-moz-placeholder {
+  color: rgb(136, 136, 136);
 }
 
 .textInput::placeholder {
-  color: #888888;
+  color: rgb(136, 136, 136);
 }
 
 .textInput:focus {
   outline: none;
-}
-/*# sourceMappingURL=styles.module.css.map */
+}/*# sourceMappingURL=styles.module.css.map */

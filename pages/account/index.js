@@ -146,6 +146,12 @@ const General = ({banks, pharmacy, showErrorMessage, showSuccessMessage}) => {
     const [newLogo, setNewLogo] = useState("")
     const currentDate = new Date()
     const [updating, setUpdating] = useState(false)
+    const [operatingHours, setOperatingHours] = useState({
+        openingTime: "",
+        closingTime: "",
+        open24Hours: "No",
+        openWeekends: "No"
+    })
     
 
     useEffect(() => {
@@ -174,6 +180,18 @@ const General = ({banks, pharmacy, showErrorMessage, showSuccessMessage}) => {
                 temp["account_name"] = fetchPharmDetailsRequest?.data?.bankDetails?.account_name
                 temp["accountNumber"] = fetchPharmDetailsRequest?.data?.bankDetails?.accountNumber
                 setBankDetails(temp)
+
+                console.log({fetchPharmDetailsRequest});
+
+                console.log({hours: fetchPharmDetailsRequest?.data?.operatingHours});
+
+
+                temp = {...operatingHours}
+                temp["openingTime"] = fetchPharmDetailsRequest?.data?.operatingHours?.openingTime ? fetchPharmDetailsRequest?.data?.operatingHours?.openingTime : ""
+                temp["closingTime"] = fetchPharmDetailsRequest?.data?.operatingHours?.closingTime ? fetchPharmDetailsRequest?.data?.operatingHours?.closingTime : ""
+                temp["open24Hours"] = fetchPharmDetailsRequest?.data?.operatingHours?.open24Hours ? fetchPharmDetailsRequest?.data?.operatingHours?.open24Hours : "No"
+                temp["openWeekends"] = fetchPharmDetailsRequest?.data?.operatingHours?.openWeekends ? fetchPharmDetailsRequest?.data?.operatingHours?.openWeekends : "No"
+                setOperatingHours(temp)
             }
 
             
@@ -192,10 +210,22 @@ const General = ({banks, pharmacy, showErrorMessage, showSuccessMessage}) => {
         let field = event.target.name
         let value = event.target.value
 
+        console.log({field});
+
        let temp = {...accountDetails}
        temp[field] = value
        setAccountDetails(temp)
     }
+
+    const updateOperatingHours = event => {
+        let field = event.target.name
+        let value = event.target.value
+        let temp = {...operatingHours}
+        temp[field] = value
+        setOperatingHours(temp)
+    }
+
+    console.log({operatingHours});
 
     useEffect(() => {
         if (pharmacy && Object.values(pharmacy).length > 0) {
@@ -212,6 +242,40 @@ const General = ({banks, pharmacy, showErrorMessage, showSuccessMessage}) => {
         setUpdating(true)
         try {
             const saveNewPharmacyDetailsRequest = await putProtected("pharmacies/update", {type, payload})
+
+            setUpdating(false)
+
+            if (saveNewPharmacyDetailsRequest && saveNewPharmacyDetailsRequest.status === "OK") {
+                showSuccessMessage(`${type} has been updated successfully`)
+            } else {
+                showErrorMessage("An error occured while updating pharmacy details")
+            }
+
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const validateOperatingHours = (event, type, payload) => {
+        event.preventDefault()
+        if (operatingHours.open24Hours === "No") {
+            if (!operatingHours.openingTime) {
+                showErrorMessage("Please set an opening time")
+            } else if (!operatingHours.closingTime) {
+                showErrorMessage("Please set a closing time")
+            } else {
+                saveOperatingHours(event, type, payload)
+            }
+        } else {
+            saveOperatingHours(event, type, payload)
+        }
+    }
+
+    const saveOperatingHours = async (event, type, payload) => {
+        event.preventDefault()
+        setUpdating(true)
+        try {
+            const saveNewPharmacyDetailsRequest = await putProtected("pharmacies/updateOperatingHours", {payload})
 
             setUpdating(false)
 
@@ -517,6 +581,100 @@ const General = ({banks, pharmacy, showErrorMessage, showSuccessMessage}) => {
                                     <input placeholder='Pharmacist Name' name='regPharmacistName' defaultValue={pharmDetails.regPharmacistName} />
                                 </td>
                             </tr>
+
+                            <tr>
+                                <td>
+
+                                </td>
+
+                                <td>
+                                    <button disabled={updating}>Submit {updating && <ButtonLoader />}</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </Accordion>
+
+        <hr />
+
+        <Accordion title={"Operating Hours"} >
+            <div className={styles.forms}>
+                <form onChange={event => updateOperatingHours(event)} onSubmit={(event) => validateOperatingHours(event,"Operating hours", operatingHours)}>
+                    <table>
+                        <tbody>
+                            {/* <tr>
+                                <td>
+                                    <label>Pharma ID</label>
+                                </td>
+
+                                <td>
+                                    <input placeholder='Pharmacy ID' />
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <label>Pharmacy Name</label>
+                                </td>
+
+                                <td>
+                                    <input placeholder='Pharmacy Name' />
+                                </td>
+                            </tr> */}
+
+
+
+                            <tr>
+                                <td>
+                                    <label>Opening time</label>
+                                </td>
+
+                                <td>
+                                    <input placeholder='Email Address' name="openingTime" defaultValue={operatingHours.openingTime} type='time' />
+                                </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <label>Closing time</label>
+                                </td>
+
+                                <td>
+                                    <input placeholder='Contact Number 1' name="closingTime" defaultValue={operatingHours.closingTime}  type='time' />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label>Open 24 hours</label>
+                                </td>
+
+                                <td>
+                                    <select name='open24Hours' defaultChecked={operatingHours.open24Hours} defaultValue={operatingHours.open24Hours}>
+                                        <option>No</option>
+                                        <option>Yes</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label>Open weekends</label>
+                                </td>
+
+                                <td>
+                                    <select name='openWeekends' defaultChecked={operatingHours.openWeekends} defaultValue={operatingHours.openWeekends}>
+                                        <option>No</option>
+                                        <option>Yes</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            
 
                             <tr>
                                 <td>

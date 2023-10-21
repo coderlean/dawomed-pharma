@@ -11,45 +11,26 @@
   width: 40%;
   height: 100vh;
 }
-
 .sidebar .closeIcon {
   padding-top: 20px;
   padding-right: 10px;
   cursor: pointer;
   margin-bottom: auto;
 }
-
 .sidebar .sidebarContainer {
   background-color: white;
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  flex-grow: 1;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
-
 .sidebar .sidebarContainer header {
   background-color: #1D1272;
   color: white;
   position: relative;
 }
-
 .sidebar .sidebarContainer main {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-  background-color: #ededf4;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  flex-grow: 1;
+  background-color: rgb(237, 237, 244);
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-/*# sourceMappingURL=styles.module.css.map */
+  flex-direction: column;
+}/*# sourceMappingURL=styles.module.css.map */

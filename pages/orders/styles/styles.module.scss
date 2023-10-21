@@ -42,6 +42,108 @@
     }
 }
 
+
+
+.timeOutNotice {
+    padding: 20px;
+
+    .timedOutTitle {
+        margin-bottom: 0px;
+    }
+
+    .timeLeft {
+        margin-bottom: 0px;
+        font-size: 25px;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .timeoutNotice {
+        margin-bottom: 0px;
+        font-size: 12px;
+        margin-top: 5px;
+        color: gray;
+    }
+}
+
+.validateReturnCodeDiv {
+    background-color: white;
+    padding: 20px;
+    width: 30%;
+
+    .validateCodeDiv {
+        width: 100%;
+        display: flex;
+        align-items: stretch;
+
+        input {
+            flex: 1;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        button {
+            background-color: #38278a;
+            color: white;
+            border-style: none;
+            cursor: pointer;
+
+        }
+    }
+
+    .returnDetailsDiv {
+        background-color: #f6f6f6;
+        padding: 10px;
+        margin-top: 20px;
+
+        .completeReturnButtonDiv {
+            display: flex;
+            justify-content: flex-end;
+
+            button {
+                background-color: #38278a;
+            color: white;
+            border-style: none;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            }
+        }
+    }
+
+    table {
+        margin-top: 20px;
+        font-size: 14px;
+
+        td {
+            padding: 10px;
+            vertical-align: top;
+
+            p{
+                margin-top: 0px;
+            }
+        }
+    }
+
+    footer {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+            background-color: black;
+            padding: 10px;
+            border-style: none;
+            color: white;
+        }
+    }
+}
+
+.validateReturnCodeButton {
+    cursor: pointer !important;
+}
+
 .productsTable {
     width: 100%;
     box-sizing: border-box;
@@ -249,6 +351,8 @@
 
         padding-left: 2rem;
     padding-right: 2rem;
+    display: flex;
+    justify-content: space-between;
 
 
         .headerOptions {

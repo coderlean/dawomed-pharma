@@ -7,7 +7,7 @@ const CreateAccountSideBar = () => {
     "Account Creation",
     "Pharmacy Information",
     "Documentation",
-    "Bank Details",
+    // "Bank Details",
     "Summary",
   ];
   const [currentStep, setCurrentStep] = useState(0);

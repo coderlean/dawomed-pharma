@@ -1,25 +1,34 @@
+.availabilityText {
+  margin-top: 0px;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.availabilityButton {
+  background-color: #1D1272;
+  color: white;
+  width: 100%;
+  padding: 5px;
+  border-style: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
 .LoggedInLayout {
   width: 100%;
 }
-
 .topNav {
   width: 100%;
   background-color: #1D1272;
   color: white;
   font-weight: 200;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   position: relative;
 }
-
 .topNav .notificationIcon {
   cursor: pointer;
 }
-
 .topNav .userMenu {
   position: absolute;
   right: 30px;
@@ -31,7 +40,6 @@
   -moz-box-shadow: 0px 1px 5px 0px rgba(191, 191, 191, 0.67);
   z-index: 5000;
 }
-
 .topNav .userMenu h6 {
   font-size: 16px;
   font-weight: 700;
@@ -39,56 +47,47 @@
   margin: 0px;
   margin-bottom: 15px;
 }
-
 .topNav .userMenu hr {
   width: 100%;
   border-style: none;
   border-top-style: solid;
   border-top-width: 1px;
-  border-top-color: #e2e2e2;
+  border-top-color: rgb(226, 226, 226);
   margin-top: 15px;
   margin-bottom: 15px;
 }
-
 .topNav .userMenu a {
   color: #666666;
   font-weight: 400;
   cursor: pointer;
 }
-
 .topNav .userMenu p {
   color: #666666;
   font-weight: 400;
   cursor: pointer;
 }
-
 .topNav .inactiveNavItem {
   color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
 }
-
 .topNav .inactiveNavItem:hover {
   color: white;
 }
-
 .topNav .activeNavItem {
   color: white;
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
 }
-
 .topNav .activeNavItem:hover {
   color: white;
 }
-
 .topNav .countContainer {
   display: inline;
   margin-right: 50px;
 }
-
 .topNav .countContainer label {
   background-color: #DF1642;
   color: white;
@@ -98,20 +97,13 @@
   border-radius: 3px;
   margin-left: 5px;
 }
-
 .topNav .mr50 {
   margin-right: 50px;
 }
-
 .topNav .logoDiv {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
 }
-
 .topNav .logoDiv .logo {
   border-right-style: none;
   border-right-style: solid;
@@ -119,28 +111,23 @@
   border-right-color: rgba(255, 255, 255, 0.6);
   padding-right: 30px;
 }
-
 .topNav .logoDiv svg {
   margin-right: 10px;
 }
-
 .topNav .logoDiv h4 {
   margin: 0px;
 }
-
 .topNav .logoDiv p {
   margin: 5px;
   margin-left: 0px;
   font-size: 10px;
 }
-
 .topNav .searchDiv {
   background-color: rgba(255, 255, 255, 0.2);
   padding: 8px;
   border-radius: 15px;
   margin-right: 20px;
 }
-
 .topNav .searchDiv input {
   background-color: rgba(255, 255, 255, 0);
   border-style: none;
@@ -154,14 +141,9 @@
   height: 100%;
   z-index: 50000;
   background-color: rgba(29, 18, 114, 0.4);
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
 }
-
 .notificationsSideBar .notificationBarItem {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -169,11 +151,9 @@
   padding-right: 20px;
   cursor: pointer;
 }
-
 .notificationsSideBar .notificationBarItem:hover {
   background-color: rgba(243, 243, 243, 0.6);
 }
-
 .notificationsSideBar .notificationBarItem .icon {
   padding: 10px;
   margin-right: 20px;
@@ -185,66 +165,56 @@
   border-width: 1px;
   border-color: #EAEAEA;
 }
-
 .notificationsSideBar .notificationBarItem label {
   margin-left: auto;
   font-size: 14px;
-  color: #1d1272;
+  color: rgb(29, 18, 114);
   cursor: pointer;
 }
-
 .notificationsSideBar .notificationBarItem label:hover {
   text-decoration: underline;
 }
-
 .notificationsSideBar .notificationBarItem h4 {
   margin: 0px;
   font-size: 14px;
   font-weight: 600;
 }
-
 .notificationsSideBar .notificationBarItem p {
   font-size: 14px;
-  color: #999999;
+  color: rgb(153, 153, 153);
   margin-top: 5px;
   font-weight: 400;
   margin-bottom: 0px;
 }
-
 .notificationsSideBar header {
   background-color: #1D1272;
   color: white;
 }
-
 .notificationsSideBar header h3 {
   margin: 0px;
   font-size: 18px;
   font-weight: 700;
 }
-
 .notificationsSideBar header label {
   margin-left: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #98bf0b;
+  background-color: rgb(152, 191, 11);
   border-radius: 4px;
   font-size: 12px;
 }
-
 .notificationsSideBar > svg {
   margin-top: 10px;
   margin-right: 20px;
   cursor: pointer;
 }
-
 .notificationsSideBar > div {
   width: 40%;
   height: 100%;
   background-color: white;
-  -webkit-box-shadow: 0px 1px 5px 0px rgba(191, 191, 191, 0.67);
-          box-shadow: 0px 1px 5px 0px rgba(191, 191, 191, 0.67);
+  box-shadow: 0px 1px 5px 0px rgba(191, 191, 191, 0.67);
 }
 
 .notificationDate {
@@ -252,12 +222,9 @@
 }
 
 .notification {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   margin-right: 20px;
 }
-
 .notification label {
   background-color: #DF1642;
   color: white;
@@ -267,7 +234,6 @@
   border-radius: 3px;
   margin-left: 5px;
 }
-
 .notification svg {
   margin-right: 0px;
 }
@@ -278,5 +244,4 @@
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 15px;
-}
-/*# sourceMappingURL=styles.module.css.map */
+}/*# sourceMappingURL=styles.module.css.map */

@@ -52,7 +52,7 @@ const Documentation = ({currentPharmacyDetails, updatePharmacyDetails}) => {
     }
 
     const goToBankDetails = () => {
-        router.push("/create-account/bank-details")
+        router.push("/create-account/summary")
     }
 
     return (

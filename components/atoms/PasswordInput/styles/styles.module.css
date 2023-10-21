@@ -1,25 +1,19 @@
 .passwordInputContainer {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   border-style: none;
   border-style: solid;
   border-width: 1px;
   font-size: 14px;
   background-color: rgba(0, 0, 0, 0);
-  border-color: #888888;
+  border-color: rgb(136, 136, 136);
   padding-right: 10px;
 }
-
 .passwordInputContainer:focus-within {
   border-color: #1D1272;
   border-width: 2px;
   background-color: white;
 }
-
 .passwordInputContainer div {
   cursor: pointer;
 }
@@ -30,25 +24,15 @@
   border-style: none;
   background-color: rgba(0, 0, 0, 0);
 }
-
 .passwordInput:focus {
   outline: none;
   background-color: white;
 }
 
-.textInput::-webkit-input-placeholder {
-  color: #888888;
-}
-
-.textInput:-ms-input-placeholder {
-  color: #888888;
-}
-
-.textInput::-ms-input-placeholder {
-  color: #888888;
+.textInput::-moz-placeholder {
+  color: rgb(136, 136, 136);
 }
 
 .textInput::placeholder {
-  color: #888888;
-}
-/*# sourceMappingURL=styles.module.css.map */
+  color: rgb(136, 136, 136);
+}/*# sourceMappingURL=styles.module.css.map */

@@ -1,11 +1,13 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import loggedInLayoutStyles from '../styles/styles.module.css';
 import profileIcon from "../../../../assets/images/profile.png"
 import { useRouter } from 'next/router';
 import {useCookies} from "react-cookie"
 import Image from 'next/image';
 import { useClickedOutside } from '../../../../helpers/hooks';
+import { getProtected } from '../../../../requests/getProtected';
+import { putProtected } from '../../../../requests/putProtected';
 
 const TopNav = ({toggleShowNotifications, newActivityCount, resetNotificationsCount}) => {
     var location = useRouter().pathname;
@@ -15,6 +17,7 @@ const TopNav = ({toggleShowNotifications, newActivityCount, resetNotificationsCo
     const router = useRouter()
     const user = JSON.parse(localStorage.getItem("user"))
     const userMenu = useClickedOutside(() => setShowUserMenu(false))
+    const [isAvailable, setIsAvailable] = useState(false)
 
     const toggleUserMenu = () => {
         if (showUserMenu){
@@ -24,6 +27,10 @@ const TopNav = ({toggleShowNotifications, newActivityCount, resetNotificationsCo
         }
     }
 
+    useEffect(() => {
+        getAvailability()
+    }, [])
+
     console.log({user});
 
     const signUserOut = () => {
@@ -31,10 +38,47 @@ const TopNav = ({toggleShowNotifications, newActivityCount, resetNotificationsCo
         router.push("/login")
     }
 
+    const getAvailability = async () => {
+        try {
+            const getAvailabilityRequest = await getProtected("pharmacies/getAvailability")
+
+            if (getAvailabilityRequest.status === "OK") {
+                setIsAvailable(getAvailabilityRequest.isAvailable)
+            } else {
+                setIsAvailable(false)
+            }
+            console.log({getAvailabilityRequest});
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const toggleAvailability = async (event) => {
+        event.stopPropagation()
+        try {
+          const toggleAvailabilityRequest = await putProtected("pharmacies/toggleAvailability")  
+          console.log({toggleAvailabilityRequest});
+          if (toggleAvailabilityRequest.status === "OK") {
+            setIsAvailable(toggleAvailabilityRequest.isAvailable)
+          }
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    console.log({isAvailable});
+
     return <nav className={loggedInLayoutStyles.topNav}>
         {
             showUserMenu && <div className={[loggedInLayoutStyles.userMenu]}>
             <h6>{user.pharmacyName}</h6>
+            <p className={loggedInLayoutStyles.availabilityText}>{isAvailable ? "Available" : "Unavailable"}</p>
+
+            <button onClick={(event) => toggleAvailability(event)} className={loggedInLayoutStyles.availabilityButton}>{isAvailable ? "Set Unavailable" : "Set Available"}</button>
+
+            <hr />
+
+
 
             <div>
                 <Link href='/account'>Account</Link>

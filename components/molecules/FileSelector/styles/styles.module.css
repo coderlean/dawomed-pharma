@@ -1,14 +1,8 @@
 .fileSelector {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   cursor: pointer;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 7px;
@@ -16,13 +10,11 @@
   border-style: none;
   border-style: solid;
   border-width: 1px;
-  border-color: #888888;
+  border-color: rgb(136, 136, 136);
 }
-
 .fileSelector input {
   display: none;
 }
-
 .fileSelector button {
   background-color: #999999;
   border-style: none;
@@ -35,8 +27,6 @@
   cursor: pointer;
   font-size: 12px;
 }
-
 .fileSelector button:hover {
   background-color: #1D1272;
-}
-/*# sourceMappingURL=styles.module.css.map */
+}/*# sourceMappingURL=styles.module.css.map */

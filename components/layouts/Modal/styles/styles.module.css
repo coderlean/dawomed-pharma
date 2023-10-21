@@ -6,14 +6,7 @@
   height: 100%;
   background: rgba(29, 18, 114, 0.5);
   z-index: 9999;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-/*# sourceMappingURL=styles.module.css.map */
+  justify-content: center;
+  align-items: center;
+}/*# sourceMappingURL=styles.module.css.map */

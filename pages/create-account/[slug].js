@@ -28,7 +28,7 @@ const CreateAccount = (props) => {
 
         }
     })
-    const validSlugs = ["pharmacy-information","documentation", "bank-details", "summary"]
+    const validSlugs = ["pharmacy-information","documentation",  "summary"]
     console.log({currentPharmacyDetails});
     const pages = [
         {
@@ -53,25 +53,25 @@ const CreateAccount = (props) => {
                 setCurrentPharmacyDetails(temp)
             }}/>
         },
-        {
-            slug: "bank-details",
-            position: 3,
-            component: <BankDetails currentPharmacyDetails={currentPharmacyDetails} updatePharmacyDetails={(value, field) => {
-                const temp = {...currentPharmacyDetails}
+        // {
+        //     slug: "bank-details",
+        //     position: 3,
+        //     component: <BankDetails currentPharmacyDetails={currentPharmacyDetails} updatePharmacyDetails={(value, field) => {
+        //         const temp = {...currentPharmacyDetails}
 
-                temp.bankDetails[String(field)] = value
+        //         temp.bankDetails[String(field)] = value
 
-                setCurrentPharmacyDetails(temp)
-            }} />
-        },
+        //         setCurrentPharmacyDetails(temp)
+        //     }} />
+        // },
         {
             slug: "summary",
-            position: 4,
+            position: 3,
             component: <Summary currentPharmacyDetails={currentPharmacyDetails} />
         },
         {
             slug: "post-sign-up",
-            position: 5,
+            position: 4,
             component: <PostSignUp currentPharmacyDetails={currentPharmacyDetails} />
         }
     ]

@@ -182,6 +182,7 @@ const PickUpSlip = () => {
 
                 setSlipID(completeOrder._id)
                 setFoundLabel("Customer has picked up order. Order has been marked as completed.")
+                fetchPickupSlips()
             } else if (completeOrder && completeOrder.status && completeOrder.status === "FAILED") {
                 setFetchingSlip(false)
                 setFetchSlipErrorMessage(completeOrder.error.message)
@@ -419,13 +420,13 @@ const PickUpSlip = () => {
                         {/* <DropDown options={["Pending", "Processing", "Completed", "Ready for Delivery/Pick up", "Cancelled", "Declined"]} placeholder={selectedSlip.status.slice(0,1).toUpperCase() + selectedSlip.status.slice(1)} defaultValue={selectedSlip.status.slice(0,1).toUpperCase() + selectedSlip.status.slice(1)} onChange={(e) => handleStatusChange(e)} /> */}
                         {/* <Button onButtonClick={() => updatePickupSlipStatus()} label={"Set As Used"} theme={"solid"} /> */}
 
-                        {
+                        {/* {
                             selectedSlip.status === "Activated" && <button disabled={updatingSlip} onClick={() => updatePickupSlipStatus()} className={styles.updateButton}>SET AS USED
                             {
                             updatingSlip && <ButtonLoader />
                             }
                             </button>
-                        }
+                        } */}
                 </footer>
 
                 

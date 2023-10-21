@@ -1,61 +1,129 @@
+.timeOutNotice {
+  padding: 20px;
+}
+.timeOutNotice .timedOutTitle {
+  margin-bottom: 0px;
+}
+.timeOutNotice .timeLeft {
+  margin-bottom: 0px;
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+.timeOutNotice .timeoutNotice {
+  margin-bottom: 0px;
+  font-size: 12px;
+  margin-top: 5px;
+  color: gray;
+}
+
+.validateReturnCodeDiv {
+  background-color: white;
+  padding: 20px;
+  width: 30%;
+}
+.validateReturnCodeDiv .validateCodeDiv {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+}
+.validateReturnCodeDiv .validateCodeDiv input {
+  flex: 1;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 500;
+}
+.validateReturnCodeDiv .validateCodeDiv button {
+  background-color: #38278a;
+  color: white;
+  border-style: none;
+  cursor: pointer;
+}
+.validateReturnCodeDiv .returnDetailsDiv {
+  background-color: #f6f6f6;
+  padding: 10px;
+  margin-top: 20px;
+}
+.validateReturnCodeDiv .returnDetailsDiv .completeReturnButtonDiv {
+  display: flex;
+  justify-content: flex-end;
+}
+.validateReturnCodeDiv .returnDetailsDiv .completeReturnButtonDiv button {
+  background-color: #38278a;
+  color: white;
+  border-style: none;
+  cursor: pointer;
+  padding: 10px;
+  width: 100%;
+}
+.validateReturnCodeDiv table {
+  margin-top: 20px;
+  font-size: 14px;
+}
+.validateReturnCodeDiv table td {
+  padding: 10px;
+  vertical-align: top;
+}
+.validateReturnCodeDiv table td p {
+  margin-top: 0px;
+}
+.validateReturnCodeDiv footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+.validateReturnCodeDiv footer button {
+  background-color: black;
+  padding: 10px;
+  border-style: none;
+  color: white;
+}
+
+.validateReturnCodeButton {
+  cursor: pointer !important;
+}
+
 .productsTable {
   width: 100%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   font-size: 14px;
   padding-left: 50px;
   padding-right: 50px;
 }
-
 .productsTable td {
   padding: 10px;
   text-align: left;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .orders {
-  background-color: #fafafa;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  background-color: rgb(250, 250, 250);
+  box-sizing: border-box;
   min-height: 100vh;
 }
-
 .orders .searchForm select {
   border-style: none;
   margin-left: 10px;
   margin-right: 10px;
 }
-
 .orders .searchForm button {
   padding: 10px;
 }
-
 .orders .noProductsDiv {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  align-items: center;
 }
-
 .orders .noProductsDiv h4 {
   margin: 0px;
   font-size: 24px;
   color: #4a4a4a;
 }
-
 .orders .noProductsDiv p {
   margin-top: 5px;
   font-size: 14px;
   color: gray;
 }
-
 .orders .status {
   padding-left: 15px;
   padding-right: 15px;
@@ -67,52 +135,42 @@
   border-style: none;
   font-size: 13px;
 }
-
 .orders .completed {
-  color: #11763d;
+  color: rgb(17, 118, 61);
   background-color: rgba(17, 118, 61, 0.2);
 }
-
 .orders .pending {
-  color: #664b16;
-  background-color: #ffefcf;
+  color: rgb(102, 75, 22);
+  background-color: rgb(255, 239, 207);
 }
-
 .orders .returned {
-  color: #9c0f2e;
+  color: rgb(156, 15, 46);
   background-color: rgba(156, 15, 46, 0.2);
 }
-
 .orders .declined {
   color: white;
-  background-color: #720000;
+  background-color: rgb(114, 0, 0);
 }
-
 .orders .processing {
-  color: #032950;
+  color: rgb(3, 41, 80);
   background-color: rgba(75, 166, 255, 0.2);
 }
-
 .orders .readyForPickup {
-  color: #0070f3;
+  color: rgb(0, 112, 243);
   background-color: rgba(0, 112, 243, 0.2);
 }
-
 .orders .readyForDelivery {
-  color: #a4c639;
+  color: rgb(164, 198, 57);
   background-color: rgba(164, 198, 57, 0.2);
 }
-
 .orders .pickedUp {
-  color: #29bc9b;
+  color: rgb(41, 188, 155);
   background-color: rgba(41, 188, 155, 0.2);
 }
-
 .orders .sidebarTitle {
   font-size: 18px;
   font-weight: 700;
 }
-
 .orders .sidebarIcons {
   border-style: solid;
   border-color: white;
@@ -123,118 +181,84 @@
   border-width: 1px;
   border-radius: 5px;
 }
-
 .orders .sidebarIcons svg {
   display: block;
   cursor: pointer;
 }
-
 .orders .sidebarFooter {
   margin: 24px;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
-
 .orders .sidebarFooter > div {
   width: 100%;
 }
-
 .orders .sidebarFooter form {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   width: 100%;
 }
-
 .orders .sidebarFooter form select {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  flex: 1;
 }
-
 .orders .sidebarFooter button {
   margin-left: 10px;
 }
-
 .orders .sidebarContent {
   background-color: white;
 }
-
 .orders .sidebarContent table {
   width: 100%;
   padding-left: 24px;
   padding-right: 24px;
   padding-top: 8px;
 }
-
 .orders .sidebarContent hr {
   border-style: none;
   border-top-style: solid;
   border-top-width: 1px;
-  border-top-color: #eeeeee;
+  border-top-color: rgb(238, 238, 238);
   margin: 0px;
 }
-
 .orders .sidebarContent td {
   padding-top: 7px;
   padding-bottom: 7px;
 }
-
 .orders .sidebarContent .leftCell {
-  color: #333333;
+  color: rgb(51, 51, 51);
   font-weight: 600;
 }
-
 .orders .sidebarContent .rightCell {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: end;
-  color: #666666;
+  justify-content: end;
+  color: rgb(102, 102, 102);
   font-weight: 400;
 }
-
 .orders .sidebarContent .total {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: end;
-  color: #111111;
+  justify-content: end;
+  color: rgb(17, 17, 17);
   font-weight: 700;
 }
-
 .orders header {
   border-style: none;
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #EAEAEA;
   background-color: white;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   left: 0;
   z-index: 20;
   padding-left: 2rem;
   padding-right: 2rem;
+  display: flex;
+  justify-content: space-between;
 }
-
 .orders header .headerOptions {
   padding-top: 10px;
   padding-bottom: 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
 }
-
 .orders header .headerOptions div {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -246,40 +270,30 @@
   border-right-color: #EAEAEA;
   cursor: pointer;
 }
-
 .orders header .headerOptions div svg {
   margin-left: 10px;
   margin-right: 10px;
 }
-
 .orders header .headerOptions div p {
   margin: 0px;
   font-weight: 600;
-  color: #444444;
+  color: rgb(68, 68, 68);
 }
-
 .orders header .headerTabs {
   margin-left: 20px;
 }
-
 .orders header .headerTabs p {
   padding-left: 20px;
   padding-right: 20px;
   margin: 0px;
   cursor: pointer;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-transition: all 0.2s ease;
+  align-items: center;
   transition: all 0.2s ease;
   font-size: 14px;
   padding-top: 20px;
   padding-bottom: 20px;
 }
-
 .orders header .headerTabs p:hover {
   background-color: #F9F9FE;
   border-style: none;
@@ -289,12 +303,10 @@
   color: #1D1272;
   font-weight: 700;
 }
-
 .orders header .headerTabs .inactive {
   font-weight: 400;
-  color: #757575;
+  color: rgb(117, 117, 117);
 }
-
 .orders header .headerTabs .active {
   background-color: #F9F9FE;
   border-style: none;
@@ -304,45 +316,30 @@
   color: #1D1272;
   font-weight: 700;
 }
-
 .orders .createProductModal {
   width: 60vw;
   height: 80vh;
   background-color: white;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
-
 .orders .createProductModal + div {
   cursor: pointer;
   margin-left: 10px;
 }
-
 .orders .createProductModal footer {
-  -webkit-box-flex: 0;
-      -ms-flex-positive: 0;
-          flex-grow: 0;
+  flex-grow: 0;
 }
-
 .orders .createProductModal footer button {
   margin-left: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 14px;
 }
-
 .orders .createProductModal header {
-  -webkit-box-flex: 0;
-      -ms-flex-positive: 0;
-          flex-grow: 0;
+  flex-grow: 0;
   position: unset;
 }
-
 .orders .createProductModal header p {
   color: #1D1272;
   padding-top: 15px;
@@ -352,7 +349,6 @@
   margin: 0px;
   margin-right: 20px;
 }
-
 .orders .createProductModal header .activeTab {
   color: #1D1272;
   font-weight: bold;
@@ -361,91 +357,66 @@
   border-bottom-width: 3px;
   border-bottom-color: #1D1272;
 }
-
 .orders .createProductModal header .inactiveTab {
-  color: #757575;
+  color: rgb(117, 117, 117);
 }
-
 .orders .createProductModal .pageContent {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
+  flex-grow: 1;
   padding-left: 40px;
   padding-right: 40px;
   padding-top: 20px;
   padding-bottom: 20px;
   overflow-y: scroll;
 }
-
 .orders .createProductModal .pageContent .productName {
   font-size: 18px;
   font-weight: 600;
-  color: #444444;
+  color: rgb(68, 68, 68);
 }
-
 .orders .createProductModal .pageContent h2 {
   color: #1D1272;
   font-size: 18px;
   font-weight: 600;
 }
-
 .orders .createProductModal .pageContent .infoText {
   font-size: 12px;
-  color: #999999;
+  color: rgb(153, 153, 153);
   margin-top: 10px;
   font-weight: 400;
 }
-
 .orders .createProductModal .pageContent .imageSelector {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  align-items: center;
   border-style: none;
   border-style: dashed;
   border-width: 1px;
   border-color: #9E9E9E;
   padding: 20px;
 }
-
 .orders .createProductModal .pageContent .imageSelector button {
   padding: 10px;
   font-size: 13px;
 }
-
 .orders .createProductModal .pageContent .imageSelector p {
   font-size: 12px;
 }
-
 .orders .createProductModal .pageContent .imageSelector input {
   display: none;
 }
-
 .orders .createProductModal .pageContent .discount {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   border-style: none;
   border-style: solid;
   border-width: 1px;
-  border-color: #888888;
+  border-color: rgb(136, 136, 136);
 }
-
 .orders .createProductModal .pageContent .discount input {
   border-style: none;
   padding-left: 10px;
 }
-
 .orders .createProductModal .pageContent .discount div {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  flex: 1;
   text-align: end;
   background-color: #EAEAEA;
   height: 100%;
@@ -454,19 +425,17 @@
   padding-bottom: 15px;
   border-style: none;
   border-left-style: solid;
-  border-left-color: #888888;
+  border-left-color: rgb(136, 136, 136);
   border-left-width: 1px;
-  color: #9e9e9e;
+  color: rgb(158, 158, 158);
 }
-
 .orders .createProductModal hr {
   margin: 0px;
   border-style: none;
   border-top-style: solid;
   border-top-width: 1px;
-  border-top-color: #e0e0e0;
+  border-top-color: rgb(224, 224, 224);
 }
-
 .orders .searchDiv {
   border-style: none;
   border-bottom-style: solid;
@@ -474,26 +443,19 @@
   border-bottom-color: #EAEAEA;
   padding-left: 5rem;
   padding-right: 5rem;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  box-sizing: border-box;
+  align-items: center;
 }
-
 .orders .searchDiv p {
   margin: 0px;
 }
-
 .orders .searchDiv .search {
   padding: 10px;
   background-color: white;
 }
-
 .orders .searchDiv .search input {
   border-style: none;
 }
-
 .orders .searchDiv .sort {
   background-color: white;
   padding-top: 10px;
@@ -501,15 +463,13 @@
   padding-left: 20px;
   padding-right: 20px;
   font-size: 14px;
-  color: #666666;
+  color: rgb(102, 102, 102);
   font-weight: 600;
   cursor: pointer;
 }
-
 .orders .searchDiv .sort svg {
   margin-left: 15px;
 }
-
 .orders .searchDiv .filter {
   background-color: white;
   padding-top: 10px;
@@ -517,56 +477,46 @@
   padding-left: 20px;
   padding-right: 20px;
   font-size: 14px;
-  color: #666666;
+  color: rgb(102, 102, 102);
   font-weight: 600;
   cursor: pointer;
 }
-
 .orders .searchDiv .filter svg {
   margin-left: 15px;
 }
-
 .orders .productsTable {
   padding-left: 5rem;
   padding-right: 5rem;
 }
-
 .orders .productsTable table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 10px;
 }
-
 .orders .productsTable table .tableHeader td {
   font-weight: 600;
   font-size: 14px;
-  color: #333333;
+  color: rgb(51, 51, 51);
 }
-
 .orders .productsTable table td {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-
 .orders .productsTable table .orderTableItem {
   background-color: white;
   margin-bottom: 20px;
   border-spacing: 20px;
 }
-
 .orders .productsTable table .orderTableItem label {
   font-size: 14px;
 }
-
 .orders .productsTable table .orderTableItem td p {
   font-size: 14px;
-  color: #444444;
+  color: rgb(68, 68, 68);
 }
-
 .orders .productsTable table .orderTableItem .image {
   padding-left: 20px;
 }
-
 .orders .productsTable table .orderTableItem button {
   padding-left: 15px;
   padding-right: 15px;
@@ -584,9 +534,7 @@
   font-size: 12px;
   cursor: pointer;
 }
-
 .orders .productsTable table .orderTableItem button:hover {
   background-color: #1D1272;
   color: white;
-}
-/*# sourceMappingURL=styles.module.css.map */
+}/*# sourceMappingURL=styles.module.css.map */

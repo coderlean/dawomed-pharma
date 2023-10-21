@@ -17,7 +17,7 @@ const Summary = ({ currentPharmacyDetails }) => {
 
   console.log({currentPharmacyDetails});
   useEffect(() => {
-    if (Object.values(currentPharmacyDetails.bankDetails).length === 0) {
+    if (Object.values(currentPharmacyDetails.documentation).length === 0) {
       router.push("/create-account");
     }
   }, [])
@@ -58,10 +58,10 @@ const Summary = ({ currentPharmacyDetails }) => {
       "pharmacyInformation",
       JSON.stringify(currentPharmacyDetails.pharmacyInformation)
     );
-    pharmacyData.append(
-      "bankDetails",
-      JSON.stringify(currentPharmacyDetails.bankDetails)
-    );
+    // pharmacyData.append(
+    //   "bankDetails",
+    //   JSON.stringify(currentPharmacyDetails.bankDetails)
+    // );
 
     // const createPharmacyAccountRequest = await postPlain("auth/signup", pharmacyData)
 
@@ -231,7 +231,7 @@ const Summary = ({ currentPharmacyDetails }) => {
 
           <hr />
 
-          <Accordion title={"Bank Details"}>
+          {/* <Accordion title={"Bank Details"}>
             <div className="displayFlex jcSpaceBetween">
               <p>Bank Name</p>
               <p>{currentPharmacyDetails?.bankDetails?.bank?.name}</p>
@@ -247,7 +247,7 @@ const Summary = ({ currentPharmacyDetails }) => {
               <p>{currentPharmacyDetails?.bankDetails?.account_name}</p>
             </div>
 
-            {/* <div className="displayFlex jcSpaceBetween">
+            <div className="displayFlex jcSpaceBetween">
                     <p>Branch</p>
                     <p>First Last</p>
                 </div>
@@ -265,8 +265,8 @@ const Summary = ({ currentPharmacyDetails }) => {
                 <div className="displayFlex jcSpaceBetween">
                     <p>IBAN</p>
                     <p>First Last</p>
-                </div> */}
-          </Accordion>
+                </div>
+          </Accordion> */}
 
           <hr />
 
@@ -279,7 +279,7 @@ const Summary = ({ currentPharmacyDetails }) => {
                       type={"button"}
                       label={"Previous"}
                       onButtonClick={() =>
-                        router.push("/create-account/bank-details")
+                        router.push("/create-account/documentation")
                       }
                       buttonIntent={"previous"}
                       theme={"outline"}

@@ -1,22 +1,12 @@
 .account button {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
 }
-
 .account button svg {
   margin-left: 10px;
 }
-
 .account nav {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   padding-left: 40px;
   padding-right: 40px;
@@ -25,7 +15,6 @@
   border-bottom-color: #eaeaea;
   border-bottom-width: 1px;
 }
-
 .account nav > div {
   padding: 18px;
   font-family: "Inter";
@@ -34,12 +23,8 @@
   font-size: 14px;
   line-height: 20px;
   /* or 143% */
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   text-align: center;
   border-bottom-style: none;
   border-bottom-style: solid;
@@ -47,7 +32,6 @@
   /* Grey / 600 */
   color: #757575;
 }
-
 .account nav > div:hover {
   font-weight: bold;
   color: #1d1272;
@@ -55,7 +39,6 @@
   background-color: #f9f9fe;
   border-bottom-color: #1d1272;
 }
-
 .account nav .active {
   font-weight: bold;
   color: #1d1272;
@@ -63,7 +46,6 @@
   background-color: #f9f9fe;
   border-bottom-color: #1d1272;
 }
-
 .account .title {
   padding-left: 40px;
   padding-top: 25px;
@@ -72,7 +54,6 @@
   border-bottom-width: 1px;
   border-bottom-color: #eaeaea;
 }
-
 .account .title h2 {
   margin: 0px;
   font-family: "Inter";
@@ -81,20 +62,14 @@
   font-size: 16px;
   line-height: 28px;
   /* or 175% */
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   /* Geist theme/Gray/accent 8 */
   color: #111111;
 }
-
 .account .general {
   background-color: #fafafa;
 }
-
 .account .general button, .account .general .button {
   width: 100%;
   padding: 10px;
@@ -103,38 +78,31 @@
   background-color: #1d1272;
   cursor: pointer;
 }
-
 .account .general > div {
   padding-left: 40px;
   padding-right: 40px;
 }
-
 .account .general hr {
   border-style: none;
   border-top-style: solid;
   border-color: #eaeaea;
 }
-
 .account .general .forms {
   width: 50%;
   margin-left: auto;
   margin-right: auto;
 }
-
 .account .general .forms table {
   width: 100%;
 }
-
 .account .general .forms table tr td:nth-child(1) {
   white-space: nowrap;
   text-align: right;
   padding-right: 20px;
 }
-
 .account .general .forms table tr td:nth-child(2) {
   width: 100%;
 }
-
 .account .general .forms table tr label {
   font-family: "Inter";
   font-style: normal;
@@ -145,12 +113,10 @@
   /* Geist theme/Gray/accent 6 */
   color: #444444;
 }
-
 .account .general .forms table tr td {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-
 .account .general .forms table tr td > input,
 .account .general .forms table tr td select {
   border-style: none;
@@ -162,41 +128,26 @@
   border: 1px solid #999999;
   width: 100%;
 }
-
 .account .storeLogo {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   width: 40%;
   margin-left: auto;
   margin-right: auto;
 }
-
 .account .storeLogo > div:nth-child(2) {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  flex: 1;
   border-style: none;
   border-style: dashed;
   border-width: 1px;
   border-color: #999999;
   margin-left: 50px;
 }
-
 .account .storeLogo > div:nth-child(2) div {
   padding: 30px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  align-items: center;
 }
-
 .account .storeLogo > div:nth-child(2) div div p:nth-child(1) {
   font-family: "Overpass";
   font-style: normal;
@@ -210,7 +161,6 @@
   color: #333333;
   margin-bottom: 0px;
 }
-
 .account .storeLogo > div:nth-child(2) div div p:nth-child(2) {
   font-family: "Inter";
   font-style: normal;
@@ -223,51 +173,33 @@
   color: #888888;
   margin: 0px;
 }
-
 .account .documentation {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
 }
-
 .account .documentation table {
   width: 100%;
 }
-
 .account .documentation table tr td:nth-child(1) {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
 }
-
 .account .documentation table tr td:nth-child(1) label {
   margin-left: 24px;
   color: #333333;
 }
-
 .account .documentation table tr td:nth-child(2) {
-  color: #990d0d;
+  color: rgb(153, 13, 13);
 }
-
 .account .documentation > div {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
 }
-
 .account .documentation > div p:nth-child(2) {
-  color: #990d0d;
+  color: rgb(153, 13, 13);
 }
-
 .account .documentation button {
   color: #1d1272;
   padding: 10px;
@@ -280,20 +212,15 @@
 .terms {
   padding: 50px;
 }
-
 .terms p {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 28px;
   /* or 175% */
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   text-align: justify;
   /* Geist theme/Gray/accent 5 */
   color: #666666;
@@ -308,17 +235,16 @@
   padding: 10px;
   border-radius: 10px;
 }
-
 .floating p {
   margin: 0px;
 }
 
 .error {
-  background-color: #811717;
+  background-color: rgb(129, 23, 23);
 }
 
 .success {
-  background-color: #5a9200;
+  background-color: rgb(90, 146, 0);
 }
 
 .newLogo {
@@ -333,5 +259,4 @@
   border-style: solid;
   border-width: 1px;
   border-color: #eeeeee;
-}
-/*# sourceMappingURL=styles.module.css.map */
+}/*# sourceMappingURL=styles.module.css.map */
