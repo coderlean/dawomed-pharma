@@ -1001,10 +1001,13 @@ const DeleteProduct = ({ onCancel, productsToDelete, fetchProducts, mode, delete
             deleteDraft(productsToDelete[0])
         } else {
             event.preventDefault()
-        setDeleting("processing")
+            setDeleting("processing")
         try {
             const token = localStorage.getItem("userToken")
-            const deleteProductsResponse = deleteProtected(`product/${productsToDelete[0]}`)
+            console.log({productsToDelete});
+            const deleteProductsResponse = await deleteProtected(`product/${productsToDelete[0]}`)
+
+            console.log({deleteProductsResponse});
             
             // await fetch(`http://localhost:5000/product/${productsToDelete[0]}`, {
             //     method: "DELETE",

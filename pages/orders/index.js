@@ -93,6 +93,7 @@ const Products = () => {
     const [showReturnDiv, setShowReturnDiv] = useState(false)
     const [returnErrorMessage, setReturnErrorMessage] = useState("")
     const [returnSuccessMessage, setReturnSuccessMessage] = useState("")
+    const [showStatusUpdateDiv, setShowStatusUpdateDiv] = useState(true)
 
    
 
@@ -223,6 +224,7 @@ const Products = () => {
 
     const closeSideBar = () => {
         let temp = selectedOrder
+        setShowStatusUpdateDiv(true)
         temp = {}
         setSelectedOrder(temp)
     }
@@ -269,6 +271,8 @@ const Products = () => {
             temp = {...fetchedSelectedOrder}
             fetchedSelectedOrder.status = value
             setFetchedSelectedOrder(temp)
+
+            setShowStatusUpdateDiv(false)
 
             fetchOrders()
         } else {
@@ -599,6 +603,8 @@ const Products = () => {
                     </div>
                     
                     {
+                        showStatusUpdateDiv && <div>
+                            {
                         fetchedSelectedOrder && 
                         <div>
                             {
@@ -638,6 +644,8 @@ const Products = () => {
                                     
                                 </form>
                             }
+                        </div>
+                    }
                         </div>
                     }
                     </footer>
