@@ -169,6 +169,8 @@
   margin-left: auto;
   font-size: 14px;
   color: rgb(29, 18, 114);
+  flex-shrink: 0;
+  padding-left: 10px;
   cursor: pointer;
 }
 .notificationsSideBar .notificationBarItem label:hover {

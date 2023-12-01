@@ -65,7 +65,7 @@ export const formatter = new Intl.NumberFormat('en-NG', {
     "Completed",
     'Canceled' ,
     "Returned",
-    "Timed Out"
+    "Canceled"
 ]
 
 
@@ -633,13 +633,21 @@ const Products = () => {
                                     {
                                         selectedOrder.status === 5 && <option value={7} disabled={selectedOrder.status !== 5}>Returned</option>
                                     }
+
+{
+                                        selectedOrder !== 6 && <option value={6} >Cancel Order</option>
+                                    }
                                 </select>
                                 }
                                     {/* <DropDown options={order_statuses} placeholder={order_statuses[selectedOrder.status].slice(0,1).toUpperCase() + order_statuses[selectedOrder.status].slice(1)} defaultValue={order_statuses[selectedOrder.status].slice(0,1).toUpperCase() + order_statuses[selectedOrder.status].slice(1)} onChange={(e) => handleStatusChange(e)} /> */}
                                     
                                     {
                                         (selectedOrder.status  < 3 || selectedOrder.status === 5) && <Button label={"Submit"} theme={"solid"} />
-                                    }
+                                    },
+
+                                   
+
+                                    
                                     
                                     
                                 </form>

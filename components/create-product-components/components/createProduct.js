@@ -14,6 +14,7 @@ import SuccessBox from '../../atoms/SuccessBox';
 import { postProtected } from '../../../requests/postProtected';
 import { putProtected } from '../../../requests/putProtected';
 import { postProtectedMultiPart } from '../../../requests/postProtectedMultiPart';
+import { putProtectedMultiPart } from '../../../requests/postProtectedMultiPart copy';
 
 const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, mode, fetchProducts, setCurrentDrugDetails, setMode, deleteDraft}) => {
     const [currentTab, setCurrentTab] = useState(0)
@@ -67,6 +68,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
             setErrorMessage("The product needs at least one image")
         } else {
             setCurrentTab(currentTab + 1)
+            console.log({mode});
             createNewProduct()
         }
     }
@@ -111,7 +113,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
             
             const productFormData = generateProductData()
             console.log({mode});
-            if (mode === "new" || currentDrug._id) {
+            if (mode === "new" || !currentDrug._id) {
                 createProduct(productFormData)
             } else if (mode === "edit") {
                 updateProduct(productFormData)
@@ -127,6 +129,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
 
 
     const createProduct = async (productData) => {
+        console.log("Creating new");
         setErrorMessage("")
         const token = localStorage.getItem("userToken")
 
@@ -158,9 +161,10 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
     }
 
     const updateProduct = async (productData) => {
-        const token = localStorage.getItem("userToken")
+            console.log("Updating");
+            const token = localStorage.getItem("userToken")
 
-            const createProductResponse = await postProtectedMultiPart(`product/${currentDrug._id}`, productData)
+            const createProductResponse = await putProtectedMultiPart(`product/${currentDrug._id}`, productData)
             
             // await fetch(`http://localhost:5000/product/${currentDrug._id}`, {
             //     method : "PUT",
@@ -171,6 +175,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
             // })
 
             // const createProductResponse = await createProductRequest.json()
+            console.log({createProductResponse});
 
             if (createProductResponse.success){
                 setCreatedProduct(true)

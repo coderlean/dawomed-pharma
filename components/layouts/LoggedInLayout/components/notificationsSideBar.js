@@ -15,6 +15,8 @@ const NotificationsSideBar = ({toggleShowNotifications, resetNotificationsCount}
         try {
           const notificationsList = await getProtected(`pharmacies/notifications`)
 
+          console.log({notificationsList});
+
           console.log("resetting notifications count");
           resetNotificationsCount()
     
@@ -39,11 +41,11 @@ const NotificationsSideBar = ({toggleShowNotifications, resetNotificationsCount}
                     id: item.orderID._id,
                     type: "New Order"
                 }
-            case "return":
+            case "Return Requested":
                 return {
                     icon: iconsSVGs.alertTriangle,
-                    title: "Return!",
-                    text: `Return for item ${item.productName} on ${item.date}`
+                    title: "Return Requested",
+                    text: `A customer has requested to return items in an order they placed`
                 }
             case "delivery":
                 return {
@@ -92,14 +94,15 @@ const NotificationItem = ({data}) => {
     const [date, setDate] = useState("")
     const router = useRouter()
 
-    useEffect(() => {
-        setNotificationDate()
-    }, [])
+    // useEffect(() => {
+    //     setNotificationDate()
+    // }, [])
 
-    const setNotificationDate = () => {
-        const notificationDate = new Date(data.date)
-        setDate(format(notificationDate, "PPP"))
-    }
+    // const setNotificationDate = () => {
+    //     console.log({noDate: data.date});
+    //     const notificationDate = new Date(data.date)
+    //     setDate(format(notificationDate, "PPP"))
+    // }
 
     const handleClick = () => {
         switch (data.type) {

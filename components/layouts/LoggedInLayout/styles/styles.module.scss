@@ -203,6 +203,8 @@ z-index: 5000;
             margin-left: auto;
             font-size: 14px;
             color: rgba(29, 18, 114, 1);
+            flex-shrink: 0;
+            padding-left: 10px;
             cursor: pointer;
              &:hover {
                  text-decoration: underline;

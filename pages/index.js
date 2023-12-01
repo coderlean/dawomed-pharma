@@ -76,6 +76,8 @@ export default function Home() {
     try {
       const notificationsList = await getProtected(`pharmacies/notifications`)
 
+      console.log({notificationsList});
+
       let temp = [...notifications]
       temp = notificationsList.data
       setNotifications(temp)
@@ -168,11 +170,11 @@ export default function Home() {
                 id: item.orderID._id,
                 type: "New Order"
             }
-        case "return":
+        case "Return Requested":
             return {
                 icon: iconsSVGs.alertTriangle,
-                title: "Return!",
-                text: `Return for item ${item.productName} on ${item.date}`
+                title: "Return Requested",
+                text: `A customer has requested to return items in an order they placed`
             }
         case "delivery":
             return {
@@ -566,18 +568,19 @@ export default function Home() {
 }
 
 const NotificationItem = ({data}) => {
+  console.log({data});
 
   const [date, setDate] = useState("")
   const router = useRouter()
 
-  useEffect(() => {
-      setNotificationDate()
-  }, [])
+  // useEffect(() => {
+  //     setNotificationDate()
+  // }, [])
 
-  const setNotificationDate = () => {
-      const notificationDate = new Date(data.date)
-      setDate(format(notificationDate, "PPP"))
-  }
+  // const setNotificationDate = () => {
+  //     const notificationDate = new Date(data.date)
+  //     setDate(format(notificationDate, "PPP"))
+  // }
 
   const handleClick = () => {
       switch (data.type) {
