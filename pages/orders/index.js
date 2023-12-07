@@ -536,7 +536,7 @@ const Products = () => {
                                 <td className={styles.leftCell}>Prescriptions:</td>
                                 <td className={styles.rightCell}>
                                     {
-                                        selectedOrder.prescriptionData.map((item, index) => <a href={item.url} key={index}>
+                                        selectedOrder.prescriptionData.map((item, index) => <a href={item.url} key={index} download>
                                             {item.productName}
                                         </a>)
                                     }

@@ -170,9 +170,9 @@ const PickUpSlip = () => {
     }
 
     const completeOrder = async (slipID) => {
-        console.log("completing order");
         try {
             const completeOrder = await putProtected(`pickup-slips/pharmacy/completeOrder/${slipID}`)
+
             console.log({completeOrder});
 
             if (completeOrder && completeOrder.status && completeOrder.status === "OK") {
@@ -319,11 +319,11 @@ const PickUpSlip = () => {
                                 <td className={styles.rightCell}>{selectedSlip.quantity}</td>
                             </tr> */}
 
-                            <tr>
+                            {/* <tr>
                                 <td className={styles.leftCell}>Slip Status:</td>
 
                                 <td className={styles.rightCell}><span><label className={[styles.status, "m0", getStatusStyle(selectedSlip.status)].join(" ")}>{selectedSlip.status.slice(0,1).toUpperCase() + selectedSlip.status.slice(1)}</label></span></td>
-                            </tr>
+                            </tr> */}
 
                             {
                             //     selectedSlip.deliveryMethod !== "Pick Up" && <>
