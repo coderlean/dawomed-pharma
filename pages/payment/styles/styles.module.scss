@@ -85,12 +85,12 @@
     }
 
     .returned {
-        color: rgba(156, 15, 46, 1);
-        background-color: rgba(156, 15, 46, 0.2);
+        color: white;
+        background-color: rgb(164, 0, 36);
     }
 
     .declined {
-        color: white;
+        color: white !important;
         background-color: rgb(114, 0, 0);
     }
 
@@ -492,7 +492,7 @@
                 td {
                     p {
                         font-size: 14px;
-                        color: rgba(68, 68, 68, 1);
+                        // color: rgba(68, 68, 68, 1);
                     }
                 }
 

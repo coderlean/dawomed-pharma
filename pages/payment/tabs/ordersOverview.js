@@ -314,14 +314,17 @@ const OrdersOverview = ({allOrders}) => {
 
 export default OrdersOverview
 
+
 const order_statuses = ["Pending",
-"Processing",
-"Ready",
-"Picked up",
-"Delivered",
-"Completed",
-'Canceled' ,
-"Returned"]
+    "Processing",
+    "Ready",
+    "Picked up",
+    "Delivered",
+    "Completed",
+    'Canceled' ,
+    "Returned",
+    "Canceled"
+]
 
 const OrderTableItem = ({ order, setSelectedOrder }) => {
     return (

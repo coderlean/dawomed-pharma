@@ -455,7 +455,7 @@ const Payment = () => {
             }
 
             <Head>
-                <title>Products | MedUp</title>
+                <title>Payment | MedUp</title>
             </Head>
 
 

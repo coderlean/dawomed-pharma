@@ -28,11 +28,11 @@
   background-color: rgb(255, 239, 207);
 }
 .orders .returned {
-  color: rgb(156, 15, 46);
-  background-color: rgba(156, 15, 46, 0.2);
+  color: white;
+  background-color: rgb(164, 0, 36);
 }
 .orders .declined {
-  color: white;
+  color: white !important;
   background-color: rgb(114, 0, 0);
 }
 .orders .processing {
@@ -394,7 +394,6 @@
 }
 .orders .productsTable table .orderTableItem td p {
   font-size: 14px;
-  color: rgb(68, 68, 68);
 }
 .orders .productsTable table .orderTableItem .image {
   padding-left: 20px;

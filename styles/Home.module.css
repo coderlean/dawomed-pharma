@@ -4,7 +4,6 @@
   padding-left: 20px;
   padding-right: 20px;
   cursor: pointer;
-  
 }
 .notificationBarItem:hover {
   background-color: rgba(243, 243, 243, 0.6);
@@ -25,8 +24,6 @@
   font-size: 14px;
   color: rgb(29, 18, 114);
   cursor: pointer;
-  flex-shrink: 0;
-  padding-left: 10px;
 }
 .notificationBarItem label:hover {
   text-decoration: underline;

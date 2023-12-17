@@ -509,22 +509,28 @@ const Products = () => {
                                         </thead>
                                         <tbody>
                                             {
-                                                selectedOrder.products.map((item, index) => <tr key={index}>
+                                                selectedOrder.products.map((item, index) => {
+                                                    if (item?.productId?.name) {
+                                                        return <tr key={index}>
 
-                                                    <td>
-                                                        {item?.productId?.name}
-                                                    </td>
-
-                                                    <td>
-                                                        {item.quantity_requested}
-                                                    </td>
-
-                                                    <td>
-                                                        {formatter.format(item.productId.price)}
-                                                    </td>
-
-
-                                                </tr>)
+                                                        <td>
+                                                            {item?.productId?.name}
+                                                        </td>
+    
+                                                        <td>
+                                                            {item.quantity_requested}
+                                                        </td>
+    
+                                                        <td>
+                                                            {formatter.format(item?.productId?.price)}
+                                                        </td>
+    
+    
+                                                    </tr>
+                                                    }  else {
+                                                        return <div>One or more products in your order has been deleted.</div>
+                                                    }
+                                                })
                                             }
                                         </tbody>
                                     </table>

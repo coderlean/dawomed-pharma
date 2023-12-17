@@ -131,7 +131,7 @@ const Products = () => {
         }
     }
 
-    const fetchDrafts = async () => {
+    const fetchDrafts = async (action) => {
         try {
             const pharmacyId = JSON.parse(localStorage.getItem("user"))._id
 
@@ -152,6 +152,12 @@ const Products = () => {
             const temp = [...drafts]
             temp = fetchDraftsResponse.data
             setDrafts(temp)
+
+            if (action) {
+                let temp = [...products]
+                temp = fetchDraftsResponse.data
+                setProducts(temp)
+            }
 
 
         } catch (error) {
@@ -196,6 +202,8 @@ const Products = () => {
                 const temp = [...productsToDelete]
                 temp = []
                 setProductsToDelete(temp)
+                fetchDrafts("set")
+
             }
         } catch (error) {
             console.log({error})
@@ -341,6 +349,8 @@ const Products = () => {
             const worksheet = workbook.Sheets[sheetName];
             const json = xlsx.utils.sheet_to_json(worksheet);
 
+            console.log({json});
+
             let temp = [...productsList]
             temp = json
             setProductsList(temp)
@@ -360,6 +370,13 @@ const Products = () => {
             console.log({createProductsRequest});
             if (createProductsRequest.status && createProductsRequest.status === "OK") {
                 setBatchSuccessMessage(createProductsRequest.message)
+
+                if (activeTab === "drafts") {
+                    fetchDrafts("refresh")
+                } else {
+                    fetchDrafts()
+                }
+                
             } else {
                 setBatchErrorMessage(createProductsRequest.error.message)
             }

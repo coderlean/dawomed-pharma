@@ -227,7 +227,7 @@
     }
 
     .declined {
-        color: white;
+        color: white !important;
         background-color: rgb(114, 0, 0);
     }
 
@@ -634,7 +634,7 @@
                 td {
                     p {
                         font-size: 14px;
-                        color: rgba(68, 68, 68, 1);
+                        // color: rgba(68, 68, 68, 1);
                     }
                 }
 
