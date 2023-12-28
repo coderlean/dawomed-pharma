@@ -63,8 +63,8 @@
   color: rgb(156, 15, 46);
   background-color: rgba(156, 15, 46, 0.2);
 }
-.orders .declined {
-  color: white;
+.orders .canceled {
+  color: white !important;
   background-color: rgb(114, 0, 0);
 }
 .orders .processing {

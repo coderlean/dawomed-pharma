@@ -181,6 +181,12 @@ const Products = () => {
 
         const temp = {...coupon}
         temp[field] = value
+
+        if (coupon.start_date && coupon.expiry_date && Date(coupon.start_date) >= Date(coupon.expiry_date)) {
+            temp["expiry_date"] = addDays(value, 1)
+        } else {
+            temp["expiry_date"] = addDays(value, 1)
+        }
         setCoupon(temp)
     }
 
@@ -385,6 +391,13 @@ const Products = () => {
         }
     }
 
+    function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        console.log({result: result.toISOString()});
+        return String(result.toISOString()).split("T")[0];
+    }
+
     
 
     return (
@@ -471,7 +484,7 @@ const Products = () => {
 
                                     <td>
                                         <LabeledTextInput label={"Expiration Date"}>
-                                        <DatePicker defaultValue={coupon.expiry_date} name="expiry_date" />
+                                        <DatePicker defaultValue={coupon.expiry_date} name="expiry_date" min={coupon.start_date ? addDays(coupon.start_date, 1) : null} minRequired={true} />
                                         </LabeledTextInput>
                                     </td>
                                 </tr>

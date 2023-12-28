@@ -12,6 +12,8 @@ export let plain_formatter = Intl.NumberFormat('en')
 const AccountStatement = ({showRequestPayout, financial_data}) => {
     const [currentTab, setCurrentTab] = useState("all")
     let formatter = Intl.NumberFormat('en', { notation: 'compact' })
+
+    console.log({financial_data})
     
     const [total_balance, set_total_balance] = useState(0)
     const [payouts, set_payouts] = useState([])
@@ -24,7 +26,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
     const calculate_total_balance = () => {
         if (Object.values(financial_data).length > 0) {
             const sales_total = financial_data?.orders_amount + financial_data?.sales_fees
-            const refunds_total = financial_data?.refunds_amount + financial_data?.refunds_on_fees
+            const refunds_total = financial_data?.refunds_amount + financial_data?.refunds_on_fees + financial_data?.refunded_commissions_amount
             const commissions_total = financial_data?.commissions_amount + financial_data?.commission_on_return
             const pay_out_total = financial_data?.paid_out_amount
 
@@ -221,7 +223,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
 
                     <div className={Styles.summaryBox}>
                         <table className={Styles.statement}>
-                            <thead>
+                            {/* <thead>
                                 <tr>
                                     <td>
                                         <label>Current Period</label>
@@ -237,9 +239,9 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
                                         <label>Amount</label>
                                     </td>
                                 </tr>
-                            </thead>
+                            </thead> */}
 
-                            <thead>
+                            {/* <thead>
                                 <tr>
                                     <td>
                                         <label>Opening Balance</label>
@@ -253,7 +255,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
                                         <label>0.00 NGN</label>
                                     </td>
                                 </tr>
-                            </thead>
+                            </thead> */}
 
                             <tbody>
                                 
@@ -266,7 +268,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
                                     <td>
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
                                             <p>Sales</p>
-                                            <p>{`${financial_data?.orders_amount} NGN`}</p>
+                                            <p>{`${financial_data?.orders_amount - financial_data?.refunded_commissions_amount} NGN`}</p>
                                         </div>
 
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
@@ -276,7 +278,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
 
                                         <div className={[Styles.greyCell, "displayFlex jcSpaceBetween alignCenter pt10 pb10"].join(" ")}>
                                             <p className="fw600">Subtotal</p>
-                                            <p>{`${financial_data?.orders_amount + financial_data?.sales_fees} NGN`}</p>
+                                            <p>{`${financial_data?.orders_amount + financial_data?.sales_fees - financial_data?.refunded_commissions_amount} NGN`}</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -290,12 +292,12 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
                                     <td>
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
                                             <p>Refund on returns/canceled orders</p>
-                                            <p>{`${financial_data?.refunds_amount} NGN`}</p>
+                                            <p>{`${financial_data?.refunds_amount - financial_data?.refunded_commissions_amount} NGN`}</p>
                                         </div>
 
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
-                                            <p>Refund on fees</p>
-                                            <p>{`${financial_data?.refunds_on_fees} NGN`}</p>
+                                            <p>Refunded commissions</p>
+                                            <p>{`${financial_data?.refunded_commissions_amount} NGN`}</p>
                                         </div>
 
                                         <div className={[Styles.greyCell, "displayFlex jcSpaceBetween alignCenter pt10 pb10"].join(" ")}>
@@ -357,7 +359,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
                                     </td>
                                 </tr>
 
-                                <tr className={[Styles.greyCell].join(" ")}>
+                                {/* <tr className={[Styles.greyCell].join(" ")}>
                                     <td>
                                         <p>Payout Amount</p>
                                     </td>
@@ -367,7 +369,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
                                             <p>0.00NGN</p>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> */}
                             </tbody>
                         </table>
                     </div>

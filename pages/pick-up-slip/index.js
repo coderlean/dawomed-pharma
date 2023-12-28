@@ -25,8 +25,10 @@ const getStatusStyle = (status) => {
     switch (status){
         case "Used":
             return styles.returned
-        default:
+        case "Activated":
             return styles.completed
+        default:
+            return styles.canceled
     }
 }
 

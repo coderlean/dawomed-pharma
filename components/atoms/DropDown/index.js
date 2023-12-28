@@ -43,6 +43,7 @@ const DropDown = ({placeholder, defaultValue, options, name, onChange}) => {
             </div> */}
 
             <select name={name} className={dropDownStyle.select} defaultValue={defaultValue ? defaultValue  : ""}>
+                <option selected disabled>Select</option>
                 {
                     options.map((item, index) => <option key={index}>{item}</option>)
                 }

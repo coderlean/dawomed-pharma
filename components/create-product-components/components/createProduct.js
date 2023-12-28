@@ -29,9 +29,28 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
         setDrugDetails(drugDetails)
     }
 
+    function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        console.log({result: result.toISOString()});
+        return String(result.toISOString()).split("T")[0];
+      }
+
     const updateCurrentDrug = (field, value) => {
+        console.log({field, value});
         const temp = {...currentDrug}
         temp[field] = value
+
+        if (field === "sale_start_date" ) {
+            console.log(Date(currentDrug.sale_start_date) >= Date(currentDrug.sale_end_date));
+            if (currentDrug.sale_start_date && currentDrug.sale_end_date && Date(currentDrug.sale_start_date) >= Date(currentDrug.sale_end_date)) {
+                temp["sale_end_date"] = addDays(value, 1)
+            } else {
+                temp["sale_end_date"] = addDays(value, 1)
+            }
+        }
+
+
         setCurrentDrug(temp)
     }
 
@@ -566,7 +585,7 @@ const ProductPricing = ({updateCurrentDrug, currentDrug, activeCoupons, mode}) =
                     </LabeledTextInput>
 
                     <LabeledTextInput label={"Sale End Date"}>
-                        <DatePicker defaultValue={currentDrug.sale_end_date} name="sale_end_date" />
+                        <DatePicker defaultValue={currentDrug.sale_end_date} min={currentDrug.sale_start_date ? currentDrug.sale_start_date : null} name="sale_end_date" minRequired={true} />
                     </LabeledTextInput>
                 </div>
             </form>
