@@ -188,6 +188,14 @@ export default function Home() {
                     title: "Item out of stock!",
                     text: `Item ${item.productName} is out of stock`
                 }
+                case "Timed Out":
+                return {
+                    icon: iconsSVGs.alertTriangle,
+                    title: "Order timed out!",
+                    text: `One of your orders has timed out`,
+                    id: item.orderID._id,
+                type: "Timed Out"
+                }
             default : {
                 return {}
             }}
@@ -585,6 +593,8 @@ const NotificationItem = ({data}) => {
   const handleClick = () => {
       switch (data.type) {
           case "New Order": 
+              router.push(`/orders?id=${data.id}`)
+              case "Timed Out": 
               router.push(`/orders?id=${data.id}`)
       }
   }

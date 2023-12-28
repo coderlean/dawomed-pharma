@@ -23,6 +23,7 @@
   margin-left: auto;
   font-size: 14px;
   color: rgb(29, 18, 114);
+  flex-shrink: 0;
   cursor: pointer;
 }
 .notificationBarItem label:hover {
