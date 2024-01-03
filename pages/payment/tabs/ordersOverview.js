@@ -359,9 +359,9 @@ const OrderTableItem = ({ order, setSelectedOrder }) => {
                 <p>{plain_formatter.format(order.totalAmount - ((order.commission_percentage/100) * order.totalAmount))}</p>
             </td>
 
-            <td>
+            {/* <td>
                 <p>{order.product_name}</p>
-            </td>
+            </td> */}
 
             {/* <td>
                 <p>{(new Date(slip.dateActivated)).toLocaleDateString("en-NG")}</p>
