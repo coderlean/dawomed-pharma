@@ -125,6 +125,12 @@ const PickUpSlip = () => {
         setSlips(tempSlips)
     }
 
+    const filterCancelled = () => {
+        var tempSlips = allSlips
+        tempSlips = tempSlips.filter(slip => slip.status.toLowerCase() === "cancelled")
+        setSlips(tempSlips)
+    }
+
     const fetchPickupSlips = async () => {
         try {
             setFetchingSlips(true)
@@ -695,6 +701,11 @@ const PickUpSlip = () => {
                         setTab("used")
                         filterUsed()
                     }}>Used</p>
+
+                    <p className={activeTab === "cancelled" ? styles.active : styles.inactive} onClick={() => {
+                        setTab("cancelled")
+                        filterCancelled()
+                    }}>Cancelled</p>
                 </div>
             </header>
 

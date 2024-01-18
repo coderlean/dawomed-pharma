@@ -21,6 +21,7 @@ import Modal from '../../components/layouts/Modal';
 import ButtonLoader from '../../components/atoms/ButtonLoader';
 import ErrorBox from '../../components/atoms/ErrorBox';
 import { getProtected } from '../../requests/getProtected';
+import { useRouter } from 'next/router';
 const QrReader = dynamic(() => import("react-qr-reader"), { ssr: false });
 
 const getStatusStyle = (status) => {
@@ -34,7 +35,8 @@ const getStatusStyle = (status) => {
 
 
 const Payment = () => {
-    const [activeTab, setActiveTab] = useState("account statement")
+    // const [activeTab, setActiveTab] = useState("account statement")
+    const [activeTab, setActiveTab] = useState("")
     const [showNewProductModal, setShowNewProductModal] = useState(false)
     const [slips, setSlips] = useState([])
     const [allSlips, setAllSlips] = useState([])
@@ -50,6 +52,11 @@ const Payment = () => {
       returns : [],
       payouts: []
     })
+    const [returnDetails, setReturnDetails] = useState({})
+    const [showReturnDiv, setShowReturnDiv] = useState(false)
+    const [returnErrorMessage, setReturnErrorMessage] = useState("")
+    const [returnSuccessMessage, setReturnSuccessMessage] = useState("")
+    const [showStatusUpdateDiv, setShowStatusUpdateDiv] = useState(true)
     const [orders, set_orders] = useState([])
     const [returns, setReturns] = useState([])
     const [pharmacyData, setPharmacyData] = useState({
@@ -59,10 +66,26 @@ const Payment = () => {
         escrow : ""
       })
 
+      const router = useRouter()
+
+      console.log({params: router.query});
+
+      
+
       useEffect(() => {
+        console.log({tab: router?.query?.tab});
+        if (router?.query?.tab) {
+          if (router.query.tab === "returns") {
+            setActiveTab("returns overview")
+          } else if (router.query.tab === "orders") {
+            setActiveTab("orders overview")
+          }
+        } else {
+          setActiveTab("account statement")
+        }
         fetchPharmacyData()
         fetchPharmacyOrders()
-      }, [])
+      }, [router])
 
       console.log({financial_data});
 
@@ -90,7 +113,7 @@ const Payment = () => {
 
       const fetchPharmacyOrders = async () => {
         try {
-          const pharmacy_orders_request = await getProtected("orders/pharmacy/all")
+          const pharmacy_orders_request = await getProtected("orders/pharmacy/summary")
 
           if (pharmacy_orders_request && pharmacy_orders_request.status === "OK") {
             let temp = [...orders]
@@ -224,11 +247,125 @@ const Payment = () => {
         }
       }
 
+      const validateReturnCode = event => {
+        event.preventDefault()
+
+        const code = event.target[0].value
+
+        if (!code || String(code).length === 0) {
+            setReturnCodeError("Return code is invalid. Please enter the return code you received via email.")
+        } else {
+            getItemsToReturn(code)
+        }
+    }
+
+    const getItemsToReturn = async (code) => {
+        try {
+            console.log({code});
+            const getItemsToReturnRequest = await postProtected("orders/validate", {code})
+
+            if (getItemsToReturnRequest.status === "OK") {
+                console.log({getItemsToReturnRequest});
+                let temp = {...returnDetails}
+                temp = getItemsToReturnRequest.data
+                setReturnDetails(temp)
+            }
+
+            console.log({getItemsToReturnRequest});
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const completeProductsReturn = async () => {
+        try {
+            const completeProductsReturnRequest = await postProtected("orders/returns/complete", {requestID: returnDetails?.request?.id})
+
+            console.log({completeProductsReturnRequest});
+
+            if (completeProductsReturnRequest.status === "OK") {
+                setReturnSuccessMessage("Return completed.")
+            } else {
+                setReturnErrorMessage(completeProductsReturnRequest.error.message)
+            }
+
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
+    const closeReturnBox = () => {
+        let temp ={...returnDetails}
+        temp= {}
+        setReturnDetails(temp)
+        setReturnErrorMessage("")
+        setReturnSuccessMessage("")
+
+        setShowReturnDiv(false)
+    }
+
 
 
 
     return (
         <div className={styles.orders}>
+
+{
+                showReturnDiv && <Modal>
+                <div className={styles.validateReturnCodeDiv}>
+                    <h3>Validate Return Code</h3>
+
+                    {
+                        returnErrorMessage && <ErrorBox errorMessage={returnErrorMessage} closeErrorBox={() => setReturnErrorMessage("")} />
+                    }
+
+                    {
+                        returnSuccessMessage && <SuccessBox successMessage={returnSuccessMessage} closeSuccessBox={() => setReturnSuccessMessage("")} />
+                    }
+
+                    <form onSubmit={event => validateReturnCode(event)}>
+                        <div className={styles.validateCodeDiv}>
+                            <input placeholder='Enter the return code' type='number' max={999999} maxLength={6} />
+                            <button>Validate Code</button>
+                        </div>
+                    </form>
+
+                    {
+                        Object.values(returnDetails).length > 0 && <div className={styles.returnDetailsDiv}>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Customer Name
+                                    </td>
+
+                                    <td>{returnDetails?.customer?.name}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Items to return</td>
+
+                                    <td>
+                                        {
+                                            returnDetails.request.itemsToReturn.map((item, index) => <p key={index}>{item?.product?.name}</p>)
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div className={styles.completeReturnButtonDiv}>
+                            <button onClick={() => completeProductsReturn()}>Complete Return</button>
+                        </div>
+                    </div>
+                    }
+
+                    <footer>
+                        <button onClick={() => closeReturnBox()}>Close</button>
+                    </footer>
+                </div>
+            </Modal>
+            }
 
 {payingOut && <Modal>
           <div className={styles.requestModalContainer}>
@@ -460,7 +597,7 @@ const Payment = () => {
 
 
             
-            <header className='displayFlex'>
+            <header className='displayFlex jcSpaceBetween'>
 
 
                 <div className={[styles.headerTabs, 'displayFlex'].join("  ")}>
@@ -474,7 +611,7 @@ const Payment = () => {
                     <p className={activeTab === "orders overview" ? styles.active : styles.inactive} onClick={() => {
                         setTab("orders overview")
                         filterUsed()
-                    }}>Orders Overview</p>
+                    }}>Sales Overview</p>
 
                     <p className={activeTab === "returns overview" ? styles.active : styles.inactive} onClick={() => {
                         setTab("returns overview")
@@ -486,6 +623,10 @@ const Payment = () => {
                         filterUsed()
                     }}>Store Activities</p>
                 </div>
+
+                {
+                  activeTab === "returns overview" && <button className={styles.validateReturnCodeButton} onClick={() => setShowReturnDiv(true)}>Validate Return Code</button>
+                }
             </header>
 
 

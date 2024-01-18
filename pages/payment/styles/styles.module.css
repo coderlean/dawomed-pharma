@@ -713,6 +713,14 @@
 .accountStatement main .statement tbody .greyCell {
   background-color: #eaeaea;
 }
+.accountStatement main .statement tbody .greenCell {
+  background-color: #0bbe41;
+  color: white;
+}
+.accountStatement main .statement tbody .redCell {
+  background-color: #a70505;
+  color: white;
+}
 .accountStatement main .statement tbody tr td {
   vertical-align: top;
 }
@@ -892,4 +900,70 @@
 }
 .activitiesContainer > div table tbody {
   color: #666666;
+}
+
+.validateReturnCodeDiv {
+  background-color: white;
+  padding: 20px;
+  width: 30%;
+}
+.validateReturnCodeDiv .validateCodeDiv {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+}
+.validateReturnCodeDiv .validateCodeDiv input {
+  flex: 1;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 500;
+}
+.validateReturnCodeDiv .validateCodeDiv button {
+  background-color: #38278a;
+  color: white;
+  border-style: none;
+  cursor: pointer;
+}
+.validateReturnCodeDiv .returnDetailsDiv {
+  background-color: #f6f6f6;
+  padding: 10px;
+  margin-top: 20px;
+}
+.validateReturnCodeDiv .returnDetailsDiv .completeReturnButtonDiv {
+  display: flex;
+  justify-content: flex-end;
+}
+.validateReturnCodeDiv .returnDetailsDiv .completeReturnButtonDiv button {
+  background-color: #38278a;
+  color: white;
+  border-style: none;
+  cursor: pointer;
+  padding: 10px;
+  width: 100%;
+}
+.validateReturnCodeDiv table {
+  margin-top: 20px;
+  font-size: 14px;
+}
+.validateReturnCodeDiv table td {
+  padding: 10px;
+  vertical-align: top;
+}
+.validateReturnCodeDiv table td p {
+  margin-top: 0px;
+}
+.validateReturnCodeDiv footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+.validateReturnCodeDiv footer button {
+  background-color: black;
+  padding: 10px;
+  border-style: none;
+  color: white;
+}
+
+.validateReturnCodeButton {
+  cursor: pointer !important;
 }/*# sourceMappingURL=styles.module.css.map */

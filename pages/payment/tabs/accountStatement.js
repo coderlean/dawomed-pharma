@@ -6,6 +6,9 @@ import { iconsSVGs } from "../../../assets/images/icons"
 import Button from "../../../components/atoms/Button"
 import DropDown from "../../../components/atoms/DropDown"
 import Styles from "../styles/styles.module.css"
+import Modal from "../../../components/layouts/Modal"
+import ErrorBox from "../../../components/atoms/ErrorBox"
+import SuccessBox from "../../../components/atoms/SuccessBox"
 
 export let plain_formatter = Intl.NumberFormat('en')
 
@@ -27,7 +30,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
         if (Object.values(financial_data).length > 0) {
             const sales_total = financial_data?.orders_amount + financial_data?.sales_fees
             const refunds_total = financial_data?.refunds_amount + financial_data?.refunds_on_fees + financial_data?.refunded_commissions_amount
-            const commissions_total = financial_data?.commissions_amount + financial_data?.commission_on_return
+            const commissions_total = financial_data?.commissions_amount -financial_data?.refunded_commissions_amount
             const pay_out_total = financial_data?.paid_out_amount
 
             set_total_balance(sales_total - (refunds_total + commissions_total + pay_out_total))
@@ -91,6 +94,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
 
     return (
         <div className={Styles.accountStatement}>
+            
             <header >
                 <div className={Styles.searchBox}>
                     <input placeholder="Search Transaction" />
@@ -267,18 +271,28 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
 
                                     <td>
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
-                                            <p>Sales</p>
-                                            <p>{`${financial_data?.orders_amount - financial_data?.refunded_commissions_amount} NGN`}</p>
+                                            <p>Sales (Gross)</p>
+                                            <p>{`${financial_data?.orders_amount} NGN`}</p>
                                         </div>
 
-                                        <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
+                                        {/* <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
+                                            <p>Sales (Net)</p>
+                                            <p>{`${financial_data?.orders_amount - financial_data?.refunded_commissions_amount} NGN`}</p>
+                                        </div> */}
+
+                                        {/* <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
                                             <p>Fees</p>
                                             <p>{`${financial_data?.sales_fees} NGN`}</p>
+                                        </div> */}
+
+                                        <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
+                                            <p>Refund on returns/canceled orders</p>
+                                            <p>{`-${financial_data?.refunds_amount + financial_data?.refunded_commissions_amount} NGN`}</p>
                                         </div>
 
-                                        <div className={[Styles.greyCell, "displayFlex jcSpaceBetween alignCenter pt10 pb10"].join(" ")}>
-                                            <p className="fw600">Subtotal</p>
-                                            <p>{`${financial_data?.orders_amount + financial_data?.sales_fees - financial_data?.refunded_commissions_amount} NGN`}</p>
+                                        <div className={[Styles.greenCell, "displayFlex jcSpaceBetween alignCenter pt10 pb10"].join(" ")}>
+                                            <p className="fw600">Sales (Net)</p>
+                                            <p>{`${financial_data?.orders_amount - (financial_data?.refunds_amount + financial_data?.refunded_commissions_amount)} NGN`}</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -286,29 +300,29 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
 
                                 <tr>
                                     <td>
-                                        <p>Returns</p>
+                                        <p>Commissions</p>
                                     </td>
 
                                     <td>
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
-                                            <p>Refund on returns/canceled orders</p>
-                                            <p>{`${financial_data?.refunds_amount - financial_data?.refunded_commissions_amount} NGN`}</p>
+                                            <p>Commission on sales</p>
+                                            <p>{`${financial_data?.commissions_amount} NGN`}</p>
                                         </div>
 
                                         <div className="displayFlex jcSpaceBetween alignCenter pt10 pb10">
                                             <p>Refunded commissions</p>
-                                            <p>{`${financial_data?.refunded_commissions_amount} NGN`}</p>
+                                            <p>{`-${financial_data?.refunded_commissions_amount} NGN`}</p>
                                         </div>
 
-                                        <div className={[Styles.greyCell, "displayFlex jcSpaceBetween alignCenter pt10 pb10"].join(" ")}>
+                                        <div className={[Styles.redCell, "displayFlex jcSpaceBetween alignCenter pt10 pb10"].join(" ")}>
                                             <p className="fw600">Subtotal</p>
-                                            <p>{`${financial_data?.refunds_on_fees + financial_data?.refunds_amount} NGN`}</p>
+                                            <p>{`${financial_data?.commissions_amount - financial_data?.refunded_commissions_amount} NGN`}</p>
                                         </div>
                                     </td>
                                 </tr>
 
 
-                                <tr>
+                                {/* <tr>
                                     <td>
                                         <p>Others</p>
                                     </td>
@@ -329,7 +343,7 @@ const AccountStatement = ({showRequestPayout, financial_data}) => {
                                             <p>{`${financial_data?.commission_on_return + financial_data?.commissions_amount} NGN`}</p>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> */}
 
                                 <tr>
                                     <td>

@@ -321,10 +321,10 @@ const Products = () => {
 
         const difference = differenceInMinutes(currentDate, orderedDate)
 
-        if (difference > 11) {
+        if (difference > 5) {
             return "Order timed out"
         } else {
-            return `${11 - difference} minutes`
+            return `${5 - difference} ${5 - difference === 1 ? "minute" : "minutes"}`
         }
     }
 

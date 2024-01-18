@@ -518,7 +518,7 @@ export default function Home() {
         }
         data={pharmacyData.sales}
         label="Total Sales"
-        url={"/payment"}
+        url={"/payment?tab=orders"}
         />
 
         <Link href={"/products"} passHref={true}>
@@ -533,7 +533,7 @@ export default function Home() {
         }
         data={pharmacyData.returns}
         label="Return Requests"
-        url={"/payment"}
+        url={"/payment?tab=returns"}
         />
         </Link>
       </div>

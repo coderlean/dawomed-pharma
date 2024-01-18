@@ -871,6 +871,16 @@
                     background-color: #eaeaea;
                 }
 
+                .greenCell {
+                    background-color: #0bbe41;
+                    color: white;
+                }
+
+                .redCell {
+                    background-color: #a70505;
+                    color: white;
+                }
+
                 tr {
                     td {
                         vertical-align: top;
@@ -1097,3 +1107,80 @@
     }
   }
   
+  .validateReturnCodeDiv {
+    background-color: white;
+    padding: 20px;
+    width: 30%;
+
+    .validateCodeDiv {
+        width: 100%;
+        display: flex;
+        align-items: stretch;
+
+        input {
+            flex: 1;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        button {
+            background-color: #38278a;
+            color: white;
+            border-style: none;
+            cursor: pointer;
+
+        }
+    }
+
+    .returnDetailsDiv {
+        background-color: #f6f6f6;
+        padding: 10px;
+        margin-top: 20px;
+
+        .completeReturnButtonDiv {
+            display: flex;
+            justify-content: flex-end;
+
+            button {
+                background-color: #38278a;
+            color: white;
+            border-style: none;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            }
+        }
+    }
+
+    table {
+        margin-top: 20px;
+        font-size: 14px;
+
+        td {
+            padding: 10px;
+            vertical-align: top;
+
+            p{
+                margin-top: 0px;
+            }
+        }
+    }
+
+    footer {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+            background-color: black;
+            padding: 10px;
+            border-style: none;
+            color: white;
+        }
+    }
+}
+
+.validateReturnCodeButton {
+    cursor: pointer !important;
+}

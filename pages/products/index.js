@@ -150,7 +150,7 @@ const Products = () => {
             console.log({fetchDraftsResponse});
 
             const temp = [...drafts]
-            temp = fetchDraftsResponse.data
+            temp = fetchDraftsResponse.data.reverse()
             setDrafts(temp)
 
             if (action) {
@@ -398,6 +398,16 @@ const Products = () => {
         return String(result.toISOString()).split("T")[0];
     }
 
+    const closeBatchCreatingModal = () => {
+        console.log("Close batch creating");
+        setBatchCreating(false)
+        setBatchErrorMessage("")
+        setBatchSuccessMessage("")
+        setProductsListFile("")
+        setBatchUploading(false)
+
+    }
+
     
 
     return (
@@ -576,7 +586,7 @@ const Products = () => {
                         </div>
                         
 
-                        <button className={styles.cancelButton} onClick={() => setBatchCreating(false)}>Close</button>
+                        <button className={styles.cancelButton} onClick={() => closeBatchCreatingModal()}>Close</button>
                     </div>
 
                     
@@ -627,7 +637,7 @@ const Products = () => {
                                 {
                                     iconsSVGs.downloadLightPrimary
                                 }
-                                <Link href='https://res.cloudinary.com/dcci27r7a/raw/upload/v1702046725/Product_Upload_Template_ydkcdp.xlsx' download>
+                                <Link href='https://asset.cloudinary.com/dcci27r7a/2de3d7db6fb8fa999ecf463e5d69afbd' download>
                                 <p onClick={() => {
                                 setShowUploadProductMenu(false)
                             }}>Download Excel Template</p>

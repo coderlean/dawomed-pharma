@@ -40,8 +40,6 @@ const OrdersOverview = ({allOrders}) => {
 
     const [allSlips, setAllSlips] = useState([])
     const [selectedOrder, setSelectedOrder] = useState({})
-    const [slipID, setSlipID] = useState("")
-    const [scanning, setScanning] = useState(false)
     const [scannedOrderDetails, setScannedOrderDetails] = useState({})
     const [searchQuery, setSearchQuery] = useState({
         query: "",
@@ -54,7 +52,7 @@ const OrdersOverview = ({allOrders}) => {
 
         setOrders(allOrders)
         const availableContraints = navigator.mediaDevices.getSupportedConstraints()
-    }, [])
+    }, [allOrders])
 
     const setCurrentTab = (currentTab) => {
         var tempOrders = allOrders
