@@ -22,6 +22,7 @@ import ButtonLoader from '../../components/atoms/ButtonLoader';
 import ErrorBox from '../../components/atoms/ErrorBox';
 import { getProtected } from '../../requests/getProtected';
 import { useRouter } from 'next/router';
+import SuccessBox from '../../components/atoms/SuccessBox';
 const QrReader = dynamic(() => import("react-qr-reader"), { ssr: false });
 
 const getStatusStyle = (status) => {
