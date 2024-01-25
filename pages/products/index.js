@@ -637,7 +637,7 @@ const Products = () => {
                                 {
                                     iconsSVGs.downloadLightPrimary
                                 }
-                                <Link href='https://asset.cloudinary.com/dcci27r7a/2de3d7db6fb8fa999ecf463e5d69afbd' download>
+                                <Link href='https://res.cloudinary.com/dcci27r7a/raw/upload/v1705591781/Product_Upload_Template_ydkcdp_5_wsuu4q.xlsx' download>
                                 <p onClick={() => {
                                 setShowUploadProductMenu(false)
                             }}>Download Excel Template</p>

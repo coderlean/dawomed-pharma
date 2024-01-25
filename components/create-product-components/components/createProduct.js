@@ -60,15 +60,23 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
         }
     }
 
+    const toNextDraftsTab = () => {
+        if (currentTab < 3){
+            setCurrentTab(currentTab + 1)
+        } else {
+            validateData("new")
+        }
+    }
+
     const toNextTab = () => {
         if (currentTab < 3){
             setCurrentTab(currentTab + 1)
         } else {
-            validateData()
+            validateData("new")
         }
     }
 
-    const validateData = () => {
+    const validateData = (passedMode) => {
         if (!currentDrug?.name){
             setErrorMessage("A product name is required")
         } else if (!currentDrug.reg_no){
@@ -88,7 +96,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
         } else {
             setCurrentTab(currentTab + 1)
             console.log({mode});
-            createNewProduct()
+            createNewProduct(passedMode)
         }
     }
 
@@ -127,13 +135,13 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
             return productFormData
     }
 
-    const createNewProduct = async () => {
+    const createNewProduct = async (passedMode) => {
         try {
             
             const productFormData = generateProductData()
             console.log({mode});
-            if (mode === "new" || !currentDrug._id) {
-                createProduct(productFormData)
+            if (mode === "new" || !currentDrug._id || passedMode === "new") {
+                createProduct(productFormData, true)
             } else if (mode === "edit") {
                 updateProduct(productFormData)
             } else if (mode === "drafts") {
@@ -147,7 +155,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
     }
 
 
-    const createProduct = async (productData) => {
+    const createProduct = async (productData, deleteDraftProduct) => {
         console.log("Creating new");
         setErrorMessage("")
         const token = localStorage.getItem("userToken")
@@ -170,7 +178,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
                 setCreatedProduct(true)
                 fetchProducts()
 
-                if (mode === "drafts" || currentDrug._id){
+                if (mode === "drafts" || currentDrug._id || deleteDraftProduct){
                     deleteDraft(currentDrug._id)
                 }
             } else {
@@ -209,7 +217,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
         const productData = generateProductData()
         const token = localStorage.getItem("userToken")
 
-            const createProductResponse = await postProtectedMultiPart(`product/draft/${currentDrug._id}`, productData)
+            const createProductResponse = await putProtectedMultiPart(`product/draft/${currentDrug._id}`, productData)
             
             // await fetch(`http://localhost:5000/product/draft/${currentDrug._id}`, {
             //     method : "PUT",
@@ -348,7 +356,11 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
                                     }
                                     
                                     {
-                                         <Button theme={"outline"} label={currentTab !== 3 ? "Next" : (mode === "new" || mode === "edit") ? "Submit and Finish" : "Save as new product"} onButtonClick={() => toNextTab()} />
+                                         mode !== "drafts" && <Button theme={"outline"} label={currentTab !== 3 ? "Next" : (mode === "new" || mode === "edit") ? "Submit and Finish" : "Save as new product"} onButtonClick={() => toNextTab()} />
+                                    }
+
+                                    {
+                                        mode === "drafts" && <Button theme={"outline"} label={currentTab !== 3 ? "Next" : (mode === "new" || mode === "edit") ? "Submit and Finish" : "Save as new product"} onButtonClick={() => toNextDraftsTab()} />
                                     }
 
                                     {
