@@ -16,7 +16,7 @@ import { putProtected } from '../../../requests/putProtected';
 import { postProtectedMultiPart } from '../../../requests/postProtectedMultiPart';
 import { putProtectedMultiPart } from '../../../requests/postProtectedMultiPart copy';
 
-const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, mode, fetchProducts, setCurrentDrugDetails, setMode, deleteDraft}) => {
+const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, mode, fetchProducts, setCurrentDrugDetails, setMode, deleteDraft, fetchDrafts}) => {
     const [currentTab, setCurrentTab] = useState(0)
     const [draftLabel, setDraftLabel] = useState("Update draft")
     const [saveDraftLabel, setSaveDraftLabel] = useState("Save as draft")
@@ -140,12 +140,12 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
             
             const productFormData = generateProductData()
             console.log({mode});
-            if (mode === "new" || !currentDrug._id || passedMode === "new") {
-                createProduct(productFormData, true)
-            } else if (mode === "edit") {
+            if (mode === "edit") {
                 updateProduct(productFormData)
             } else if (mode === "drafts") {
                 updateDraft(productFormData)
+            } else if (mode === "new" || !currentDrug._id || passedMode === "new") {
+                createProduct(productFormData, true)
             }
             
 
@@ -252,6 +252,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
     }
 
     const validateDrafts = () => {
+        console.log("Validating drafts");
         if (Object.values(currentDrug).length === 0){
             setErrorMessage("Cannot save an empty product as a draft")
         } else {
@@ -289,6 +290,7 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
                 setTimeout(() => {
                     setMode("drafts")
                 }, 500)
+                fetchDrafts()
             }
         } catch (error) {
             console.log({error});
@@ -366,11 +368,13 @@ const CreateProduct = ({closeModal, activeCoupons, currentDrug, setDrugDetails, 
                                     {
                                         mode !== "edit" && <React.Fragment>
                                             {
-                                                (mode === "new") && <Button theme={"outline"} label={saveDraftLabel} onClick={() => validateDrafts()} />
+                                                (mode === "new") && <Button theme={"outline"} label={saveDraftLabel} onButtonClick={() => validateDrafts()} />
                                             }
 
                                             {
-                                                (mode === "drafts") && <Button theme={"solid"} type="button" label={draftLabel} onClick={() => validateDrafts()} />
+                                                (mode === "drafts") && <Button theme={"solid"} type="button" label={draftLabel} onButtonClick={() => {
+                                                    console.log("Saving drafts");
+                                                }} />
                                             }
                                         </React.Fragment>
                                     }

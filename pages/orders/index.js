@@ -424,15 +424,15 @@ const Products = () => {
 
                 <div className={styles.sidebarContent}>
                     {
-                        (fetchedSelectedOrder && (fetchedSelectedOrder.status === 0 || fetchedSelectedOrder.status === 8)) && <div className={styles.timeOutNotice}>
+                        (fetchedSelectedOrder && ((fetchedSelectedOrder.status !== 5 || fetchedSelectedOrder.status !== 6 || fetchedSelectedOrder.status !== 7) || fetchedSelectedOrder.status === 8)) && <div className={styles.timeOutNotice}>
                         {
-                            fetchedSelectedOrder.status === 0 && <p className={styles.timedOutTitle}>Order times out in:</p>
+                            (fetchedSelectedOrder.status !== 5 || fetchedSelectedOrder.status !== 6 || fetchedSelectedOrder.status !== 7) && <p className={styles.timedOutTitle}>Order times out in:</p>
                         }
 
                         <p className={styles.timeLeft}>{getTimeLeft()}</p>
 
                         {
-                            fetchedSelectedOrder.status === 0 && <p className={styles.timeoutNotice}>If you don&apos;t move this order to confirmed and being processed before it times out, the order would automatically be canceled and the customer refunded.</p>
+                            (fetchedSelectedOrder.status !== 5 || fetchedSelectedOrder.status !== 6 || fetchedSelectedOrder.status !== 7) && <p className={styles.timeoutNotice}>If the order isn't completed before it times out, the order would automatically be canceled and the customer refunded.</p>
                         }
                     </div>
                     }

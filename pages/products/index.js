@@ -431,6 +431,8 @@ const Products = () => {
                         temp = drug
                         setCurrentDrug(temp)
                     }}
+
+                    fetchDrafts={() => fetchDrafts("set")}
                     
                     fetchProducts={() => fetchProducts()} mode={mode} closeModal={() => {
                         const temp = {...currentDrug}
