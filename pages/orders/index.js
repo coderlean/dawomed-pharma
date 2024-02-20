@@ -125,7 +125,9 @@ const Products = () => {
     const orderStatuses = ["pending", "processing", "completed", "ready", "cancelled", "declined", "returned", "timed out"]
 
     useEffect(() => {
-        fetchOrders()
+        setInterval(() => {
+            fetchOrders()
+        }, 10000)
     }, [])
 
     useEffect(() => {
@@ -154,6 +156,8 @@ const Products = () => {
         try {
             const getSelectedOrder = await getProtected(`orders/${selectedOrder._id}`)
 
+            console.log({getSelectedOrder});
+
             if (getSelectedOrder && getSelectedOrder.status === "OK") {
                 setFetchedSelectedOrder(getSelectedOrder.data)
             }
@@ -162,6 +166,8 @@ const Products = () => {
             console.log({error});
         }
     }
+
+    console.log({fetchedSelectedOrder});
 
     const setCurrentTab = (currentTab) => {
         var tempOrders = allOrders
@@ -225,6 +231,8 @@ const Products = () => {
     const closeSideBar = () => {
         let temp = selectedOrder
         setShowStatusUpdateDiv(true)
+        set_sidebar_success("")
+        set_sidebar_error("")
         temp = {}
         setSelectedOrder(temp)
     }
@@ -321,7 +329,9 @@ const Products = () => {
 
         const difference = differenceInMinutes(currentDate, orderedDate)
 
-        if (difference > 5) {
+        if (fetchedSelectedOrder && fetchedSelectedOrder.status === 6) {
+            return "Order cancelled"
+        } else if (difference > 5) {
             return "Order timed out"
         } else {
             return `${5 - difference} ${5 - difference === 1 ? "minute" : "minutes"}`
@@ -424,6 +434,8 @@ const Products = () => {
 
                 <div className={styles.sidebarContent}>
                     {
+                        fetchedSelectedOrder !== null && fetchedSelectedOrder.status !== 5 &&<>
+                            {
                         (fetchedSelectedOrder && ((fetchedSelectedOrder.status !== 5 || fetchedSelectedOrder.status !== 6 || fetchedSelectedOrder.status !== 7) || fetchedSelectedOrder.status === 8)) && <div className={styles.timeOutNotice}>
                         {
                             (fetchedSelectedOrder.status !== 5 || fetchedSelectedOrder.status !== 6 || fetchedSelectedOrder.status !== 7) && <p className={styles.timedOutTitle}>Order times out in:</p>
@@ -432,9 +444,11 @@ const Products = () => {
                         <p className={styles.timeLeft}>{getTimeLeft()}</p>
 
                         {
-                            (fetchedSelectedOrder.status !== 5 || fetchedSelectedOrder.status !== 6 || fetchedSelectedOrder.status !== 7) && <p className={styles.timeoutNotice}>If the order isn't completed before it times out, the order would automatically be canceled and the customer refunded.</p>
+                            (fetchedSelectedOrder.status !== 5 && fetchedSelectedOrder.status !== 6 && fetchedSelectedOrder.status !== 7) && <p className={styles.timeoutNotice}>If the order isn't completed before it times out, the order would automatically be canceled and the customer refunded.</p>
                         }
                     </div>
+                    }
+                        </>
                     }
 
                     <table>
@@ -614,7 +628,7 @@ const Products = () => {
                         fetchedSelectedOrder && 
                         <div>
                             {
-                                !hasTimedOut() && <form disabled={updating_status} onSubmit={event => updateOrderStatus(event)}>
+                                !hasTimedOut() && selectedOrder.status !== 5 &&  <form disabled={updating_status} onSubmit={event => updateOrderStatus(event)}>
                                 {
                                     (selectedOrder.status  < 3 || selectedOrder.status === 5) && <select disabled={updating_status}>
                                     {/* <option value={0} disabled selected>Pending</option> */}
@@ -630,9 +644,9 @@ const Products = () => {
                                     }
             
             
-                                    {
+                                    {/* {
                                         selectedOrder.status === 2 && <option value={3} disabled={selectedOrder.status >= 3 || selectedOrder.status > 4} >Picked Up</option>
-                                    }
+                                    } */}
                                     {/* <option value={4} disabled={selectedOrder.status >= 4 || selectedOrder.status > 4}>Delivered</option> */}
                                     {/* <option value={5} disabled={selectedOrder.status > 4}>Completed</option> */}
                                     
@@ -641,7 +655,7 @@ const Products = () => {
                                     }
 
 {
-                                        selectedOrder !== 6 && <option value={6} >Cancel Order</option>
+                                        selectedOrder !== 6 &&  <option value={6} >Cancel Order</option>
                                     }
                                 </select>
                                 }
