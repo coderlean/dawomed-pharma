@@ -444,7 +444,7 @@ const Products = () => {
                         <p className={styles.timeLeft}>{getTimeLeft()}</p>
 
                         {
-                            (fetchedSelectedOrder.status !== 5 && fetchedSelectedOrder.status !== 6 && fetchedSelectedOrder.status !== 7) && <p className={styles.timeoutNotice}>If the order isn't completed before it times out, the order would automatically be canceled and the customer refunded.</p>
+                            (fetchedSelectedOrder.status !== 5 && fetchedSelectedOrder.status !== 6 && fetchedSelectedOrder.status !== 7) && <p className={styles.timeoutNotice}>If the order isn&apos;t completed before it times out, the order would automatically be canceled and the customer refunded.</p>
                         }
                     </div>
                     }
